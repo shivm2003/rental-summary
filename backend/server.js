@@ -41,20 +41,16 @@ app.use(helmet({
 }));
 
 /* ---------- Middleware ---------- */
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl requests)
-      // or if the origin is from any local development environment
-      if (!origin || origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1') || origin === process.env.CLIENT_URL) {
-        callback(null, true);
-      } else {
-        callback(new Error('Origin not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://rental-summary.vercel.app",
+    "https://rental-summary-ocm4-2003shivam1990-3296s-projects.vercel.app"
+  ],
+  credentials: true
+}));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
@@ -82,12 +78,12 @@ try {
 function safeLoad(routePath, mountPath, middleware = null) {
   try {
     const router = require(routePath);
-    
+
     // Validate that router is a function (Express router)
     if (typeof router !== 'function') {
       throw new Error(`Export is not a function, got ${typeof router}`);
     }
-    
+
     if (middleware) {
       app.use(mountPath, middleware, router);
     } else {
@@ -97,10 +93,10 @@ function safeLoad(routePath, mountPath, middleware = null) {
     return true;
   } catch (err) {
     console.error(`❌ Failed to mount ${mountPath}:`, err.message);
-    
+
     // Mount a fallback 503 handler for this route
     app.use(mountPath, (req, res) => {
-      res.status(503).json({ 
+      res.status(503).json({
         error: 'Service temporarily unavailable',
         path: mountPath,
         details: err.message
@@ -137,7 +133,7 @@ console.log(`📊 Loaded ${loadedRoutes}/${routes.length} routes`);
 /* ---------- Health check ---------- */
 app.get('/api/health', async (req, res) => {
   const http = require('http');
-  
+
   const checkEndpoint = (endpoint) => {
     return new Promise((resolve) => {
       const options = {
@@ -147,27 +143,27 @@ app.get('/api/health', async (req, res) => {
         method: 'HEAD',
         timeout: 3000
       };
-      
+
       const request = http.request(options, (response) => {
         resolve({ endpoint, status: response.statusCode < 400 ? 'ok' : 'fail' });
       });
-      
+
       request.on('error', (err) => {
         resolve({ endpoint, status: 'fail', error: err.message });
       });
-      
+
       request.on('timeout', () => {
         request.destroy();
         resolve({ endpoint, status: 'fail', error: 'timeout' });
       });
-      
+
       request.end();
     });
   };
 
   const endpointsToCheck = routes.map(r => r.mount);
   const results = await Promise.all(endpointsToCheck.map(checkEndpoint));
-  
+
   const failed = results.filter(r => r.status === 'fail');
   const allOk = failed.length === 0;
 
@@ -200,9 +196,9 @@ app.get(/^(?!\/api).*/, (req, res) => {
 app.use((err, req, res, next) => {
   console.error('🔥 Express error:', err);
   logToFile(err);
-  
+
   const isDev = process.env.NODE_ENV === 'development';
-  
+
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Internal server error',
