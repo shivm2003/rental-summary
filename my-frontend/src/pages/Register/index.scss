@@ -1,0 +1,53 @@
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    padding: 2rem;
+  
+    .card {
+      background: #fff;
+      padding: 2.5rem 2rem;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  
+      h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
+      p  { color: #555; margin-bottom: 1.5rem; }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+  
+        input {
+          padding: 0.7rem 0.9rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 1rem;
+        }
+  
+        .error { color: #e74c3c; margin: 0; font-size: 0.85rem; }
+  
+        button[type="submit"] {
+          background: #1193d4;
+          color: #fff;
+          border: none;
+          padding: 0.7rem;
+          border-radius: 4px;
+          font-weight: 600;
+          cursor: pointer;
+          &:disabled { opacity: 0.6; }
+        }
+      }
+  
+      .switch {
+        text-align: center;
+        margin-top: 1.2rem;
+        font-size: 0.9rem;
+        a { color: #1193d4; font-weight: 600; }
+      }
+    }
+  }

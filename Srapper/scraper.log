@@ -1,0 +1,211 @@
+2026-03-14 01:33:20,431 - INFO - Searching page 1: https://www.amazon.com/s?k=laptop&page=1
+2026-03-14 01:33:25,235 - INFO - Searching page 2: https://www.amazon.com/s?k=laptop&page=2
+2026-03-14 01:33:30,235 - INFO - Found 36 unique ASINs
+2026-03-14 01:33:30,237 - INFO - Processing 1/10: B0G8Z7NSF2
+2026-03-14 01:33:30,237 - INFO - Scraping product: https://www.amazon.com/dp/B0G8Z7NSF2
+2026-03-14 01:33:36,584 - INFO - Processing 2/10: B0947BJ67M
+2026-03-14 01:33:36,584 - INFO - Scraping product: https://www.amazon.com/dp/B0947BJ67M
+2026-03-14 01:33:44,104 - INFO - Processing 3/10: B0GFVSYGMW
+2026-03-14 01:33:44,104 - INFO - Scraping product: https://www.amazon.com/dp/B0GFVSYGMW
+2026-03-14 01:33:50,362 - INFO - Processing 4/10: B0F5KTGDS9
+2026-03-14 01:33:50,362 - INFO - Scraping product: https://www.amazon.com/dp/B0F5KTGDS9
+2026-03-14 01:33:55,053 - INFO - Processing 5/10: B0DT7FC9B7
+2026-03-14 01:33:55,053 - INFO - Scraping product: https://www.amazon.com/dp/B0DT7FC9B7
+2026-03-14 01:34:01,688 - INFO - Processing 6/10: B09Z111KTW
+2026-03-14 01:34:01,688 - INFO - Scraping product: https://www.amazon.com/dp/B09Z111KTW
+2026-03-14 01:34:07,769 - INFO - Processing 7/10: B0BSJ46KY9
+2026-03-14 01:34:07,769 - INFO - Scraping product: https://www.amazon.com/dp/B0BSJ46KY9
+2026-03-14 01:34:14,444 - INFO - Processing 8/10: B0D1YQJKY2
+2026-03-14 01:34:14,444 - INFO - Scraping product: https://www.amazon.com/dp/B0D1YQJKY2
+2026-03-14 01:34:20,767 - INFO - Processing 9/10: B0DT1MJP2V
+2026-03-14 01:34:20,767 - INFO - Scraping product: https://www.amazon.com/dp/B0DT1MJP2V
+2026-03-14 01:34:25,647 - INFO - Processing 10/10: B09SVSBVP1
+2026-03-14 01:34:25,647 - INFO - Scraping product: https://www.amazon.com/dp/B09SVSBVP1
+2026-03-14 01:34:31,543 - INFO - Saved 10 products to amazon_sample.csv
+2026-03-14 01:34:31,543 - INFO - Collecting Amazon data for: laptop
+2026-03-14 01:34:31,544 - INFO - Searching page 1: https://www.amazon.com/s?k=laptop&page=1
+2026-03-14 01:34:36,654 - INFO - Found 16 unique ASINs
+2026-03-14 01:34:36,655 - INFO - Processing 1/5: B0F5KTGDS9
+2026-03-14 01:34:36,655 - INFO - Scraping product: https://www.amazon.com/dp/B0F5KTGDS9
+2026-03-14 01:34:42,774 - INFO - Processing 2/5: B0G8Z7NSF2
+2026-03-14 01:34:42,774 - INFO - Scraping product: https://www.amazon.com/dp/B0G8Z7NSF2
+2026-03-14 01:34:47,603 - INFO - Processing 3/5: B0947BJ67M
+2026-03-14 01:34:47,604 - INFO - Scraping product: https://www.amazon.com/dp/B0947BJ67M
+2026-03-14 01:34:53,715 - INFO - Processing 4/5: B0DZZWMB2L
+2026-03-14 01:34:53,716 - INFO - Scraping product: https://www.amazon.com/dp/B0DZZWMB2L
+2026-03-14 01:34:58,778 - INFO - Processing 5/5: B0GFVSYGMW
+2026-03-14 01:34:58,778 - INFO - Scraping product: https://www.amazon.com/dp/B0GFVSYGMW
+2026-03-14 01:35:05,399 - INFO - Total products collected: 5
+2026-03-14 01:35:11,490 - INFO - Collecting Amazon data for: iphone
+2026-03-14 01:35:11,490 - INFO - Searching page 1: https://www.amazon.com/s?k=iphone&page=1
+2026-03-14 01:35:14,902 - INFO - Found 16 unique ASINs
+2026-03-14 01:35:14,903 - INFO - Processing 1/5: B0CMPMY9ZZ
+2026-03-14 01:35:14,903 - INFO - Scraping product: https://www.amazon.com/dp/B0CMPMY9ZZ
+2026-03-14 01:35:22,145 - INFO - Processing 2/5: B0BN72FYFG
+2026-03-14 01:35:22,145 - INFO - Scraping product: https://www.amazon.com/dp/B0BN72FYFG
+2026-03-14 01:35:26,259 - INFO - Processing 3/5: B0DN1K9THC
+2026-03-14 01:35:26,259 - INFO - Scraping product: https://www.amazon.com/dp/B0DN1K9THC
+2026-03-14 01:35:32,382 - INFO - Processing 4/5: B0DPJMTH4N
+2026-03-14 01:35:32,382 - INFO - Scraping product: https://www.amazon.com/dp/B0DPJMTH4N
+2026-03-14 01:35:38,515 - INFO - Processing 5/5: B0DHJH2GZL
+2026-03-14 01:35:38,515 - INFO - Scraping product: https://www.amazon.com/dp/B0DHJH2GZL
+2026-03-14 01:35:43,212 - INFO - Total products collected: 10
+2026-03-14 01:35:52,617 - INFO - Unified dataset saved: unified_products.csv
+2026-03-14 01:35:52,618 - INFO - Summary: {'total_products': 10, 'amazon_count': 10, 'facebook_count': 0, 'categories': ['Unknown'], 'avg_price_amazon': 62992.496, 'avg_price_facebook': 0.0}
+2026-03-14 02:00:54,767 - INFO - Starting Amazon scraping...
+2026-03-14 02:00:54,768 - INFO - Scraping category: Electronics
+2026-03-14 02:00:54,768 - INFO - Searching Amazon page 1: laptop computer
+2026-03-14 02:00:59,221 - INFO - Searching Amazon page 2: laptop computer
+2026-03-14 02:01:04,234 - INFO - Scraping Amazon product: B0GM59PSFL
+2026-03-14 02:01:15,261 - INFO - Scraping Amazon product: B0947BJ67M
+2026-03-14 02:01:26,313 - INFO - Scraping Amazon product: B09SVSBVP1
+2026-03-14 02:01:37,598 - INFO - Scraping Amazon product: B0DT7FC9B7
+2026-03-14 02:01:49,714 - INFO - Scraping Amazon product: B0GHPCGZZX
+2026-03-14 02:02:01,361 - INFO - Scraping Amazon product: B0DT1MJP2V
+2026-03-14 02:02:13,057 - INFO - Scraping Amazon product: B0FS1V6XZD
+2026-03-14 02:02:25,477 - INFO - Scraping Amazon product: B0C7MR5RDH
+2026-03-14 02:02:38,248 - INFO - Scraping Amazon product: B09Z111KTW
+2026-03-14 02:02:50,084 - INFO - Scraping Amazon product: B0F53SQRH4
+2026-03-14 02:03:00,366 - INFO - Searching Amazon page 1: smartphone iphone samsung
+2026-03-14 02:03:04,230 - INFO - Searching Amazon page 2: smartphone iphone samsung
+2026-03-14 02:03:08,824 - INFO - Scraping Amazon product: B0DXHKH86B
+2026-03-14 02:03:19,705 - INFO - Scraping Amazon product: B0741FV7ZV
+2026-03-14 02:03:29,286 - INFO - Scraping Amazon product: B09V87YTC9
+2026-03-14 02:03:39,446 - INFO - Scraping Amazon product: B00IZ1XJ3Q
+2026-03-14 02:03:51,312 - INFO - Scraping Amazon product: B07TZSC1P3
+2026-03-14 02:04:03,355 - INFO - Scraping Amazon product: B0G2XNMB5Y
+2026-03-14 02:04:12,012 - INFO - Scraping Amazon product: B0FBS4NYNK
+2026-03-14 02:04:24,079 - INFO - Scraping Amazon product: B0GMWVGB55
+2026-03-14 02:04:34,172 - INFO - Scraping Amazon product: B0GQ241ZNS
+2026-03-14 02:04:47,537 - INFO - Scraping Amazon product: B08T1DXLLD
+2026-03-14 02:04:58,192 - INFO - Searching Amazon page 1: digital camera
+2026-03-14 02:05:03,250 - INFO - Searching Amazon page 2: digital camera
+2026-03-14 02:05:07,032 - INFO - Scraping Amazon product: B0B8PDHRWY
+2026-03-14 02:05:20,464 - INFO - Scraping Amazon product: B0DY89Z83G
+2026-03-14 02:05:30,099 - INFO - Scraping Amazon product: B0B8PD95K3
+2026-03-14 02:05:42,161 - INFO - Scraping Amazon product: B0BRM31SQ1
+2026-03-14 02:05:54,352 - INFO - Scraping Amazon product: B0DNFGNG18
+2026-03-14 02:06:05,748 - INFO - Scraping Amazon product: B0FY81VTFY
+2026-03-14 02:06:14,114 - INFO - Scraping Amazon product: B0FPVWQ5G8
+2026-03-14 02:06:27,743 - INFO - Scraping Amazon product: B07C2Z21X5
+2026-03-14 02:06:38,415 - INFO - Scraping Amazon product: B07FXPY6SF
+2026-03-14 02:06:48,269 - INFO - Scraping Amazon product: B0BFJ9WY5J
+2026-03-14 02:07:00,979 - INFO - Searching Amazon page 1: wireless headphones
+2026-03-14 02:07:05,520 - INFO - Searching Amazon page 2: wireless headphones
+2026-03-14 02:07:08,933 - INFO - Scraping Amazon product: B0DGJ7HYG1
+2026-03-14 02:07:19,184 - INFO - Scraping Amazon product: B0CQXMXJC5
+2026-03-14 02:07:30,526 - INFO - Scraping Amazon product: B0BS1QCFHX
+2026-03-14 02:07:42,793 - INFO - Scraping Amazon product: B0C3HCD34R
+2026-03-14 02:07:53,145 - INFO - Scraping Amazon product: B0BS1PRC4L
+2026-03-14 02:08:02,948 - INFO - Scraping Amazon product: B092CP8ZH4
+2026-03-14 02:08:13,097 - INFO - Scraping Amazon product: B09LYF2ST7
+2026-03-14 02:08:24,713 - INFO - Scraping Amazon product: B0G64H1QX7
+2026-03-14 02:08:34,900 - INFO - Scraping Amazon product: B0G4W9HX8K
+2026-03-14 02:08:46,223 - INFO - Scraping Amazon product: B0G6CNF8RM
+2026-03-14 02:08:57,730 - INFO - Saved 40 products to dataset\amazon_electronics.csv
+2026-03-14 02:08:57,730 - INFO - Scraping category: Furniture
+2026-03-14 02:08:57,730 - INFO - Searching Amazon page 1: office desk
+2026-03-14 02:09:03,162 - INFO - Searching Amazon page 2: office desk
+2026-03-14 02:09:07,310 - INFO - Scraping Amazon product: B0F9X3FDYY
+2026-03-14 02:09:19,207 - INFO - Scraping Amazon product: B0DQKSVC1B
+2026-03-14 02:09:29,985 - INFO - Scraping Amazon product: B0DT3Y1X96
+2026-03-14 02:09:39,399 - INFO - Scraping Amazon product: B0D5BMFK9S
+2026-03-14 02:09:49,242 - INFO - Scraping Amazon product: B0DY7TN5DS
+2026-03-14 02:09:59,499 - INFO - Scraping Amazon product: B0FC691MP7
+2026-03-14 02:10:13,046 - INFO - Scraping Amazon product: B0DSZVMRP7
+2026-03-14 02:10:23,971 - INFO - Scraping Amazon product: B0F93YTGQ9
+2026-03-14 02:10:33,442 - INFO - Scraping Amazon product: B0BTYLQLM4
+2026-03-14 02:10:42,428 - INFO - Scraping Amazon product: B0BR3NXTKK
+2026-03-14 02:10:54,237 - INFO - Searching Amazon page 1: sofa couch
+2026-03-14 02:10:59,671 - INFO - Searching Amazon page 2: sofa couch
+2026-03-14 02:11:04,982 - INFO - Scraping Amazon product: B0FHB61XDG
+2026-03-14 02:11:16,661 - INFO - Scraping Amazon product: B0G2WTJ5N2
+2026-03-14 02:11:27,139 - INFO - Scraping Amazon product: B0GLGJZDHL
+2026-03-14 02:11:40,436 - INFO - Scraping Amazon product: B0G4TWS4KZ
+2026-03-14 02:11:51,029 - INFO - Scraping Amazon product: B0FJBSYRL9
+2026-03-14 02:12:03,270 - INFO - Scraping Amazon product: B015T2VYKS
+2026-03-14 02:12:14,767 - INFO - Scraping Amazon product: B0FJM77MVS
+2026-03-14 02:12:25,798 - INFO - Scraping Amazon product: B0FXWC3MFH
+2026-03-14 02:12:36,962 - INFO - Scraping Amazon product: B0FX4GHSN1
+2026-03-14 02:12:50,142 - INFO - Scraping Amazon product: B0FB9C6DZJ
+2026-03-14 02:13:00,693 - INFO - Searching Amazon page 1: dining table
+2026-03-14 02:13:04,545 - INFO - Searching Amazon page 2: dining table
+2026-03-14 02:13:08,911 - INFO - Scraping Amazon product: B0FMNKCKG2
+2026-03-14 02:13:19,433 - INFO - Scraping Amazon product: B0FZ861RJM
+2026-03-14 02:13:30,548 - INFO - Scraping Amazon product: B0G1YKC5PW
+2026-03-14 02:13:42,025 - INFO - Scraping Amazon product: B0CGN4YKY8
+2026-03-14 02:13:53,949 - INFO - Scraping Amazon product: B0DJ7HVGFV
+2026-03-14 02:14:04,680 - INFO - Scraping Amazon product: B07B81D2LV
+2026-03-14 02:14:14,858 - INFO - Scraping Amazon product: B0FNW2SBMX
+2026-03-14 02:14:25,732 - INFO - Scraping Amazon product: B08G6D742V
+2026-03-14 02:14:37,531 - INFO - Scraping Amazon product: B0FLK1QDKP
+2026-03-14 02:14:49,134 - INFO - Scraping Amazon product: B08LYK1N18
+2026-03-14 02:15:01,011 - INFO - Searching Amazon page 1: office chair
+2026-03-14 02:15:05,001 - INFO - Searching Amazon page 2: office chair
+2026-03-14 02:15:09,566 - INFO - Scraping Amazon product: B0CSK1LN4M
+2026-03-14 02:15:19,618 - INFO - Scraping Amazon product: B0CG6V2XGS
+2026-03-14 02:15:30,765 - INFO - Scraping Amazon product: B00FS3VJAO
+2026-03-14 02:15:43,217 - INFO - Scraping Amazon product: B0CP22DQQS
+2026-03-14 02:15:54,429 - INFO - Scraping Amazon product: B081H3Y5NW
+2026-03-14 02:16:04,607 - INFO - Scraping Amazon product: B0CQD4MTWM
+2026-03-14 02:16:14,675 - INFO - Scraping Amazon product: B0G4C4GPKB
+2026-03-14 02:16:27,550 - INFO - Scraping Amazon product: B0FVVSVX27
+2026-03-14 02:16:38,493 - INFO - Scraping Amazon product: B07GNDDNMW
+2026-03-14 02:16:48,773 - INFO - Scraping Amazon product: B0F91TJL3D
+2026-03-14 02:16:57,622 - INFO - Saved 40 products to dataset\amazon_furniture.csv
+2026-03-14 02:16:57,622 - INFO - Scraping category: Appliances
+2026-03-14 02:16:57,623 - INFO - Searching Amazon page 1: coffee maker
+2026-03-14 02:17:02,518 - INFO - Searching Amazon page 2: coffee maker
+2026-03-14 02:17:05,997 - INFO - Scraping Amazon product: B0D9QFRJMX
+2026-03-14 02:17:18,369 - INFO - Scraping Amazon product: B084GYKJ58
+2026-03-14 02:17:29,084 - INFO - Scraping Amazon product: B01GJOMWVA
+2026-03-14 02:17:39,230 - INFO - Scraping Amazon product: B0FCPBQSFL
+2026-03-14 02:17:51,740 - INFO - Scraping Amazon product: B0D8LXRHQ8
+2026-03-14 02:18:03,501 - INFO - Scraping Amazon product: B09715G57M
+2026-03-14 02:18:15,150 - INFO - Scraping Amazon product: B07GV2S1GS
+2026-03-14 02:18:25,794 - INFO - Scraping Amazon product: B00MVWGQX0
+2026-03-14 02:18:36,550 - INFO - Scraping Amazon product: B018UQ5AMS
+2026-03-14 02:18:46,260 - INFO - Scraping Amazon product: B07PHRH6TL
+2026-03-14 02:18:58,070 - INFO - Searching Amazon page 1: vacuum cleaner
+2026-03-14 02:19:02,696 - INFO - Searching Amazon page 2: vacuum cleaner
+2026-03-14 02:19:06,750 - INFO - Scraping Amazon product: B00JH98GR4
+2026-03-14 02:19:18,590 - INFO - Scraping Amazon product: B0B6D6GML1
+2026-03-14 02:19:30,601 - INFO - Scraping Amazon product: B00DFBDALC
+2026-03-14 02:19:41,600 - INFO - Scraping Amazon product: B0CB6B2JWG
+2026-03-14 02:19:53,148 - INFO - Scraping Amazon product: B07S652B12
+2026-03-14 02:20:02,563 - INFO - Scraping Amazon product: B0DP5JNLQR
+2026-03-14 02:20:14,746 - INFO - Scraping Amazon product: B0F2B29SPC
+2026-03-14 02:20:26,751 - INFO - Scraping Amazon product: B0923VNPNP
+2026-03-14 02:20:36,794 - INFO - Scraping Amazon product: B0B1RVNNN7
+2026-03-14 02:20:47,887 - INFO - Scraping Amazon product: B004Q4DRJW
+2026-03-14 02:20:58,069 - INFO - Searching Amazon page 1: microwave oven
+2026-03-14 02:21:01,361 - INFO - Searching Amazon page 2: microwave oven
+2026-03-14 02:21:06,114 - INFO - Scraping Amazon product: B07HGH1KG6
+2026-03-14 02:21:17,998 - INFO - Scraping Amazon product: B0DY95T5HB
+2026-03-14 02:21:29,798 - INFO - Scraping Amazon product: B071WCB1T6
+2026-03-14 02:21:40,308 - INFO - Scraping Amazon product: B076VB5JFQ
+2026-03-14 02:21:51,014 - INFO - Scraping Amazon product: B0DPQQM1SF
+2026-03-14 02:21:51,270 - WARNING - CAPTCHA detected, attempt 1
+2026-03-14 02:21:59,881 - WARNING - CAPTCHA detected, attempt 2
+2026-03-14 02:22:18,746 - INFO - Scraping Amazon product: B07GV36BLD
+2026-03-14 02:22:28,097 - INFO - Scraping Amazon product: B07HG9YGZY
+2026-03-14 02:22:28,336 - WARNING - CAPTCHA detected, attempt 1
+2026-03-14 02:22:33,645 - WARNING - CAPTCHA detected, attempt 2
+2026-03-14 02:22:48,445 - INFO - Scraping Amazon product: B0DPQPGC75
+2026-03-14 02:22:48,669 - WARNING - CAPTCHA detected, attempt 1
+2026-03-14 02:22:56,563 - WARNING - CAPTCHA detected, attempt 2
+2026-03-14 02:23:03,888 - WARNING - CAPTCHA detected, attempt 3
+2026-03-14 02:23:14,754 - INFO - Scraping Amazon product: B0D292ZK9W
+2026-03-14 02:23:14,990 - WARNING - CAPTCHA detected, attempt 1
+2026-03-14 02:23:23,042 - WARNING - CAPTCHA detected, attempt 2
+2026-03-14 02:23:32,612 - WARNING - CAPTCHA detected, attempt 3
+2026-03-14 02:23:44,485 - INFO - Scraping Amazon product: B07VS476X8
+2026-03-14 02:23:44,751 - WARNING - CAPTCHA detected, attempt 1
+2026-03-14 02:23:52,567 - WARNING - CAPTCHA detected, attempt 2
+2026-03-14 02:23:58,381 - WARNING - CAPTCHA detected, attempt 3
+2026-03-14 02:24:10,900 - INFO - Searching Amazon page 1: air fryer
+2026-03-14 02:24:25,152 - INFO - Searching Amazon page 2: air fryer
+2026-03-14 02:24:38,194 - INFO - Saved 27 products to dataset\amazon_appliances.csv
+2026-03-14 02:24:38,214 - INFO - Dataset complete: 107 products, 535 images
+2026-03-14 02:24:38,214 - INFO - Categories: ['Electronics', 'Appliances', 'Furniture']
+2026-03-14 02:24:38,214 - INFO - Saved to: dataset/

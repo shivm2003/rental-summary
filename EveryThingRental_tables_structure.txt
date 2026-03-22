@@ -1,0 +1,172 @@
+
+Table: categories
+--------------------------------------------------
+id : integer
+name : character varying(100)
+slug : character varying(100)
+description : text
+image_url : character varying(500)
+parent_id : integer
+display_order : integer
+is_active : boolean
+level : integer
+created_at : timestamp without time zone
+updated_at : timestamp without time zone
+
+Table: hero_banners
+--------------------------------------------------
+id : integer
+title : character varying(200)
+subtitle : character varying(300)
+description : text
+image_url : character varying(500)
+mobile_image_url : character varying(500)
+category_id : integer
+button_text : character varying(50)
+button_link : character varying(300)
+display_order : integer
+is_active : boolean
+start_date : date
+end_date : date
+created_at : timestamp without time zone
+updated_at : timestamp without time zone
+
+Table: lender_applications
+--------------------------------------------------
+id : bigint
+user_id : bigint
+lender_type : character varying(20)
+gstin : character varying(15)
+trade_name : character varying(100)
+legal_owner_name : character varying(100)
+full_address : text
+business_address : text
+pincode : character varying(10)
+city : character varying(100)
+state : character varying(100)
+digipin : character varying(20)
+ref1_name : character varying(100)
+ref1_mobile : character varying(15)
+ref2_name : character varying(100)
+ref2_mobile : character varying(15)
+ref_name : character varying(100)
+ref_mobile : character varying(15)
+first_id_proof : character varying(255)
+second_id_proof : character varying(255)
+gst_certificate : character varying(255)
+shop_photo : character varying(255)
+status : character varying(20)
+created_at : timestamp with time zone
+updated_at : timestamp with time zone
+
+Table: listing_photos
+--------------------------------------------------
+id : bigint
+listing_id : bigint
+storage_type : character varying(20)
+photo_path : character varying(255)
+base64_preview : text
+full_url : character varying(500)
+metadata : jsonb
+display_order : integer
+created_at : timestamp with time zone
+
+Table: listings
+--------------------------------------------------
+id : bigint
+lender_id : bigint
+item_name : character varying(100)
+category : character varying(50)
+description : text
+location : character varying(150)
+security_deposit : numeric
+rental_price_per_day : numeric
+availability : jsonb
+terms_and_conditions : character varying(300)
+discount_type : character varying(20)
+discount_value : numeric
+discount_start_date : date
+discount_end_date : date
+promo_code : character varying(20)
+display_tagline : character varying(50)
+status : character varying(20)
+created_at : timestamp with time zone
+updated_at : timestamp with time zone
+category_id : integer
+subcategory_id : integer
+
+Table: login_attempts
+--------------------------------------------------
+attempt_id : bigint
+user_id : bigint
+attempt_time : timestamp with time zone
+ip_address : character varying(45)
+success : boolean
+failure_reason : character varying(255)
+
+Table: login_sessions
+--------------------------------------------------
+session_id : character varying(255)
+user_id : bigint
+device_info : text
+ip_address : character varying(45)
+user_agent : text
+login_time : timestamp with time zone
+last_activity : timestamp with time zone
+expiry_time : timestamp with time zone
+is_active : boolean
+
+Table: password_reset_tokens
+--------------------------------------------------
+token_id : bigint
+user_id : bigint
+reset_token : character varying(255)
+token_expiry : timestamp with time zone
+is_used : boolean
+created_at : timestamp with time zone
+
+Table: pincode_master
+--------------------------------------------------
+pincode : character(6)
+city : character varying(100)
+state : character varying(100)
+created_at : timestamp without time zone
+updated_at : timestamp without time zone
+
+Table: social_logins
+--------------------------------------------------
+social_id : bigint
+user_id : bigint
+provider : character varying(20)
+provider_user_id : character varying(255)
+access_token : text
+refresh_token : text
+created_at : timestamp with time zone
+updated_at : timestamp with time zone
+
+Table: user_profiles
+--------------------------------------------------
+profile_id : bigint
+user_id : bigint
+first_name : character varying(100)
+last_name : character varying(100)
+date_of_birth : date
+gender : character varying(10)
+profile_picture_url : text
+created_at : timestamp with time zone
+updated_at : timestamp with time zone
+lender : boolean
+
+Table: users
+--------------------------------------------------
+user_id : bigint
+username : character varying(50)
+email : character varying(255)
+phone : character varying(15)
+password_hash : character varying(255)
+password_salt : character varying(50)
+account_status : character varying(20)
+created_at : timestamp with time zone
+updated_at : timestamp with time zone
+last_login : timestamp with time zone
+role : character varying(20)

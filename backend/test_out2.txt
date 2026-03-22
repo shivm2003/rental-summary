@@ -1,0 +1,9 @@
+--- Testing Login Rate Limits ---
+Req 1: 401 - {"success":false,"message":"Invalid credentials"}
+Req 2: 401 - {"success":false,"message":"Invalid credentials"}
+Req 3: 401 - {"success":false,"message":"Invalid credentials"}
+Req 4: 401 - {"success":false,"message":"Invalid credentials"}
+Req 5: 401 - {"success":false,"message":"Invalid credentials"}
+Req 6: 401 - {"success":false,"message":"Invalid credentials"}
+\n--- Testing Register Validation ---
+Register Test: 500 - {"success":false,"message":"current transaction is aborted, commands ignored until end of transaction block"}

@@ -1,0 +1,374 @@
+/* src/pages/CategoryPage/index.css */
+.category-page {
+  background-color: #f1f3f6;
+  min-height: 100vh;
+}
+
+/* Hero Banner */
+.cp-hero {
+  background: linear-gradient(135deg, #1e40af 0%, #0f172a 100%);
+  color: white;
+  padding: 4rem 2rem;
+  background-size: cover;
+  background-position: center;
+}
+
+.cp-hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cp-breadcrumb {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.cp-breadcrumb a {
+  color: #bfdbfe;
+  text-decoration: none;
+}
+
+.cp-breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.cp-breadcrumb span {
+  margin: 0 0.5rem;
+}
+
+.cp-breadcrumb strong {
+  color: white;
+}
+
+.cp-hero h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.cp-hero p {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+  color: #e2e8f0;
+}
+
+/* 2-Column Layout */
+.cp-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* Sidebar */
+.cp-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.cp-filter-box {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 80px;
+}
+
+.cp-filter-box h3 {
+  margin: 0 0 1.5rem;
+  font-size: 1.1rem;
+  color: #212121;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.75rem;
+}
+
+.cp-filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.cp-filter-group > label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #212121;
+  margin-bottom: 0.75rem;
+}
+
+.cp-price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cp-price-inputs input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.cp-price-inputs input:focus {
+  border-color: #2874f0;
+}
+
+.cp-price-inputs span {
+  font-size: 0.85rem;
+  color: #878787;
+}
+
+.cp-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cp-checkboxes label {
+  font-size: 0.9rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.cp-clear-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  color: #475569;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.cp-clear-btn:hover {
+  background: #f8fafc;
+}
+
+/* Main Area */
+.cp-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.cp-toolbar {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cp-results-count {
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.cp-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cp-sort label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.cp-sort select {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  outline: none;
+  background: white;
+  cursor: pointer;
+}
+
+/* Grid & Cards */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.cp-product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.cp-product-img-wrap {
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative;
+  background: #f8fafc;
+}
+
+.cp-product-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.cp-product-no-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.cp-product-info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cp-product-name {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #212121;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cp-product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212121;
+  margin-bottom: 0.5rem;
+}
+
+.cp-product-price span {
+  font-size: 0.75rem;
+  color: #878787;
+  font-weight: 400;
+}
+
+.cp-product-location {
+  font-size: 0.8rem;
+  color: #878787;
+  margin-top: auto;
+  margin-bottom: 0.75rem;
+}
+
+.cp-rent-btn {
+  width: 100%;
+  padding: 0.6rem;
+  background: #2874f0;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cp-rent-btn:hover {
+  background: #1c5fd1;
+}
+
+/* Empty State */
+.cp-empty {
+  background: white;
+  padding: 4rem 2rem;
+  text-align: center;
+  border-radius: 8px;
+  color: #475569;
+}
+
+.cp-empty p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cp-empty button {
+  background: #2874f0;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Skeleton */
+.cp-skeleton-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.cp-skel-img {
+  width: 100%;
+  padding-top: 100%;
+  background: #f1f5f9;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s infinite;
+}
+
+.cp-skel-line {
+  height: 12px;
+  background: #f1f5f9;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+.w-full { width: 100%; }
+.w-half { width: 50%; }
+
+/* Mobile Formatting */
+@media (max-width: 900px) {
+  .cp-container {
+    flex-direction: column;
+  }
+  .cp-sidebar {
+    width: 100%;
+  }
+  .cp-filter-box {
+    position: static;
+  }
+}

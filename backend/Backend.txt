@@ -1,0 +1,1260 @@
+backend
+├─ .env
+├─ Backend.txt
+├─ config/
+│  ├─ constants.js
+│  └─ database.js
+├─ controllers/
+│  ├─ authController.js
+│  ├─ cartController.js
+│  ├─ productController.js
+│  └─ userController.js
+├─ crash.log
+├─ middleware/
+│  ├─ auth.js
+│  ├─ errorHandler.js
+│  └─ validation.js
+├─ migrations/
+│  └─ 004_add_listings.sql
+├─ models/
+│  ├─ Cart.js
+│  ├─ Order.js
+│  ├─ Product.js
+│  └─ User.js
+├─ routes/
+│  ├─ auth.js
+│  ├─ cart.js
+│  ├─ index.js
+│  ├─ lender.js
+│  ├─ pincode.js
+│  ├─ products.js
+│  └─ user.js
+├─ scripts/
+│  ├─ initDB.js
+│  └─ migrate.js
+├─ server.js
+├─ uploads/
+│  └─ kyc/
+└─ utils/
+   ├─ emailService.js
+   ├─ helpers.js
+   └─ paymentGateway.js
+
+
+===== FILE CONTENTS =====
+
+[File] .env
+----- File Content Start -----
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=EveryThingRental
+DB_PASSWORD=Shivam@123
+DB_PORT=5432
+PORT=5000
+
+JWT_SECRET=someStrongSecret123!
+
+----- File Content End -----
+
+[File] Backend.txt
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] crash.log
+----- File Content Start -----
+[2025-10-28T17:08:36.321Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\authController.js:85:19)
+[2025-11-10T17:46:38.482Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\authController.js:99:19)
+[2025-11-10T18:33:34.249Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:34.256Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:47.927Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:47.932Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:51:02.603Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:51:02.607Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:52:50.836Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:52:50.840Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+
+----- File Content End -----
+
+[File] server.js
+----- File Content Start -----
+/* backend/server.js */
+
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const path = require('path');
+const helmet = require('helmet');
+const got = require('got');
+const fs = require('fs');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+/* ---------- Global crash handlers ---------- */
+function logToFile(err) {
+  const msg = `[${new Date().toISOString()}] ${err.stack || err}\n`;
+  fs.appendFileSync('crash.log', msg);
+}
+
+process.on('uncaughtException', (err) => {
+  console.error('💥 Uncaught Exception:', err);
+  logToFile(err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🚨 Unhandled Promise Rejection:', reason);
+  logToFile(reason);
+});
+
+/* ---------- Security ---------- */
+app.use(helmet());
+
+/* ---------- Middleware ---------- */
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true,
+  })
+);
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
+
+/* ---------- Static file serving ---------- */
+// Product images (NEW)
+app.use(
+  '/uploads/products',
+  (req, res, next) => {
+    if (!/\.(jpe?g|png)$/i.test(req.path))
+      return res.status(404).end();
+    next();
+  },
+  express.static(path.join(__dirname, 'uploads/products'))
+);
+
+// KYC documents (EXISTING)
+app.use(
+  '/uploads/kyc',
+  (req, res, next) => {
+    if (!/\.(jpe?g|png)$/i.test(req.path))
+      return res.status(404).end();
+    next();
+  },
+  express.static(path.join(__dirname, 'uploads/kyc'))
+);
+
+/* ---------- Auth middleware ---------- */
+const auth = require('./middleware/auth');
+
+/* ---------- Helper: safe route loader ---------- */
+function safeLoad(routePath, mountPoint, ...middleware) {
+  try {
+    const router = require(routePath);
+    app.use(mountPoint, ...middleware, router);
+    console.log(`✅  Mounted ${mountPoint}`);
+  } catch (e) {
+    console.error(`❌  Failed to mount ${mountPoint} (${routePath})`);
+    console.error(e.stack || e);
+    logToFile(e);
+  }
+}
+
+/* ---------- Mount routes ---------- */
+safeLoad('./routes/auth', '/api/auth');
+safeLoad('./routes/products', '/api/products');
+safeLoad('./routes/products', '/api/listings'); // Alias for listings
+safeLoad('./routes/cart', '/api/cart');
+safeLoad('./routes/user', '/api/user');
+safeLoad('./routes/lender', '/api/lender', auth);
+safeLoad('./routes/pincode', '/api/pincode');
+
+/* ---------- Health + dependency check ---------- */
+app.get('/api/health', async (_req, res) => {
+  const base = `http://localhost:${PORT}`;
+  const endpoints = [
+    '/api/health',
+    '/api/auth',
+    '/api/products',
+    '/api/cart',
+    '/api/user',
+    '/api/lender',
+    '/api/pincode',
+    '/api/listings'
+  ];
+
+  const results = await Promise.all(
+    endpoints.map(async (ep) => {
+      try {
+        await got.head(`${base}${ep}`, { retry: 1, timeout: 3000 });
+        return { endpoint: ep, status: 'ok' };
+      } catch (err) {
+        return { endpoint: ep, status: 'fail', error: err.message };
+      }
+    })
+  );
+
+  const failed = results.filter((r) => r.status === 'fail');
+  const allOk = failed.length === 0;
+
+  return res.status(allOk ? 200 : 503).json({
+    status: allOk ? 'ok' : 'degraded',
+    time: new Date(),
+    uptime: process.uptime(),
+    env: process.env.NODE_ENV || 'development',
+    memory: process.memoryUsage(),
+    version: process.env.npm_package_version || '1.0.0',
+    checks: results,
+  });
+});
+
+/* ---------- 404 ---------- */
+app.use((_req, res) =>
+  res.status(404).json({ message: 'Route not found' })
+);
+
+/* ---------- Global error handler ---------- */
+app.use((err, _req, res, _next) => {
+  console.error('🔥 Express error:', err);
+  logToFile(err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal server error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+  });
+});
+
+/* ---------- Start & graceful shutdown ---------- */
+const server = app.listen(PORT, () => {
+  console.log(`✅  Server listening on port ${PORT}`);
+});
+
+function shutDown() {
+  console.log('🧹 Received kill signal, shutting down gracefully...');
+  server.close(() => {
+    console.log('✅ HTTP server closed.');
+    process.exit(0);
+  });
+
+  setTimeout(() => {
+    console.error('⚠️  Forced shutdown after 10s.');
+    process.exit(1);
+  }, 10000);
+}
+process.on('SIGTERM', shutDown);
+process.on('SIGINT', shutDown);
+----- File Content End -----
+
+[File] config\constants.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] config\database.js
+----- File Content Start -----
+require('dotenv').config();
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  user:     process.env.DB_USER,
+  host:     process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port:     process.env.DB_PORT || 5432,
+});
+
+pool.connect()
+  .then(() => console.log('PostgreSQL connected'))
+  .catch((err) => console.error('Connection error', err.stack));
+
+module.exports = pool;
+
+----- File Content End -----
+
+[File] controllers\authController.js
+----- File Content Start -----
+/*  backend/controllers/authController.js  */
+require('dotenv').config();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const pool = require('../config/database');
+
+/* ---------- helpers ---------- */
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  console.error('FATAL: JWT_SECRET missing');
+  process.exit(1);
+}
+
+const createToken = (uid, firstName) =>
+  jwt.sign({ uid, firstName }, jwtSecret, { expiresIn: '7d' });
+
+/* ---------- register ---------- */
+exports.register = async (req, res, next) => {
+  const client = await pool.connect();
+  try {
+    const { username, email, phone, password, firstName = '', lastName = '' } = req.body;
+    if (!username || !email || !phone || !password) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    await client.query('BEGIN');
+    const hash = await bcrypt.hash(password, 12);
+
+    const { rows } = await client.query(
+      `INSERT INTO users (username, email, phone, password_hash, password_salt)
+       VALUES ($1,$2,$3,$4,'') RETURNING user_id`,
+      [username, email, phone, hash]
+    );
+    const uid = rows[0].user_id;
+
+    await client.query(
+      `INSERT INTO user_profiles (user_id, first_name, last_name, lender)
+       VALUES ($1,$2,$3,false)`,
+      [uid, firstName || username, lastName || '']
+    );
+    await client.query('COMMIT');
+
+    res.status(201).json({ user_id: uid, username, email });
+  } catch (e) {
+    await client.query('ROLLBACK');
+    next(e);
+  } finally {
+    client.release();
+  }
+};
+
+/* ---------- whoami ---------- */
+exports.me = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT user_id, first_name, last_name, email, lender FROM user_profiles WHERE user_id = $1',
+      [req.user.uid]
+    );
+    res.json(rows[0]);
+  } catch (e) {
+    next(e);
+  }
+};
+
+/* ---------- logout ---------- */
+exports.logout = (_req, res) => {
+  res.clearCookie('connect.sid');
+  res.json({ message: 'Logged out' });
+};
+
+/* ---------- login ---------- */
+exports.login = async (req, res, next) => {
+  try {
+    const { identifier, password } = req.body;
+    if (!identifier || !password) {
+      return res.status(400).json({ message: 'Identifier and password required' });
+    }
+
+    const { rows } = await pool.query(
+      `SELECT u.user_id,
+              u.username,
+              u.password_hash,
+              p.lender,
+              p.first_name,
+              p.last_name
+       FROM users u
+       JOIN user_profiles p ON p.user_id = u.user_id
+       WHERE u.email = $1 OR u.phone = $1`,
+      [identifier]
+    );
+    if (rows.length === 0) {
+      const err = new Error('Invalid credentials');
+      err.status = 401;
+      throw err;
+    }
+
+    const match = await bcrypt.compare(password, rows[0].password_hash);
+    if (!match) {
+      const err = new Error('Invalid credentials');
+      err.status = 401;
+      throw err;
+    }
+
+    const token = createToken(rows[0].user_id, rows[0].first_name);
+    res.json({
+      user: {
+        token,
+        id: rows[0].user_id,
+        username: rows[0].username,
+        lender: rows[0].lender,
+        first_name: rows[0].first_name,
+        last_name: rows[0].last_name,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+----- File Content End -----
+
+[File] controllers\cartController.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] controllers\productController.js
+----- File Content Start -----
+/* backend/controllers/productController.js */
+
+require('dotenv').config();
+const pool = require('../config/database');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const sharp = require('sharp'); // For generating thumbnails
+
+// Configure multer for product photos (local storage)
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    const dir = path.join(__dirname, '../../uploads/products');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, `prod-${unique}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+  fileFilter: (_req, file, cb) => {
+    const allowed = ['.jpg', '.jpeg', '.png'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowed.includes(ext)) return cb(null, true);
+    cb(new Error('Only JPG, JPEG, PNG files allowed'));
+  }
+});
+
+// Generate base64 thumbnail
+async function generateBase64Thumbnail(filePath) {
+  try {
+    const thumbnailBuffer = await sharp(filePath)
+      .resize(300, 300, { fit: 'inside' })
+      .jpeg({ quality: 70 })
+      .toBuffer();
+    return `data:image/jpeg;base64,${thumbnailBuffer.toString('base64')}`;
+  } catch (err) {
+    console.error('Thumbnail generation failed:', err);
+    return null;
+  }
+}
+
+/* ---------- Create Listing ---------- */
+exports.createListing = async (req, res, next) => {
+  const client = await pool.connect();
+  try {
+    const {
+      itemName, category, description, location,
+      securityDeposit, rentalPricePerDay, availability,
+      termsAndConditions, discountType, discountValue,
+      discountStartDate, discountEndDate, promoCode, displayTagline
+    } = req.body;
+
+    // Validation
+    if (!itemName || !category || !location || !rentalPricePerDay || !availability) {
+      return res.status(400).json({ message: 'Please fill in all required fields' });
+    }
+
+    if (rentalPricePerDay <= 0) {
+      return res.status(400).json({ message: 'Price per day must be greater than $0' });
+    }
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'At least one image is required' });
+    }
+
+    // Parse availability
+    let availDates;
+    try {
+      availDates = typeof availability === 'string' ? JSON.parse(availability) : availability;
+      if (!Array.isArray(availDates) || availDates.length === 0) {
+        throw new Error('Invalid availability format');
+      }
+    } catch {
+      return res.status(400).json({ message: 'Invalid availability format' });
+    }
+
+    await client.query('BEGIN');
+
+    // Insert listing
+    const listingQuery = `
+      INSERT INTO listings (
+        lender_id, item_name, category, description, location,
+        security_deposit, rental_price_per_day, availability,
+        terms_and_conditions, discount_type, discount_value,
+        discount_start_date, discount_end_date, promo_code, display_tagline, status
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, 'active')
+      RETURNING id
+    `;
+    
+    const { rows: [listing] } = await client.query(listingQuery, [
+      req.user.uid, itemName, category, description || null, location,
+      securityDeposit || 0, rentalPricePerDay, JSON.stringify(availDates),
+      termsAndConditions || null, discountType || null, discountValue || null,
+      discountStartDate || null, discountEndDate || null, promoCode || null,
+      displayTagline || null
+    ]);
+
+    // Insert photos with base64 preview
+    const photoQuery = `
+      INSERT INTO listing_photos 
+        (listing_id, storage_type, photo_path, base64_preview, full_url, metadata, display_order)
+      VALUES ($1, 'local', $2, $3, $4, $5, $6)
+    `;
+
+    for (let i = 0; i < req.files.length; i++) {
+      const file = req.files[i];
+      const relativePath = `uploads/products/${path.basename(file.path)}`;
+      const fullUrl = `${process.env.BASE_URL || 'http://localhost:5000'}/${relativePath}`;
+      const base64Preview = await generateBase64Thumbnail(file.path);
+      
+      const metadata = {
+        size: file.size,
+        mime: file.mimetype,
+        originalName: file.originalname
+      };
+
+      // Get image dimensions
+      try {
+        const metadata = await sharp(file.path).metadata();
+        metadata.width = metadata.width;
+        metadata.height = metadata.height;
+      } catch {}
+
+      await client.query(photoQuery, [
+        listing.id,
+        relativePath,
+        base64Preview,
+        fullUrl,
+        JSON.stringify(metadata),
+        i
+      ]);
+    }
+
+    await client.query('COMMIT');
+
+    res.status(201).json({
+      message: 'Your item has been successfully listed!',
+      listingId: listing.id
+    });
+  } catch (e) {
+    await client.query('ROLLBACK');
+    
+    // Cleanup uploaded files on error
+    if (req.files) {
+      req.files.forEach(f => {
+        try { fs.unlinkSync(f.path); } catch {}
+      });
+    }
+    
+    next(e);
+  } finally {
+    client.release();
+  }
+};
+
+/* ---------- Get Listings (with base64 previews) ---------- */
+exports.getAllListings = async (req, res, next) => {
+  try {
+    const {
+      search = '', cat, sort = 'newest', order = 'desc', page = 1, limit = 12
+    } = req.query;
+    const offset = (page - 1) * limit;
+    const args = [`%${search}%`];
+
+    let sql = `SELECT l.*, 
+      u.username as lender_name,
+      COALESCE(
+        json_agg(
+          json_build_object(
+            'id', lp.id,
+            'base64Preview', lp.base64_preview,
+            'fullUrl', lp.full_url,
+            'storageType', lp.storage_type,
+            'path', lp.photo_path
+          ) ORDER BY lp.display_order
+          FILTER (WHERE lp.id IS NOT NULL)
+        ), 
+        '[]'
+      ) as photos
+     FROM listings l
+     JOIN users u ON u.user_id = l.lender_id
+     LEFT JOIN listing_photos lp ON lp.listing_id = l.id
+     WHERE l.status = 'active' AND (l.item_name ILIKE $1 OR l.description ILIKE $1)`;
+    
+    if (cat) { sql += ` AND l.category = $2`; args.push(cat); }
+    
+    const sortCol = { price: 'rental_price_per_day', newest: 'created_at' }[sort] || 'created_at';
+    sql += ` GROUP BY l.id, u.username
+             ORDER BY ${sortCol} ${order === 'asc' ? 'ASC' : 'DESC'}
+             LIMIT $${args.length + 1} OFFSET $${args.length + 2}`;
+    
+    args.push(limit, offset);
+
+    const { rows } = await pool.query(sql, args);
+    const totalRes = await pool.query(
+      `SELECT COUNT(*) FROM listings WHERE status = 'active' AND (item_name ILIKE $1 OR description ILIKE $1) ${cat ? 'AND category = $2' : ''}`,
+      cat ? [`%${search}%`, cat] : [`%${search}%`]
+    );
+    const total = parseInt(totalRes.rows[0].count, 10);
+    
+    res.json({ listings: rows, total, page: +page, pages: Math.ceil(total / limit) });
+  } catch (e) { next(e); }
+};
+----- File Content End -----
+
+[File] controllers\userController.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] middleware\auth.js
+----- File Content Start -----
+/* backend/middleware/auth.js */
+
+const jwt = require('jsonwebtoken');
+
+module.exports = function (req, res, next) {
+  const header = req.headers.authorization;
+  if (!header) return res.status(401).json({ message: 'No token provided' });
+
+  const token = header.startsWith('Bearer ') ? header.slice(7) : header;
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // { uid: number, firstName: string }
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+----- File Content End -----
+
+[File] middleware\errorHandler.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] middleware\validation.js
+----- File Content Start -----
+const { body } = require('express-validator');
+
+exports.validateLogin = [
+  body('identifier').notEmpty().withMessage('Email or phone required'),
+  body('password').notEmpty().withMessage('Password required')
+];
+----- File Content End -----
+
+[File] migrations\004_add_listings.sql
+----- File Content Start -----
+-- Create listings table (unchanged)
+CREATE TABLE IF NOT EXISTS listings (
+    id BIGSERIAL PRIMARY KEY,
+    lender_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    item_name VARCHAR(100) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    description TEXT,
+    location VARCHAR(150) NOT NULL,
+    security_deposit NUMERIC(10,2) DEFAULT 0,
+    rental_price_per_day NUMERIC(10,2) NOT NULL,
+    availability JSONB NOT NULL,
+    terms_and_conditions VARCHAR(300),
+    discount_type VARCHAR(20) CHECK (discount_type IN ('percentage', 'fixed')),
+    discount_value NUMERIC(10,2),
+    discount_start_date DATE,
+    discount_end_date DATE,
+    promo_code VARCHAR(20),
+    display_tagline VARCHAR(50),
+    status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'active', 'inactive', 'rejected')),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create flexible photos table (supports local & S3)
+CREATE TABLE IF NOT EXISTS listing_photos (
+    id BIGSERIAL PRIMARY KEY,
+    listing_id BIGINT NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+    storage_type VARCHAR(20) DEFAULT 'local' CHECK (storage_type IN ('local', 's3')),
+    photo_path VARCHAR(255) NOT NULL,           -- local path or S3 key
+    base64_preview TEXT,                        -- base64 thumbnail for instant display
+    full_url VARCHAR(500),                      -- complete URL (local or S3)
+    metadata JSONB DEFAULT '{}'::jsonb,         -- {size: 1024, mime: "image/jpeg", width: 800, height: 600}
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Performance indexes
+CREATE INDEX idx_listings_lender_id ON listings(lender_id);
+CREATE INDEX idx_listings_category ON listings(category) WHERE status = 'active';
+CREATE INDEX idx_listings_created_at ON listings(created_at);
+CREATE INDEX idx_listing_photos_listing_id ON listing_photos(listing_id);
+CREATE INDEX idx_listing_photos_storage ON listing_photos(storage_type);
+
+-- Auto-update timestamp trigger for listings
+CREATE OR REPLACE FUNCTION update_listings_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_listings_updated_at
+    BEFORE UPDATE ON listings
+    FOR EACH ROW
+    EXECUTE FUNCTION update_listings_updated_at();
+----- File Content End -----
+
+[File] models\Cart.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] models\Order.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] models\Product.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] models\User.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] routes\auth.js
+----- File Content Start -----
+const express = require('express');
+const { register, login, me, logout } = require('../controllers/authController');
+const auth = require('../middleware/auth');   // your JWT/cookie guard
+
+const router = express.Router();
+
+/* ---------- public routes ---------- */
+router.post('/register', register);
+router.post('/login',    login);
+
+/* ---------- protected routes ---------- */
+router.get('/me',     auth, me);
+router.post('/logout',auth, logout);
+
+module.exports = router;
+----- File Content End -----
+
+[File] routes\cart.js
+----- File Content Start -----
+const express = require('express');
+const pool = require('../config/database');
+const router = express.Router();
+
+/* ---------- GET /api/cart  (dummy) ---------- */
+router.get('/', (_req, res) => res.json({ cart: [], total: 0 }));
+
+module.exports = router;
+----- File Content End -----
+
+[File] routes\index.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] routes\lender.js
+----- File Content Start -----
+const express = require('express');
+const multer  = require('multer');
+const path    = require('path');
+const fs      = require('fs');
+const pool    = require('../config/database');
+const router  = express.Router();
+
+/* ---------- ensure folder ---------- */
+const kycDir = path.join(__dirname, '../../uploads/kyc');
+if (!fs.existsSync(kycDir)) fs.mkdirSync(kycDir, { recursive: true });
+
+/* ---------- multer ---------- */
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, kycDir),
+  filename: (_req, file, cb) => {
+    const ref  = _req.body.ref1Name || _req.body.refName || 'ref';
+    const safe = ref.replace(/\s+/g, '_');
+    const ext  = path.extname(file.originalname);
+    cb(null, `${safe}${ext}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (['.jpg', '.jpeg', '.png', '.pdf'].includes(ext)) return cb(null, true);
+    cb(new Error('Only JPG, JPEG, PNG, PDF ≤ 5 MB'));
+  }
+});
+
+/* ---------- helper ---------- */
+const dbPath = (req, field) => {
+  const f = req.files[field]?.[0];
+  return f ? `uploads/kyc/${f.filename}` : null;
+};
+
+/* ---------- POST /api/lender/register ---------- */
+router.post('/register',
+  upload.fields([
+    { name: 'firstIdProof', maxCount: 1 },
+    { name: 'secondIdProof', maxCount: 1 },
+    { name: 'shopPhoto', maxCount: 1 },
+    { name: 'gstCertificate', maxCount: 1 }
+  ]),
+  async (req, res, next) => {
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+
+      const userId = req.user.uid;
+      const body   = req.body;
+
+      /* ---- basic validation ---- */
+      if (!body.pincode || body.pincode.length !== 6) throw new Error('Invalid pincode');
+      if (body.lenderType === 'business') {
+        if (!body.gstin || body.gstin.length !== 15) throw new Error('Invalid GSTIN');
+      }
+      const mobiles = [body.ref1Mobile, body.ref2Mobile, body.refMobile].filter(Boolean);
+      if (mobiles.some(m => !/^\d{10}$/.test(m))) throw new Error('Invalid mobile number');
+
+      /* ---- city/state ---- */
+      const { rows: [loc] } = await client.query(
+        'SELECT city, state FROM pincode_master WHERE pincode = $1',
+        [body.pincode]
+      );
+      if (!loc) throw new Error('Pincode not found in master');
+
+      /* ---- payload ---- */
+      const payload = {
+        user_id: userId,
+        lender_type: body.lenderType,
+        full_address: body.fullAddress,
+        business_address: body.businessAddress || null,
+        pincode: body.pincode,
+        city: loc.city,
+        state: loc.state,
+        digipin: body.digipin || null,
+        ref1_name: body.ref1Name || null,
+        ref1_mobile: body.ref1Mobile || null,
+        ref2_name: body.ref2Name || null,
+        ref2_mobile: body.ref2Mobile || null,
+        ref_name: body.refName || null,
+        ref_mobile: body.refMobile || null,
+        gstin: body.gstin || null,
+        trade_name: body.tradeName || null,
+        legal_owner_name: body.legalOwnerName || null,
+        first_id_proof: dbPath(req, 'firstIdProof'),
+        second_id_proof: dbPath(req, 'secondIdProof'),
+        shop_photo: dbPath(req, 'shopPhoto'),
+        gst_certificate: dbPath(req, 'gstCertificate')
+      };
+
+      const cols = Object.keys(payload).join(',');
+      const idxs = Object.keys(payload).map((_, i) => `$${i + 1}`).join(',');
+      await client.query(
+        `INSERT INTO lender_applications (${cols}) VALUES (${idxs})`,
+        Object.values(payload)
+      );
+
+      await client.query(
+        'UPDATE user_profiles SET lender = true WHERE user_id = $1',
+        [userId]
+      );
+
+      await client.query('COMMIT');
+      res.json({ success: true, message: 'Lender registration successful' });
+    } catch (e) {
+      await client.query('ROLLBACK');
+      next(e);
+    } finally {
+      client.release();
+    }
+  }
+);
+
+/* ---------- GET /api/lender/status ---------- */
+router.get('/status', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, lender_type, status FROM lender_applications WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1',
+      [req.user.uid]
+    );
+    res.json(rows[0] || null);
+  } catch (e) { next(e); }
+});
+
+module.exports = router;
+----- File Content End -----
+
+[File] routes\pincode.js
+----- File Content Start -----
+const express = require('express');
+const pool = require('../config/database');
+const router = express.Router();
+
+// GET /api/pincode/:pincode
+router.get('/:pincode', async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT city, state FROM pincode_master WHERE pincode = $1',
+      [req.params.pincode]
+    );
+    if (!rows.length) return res.status(404).json({ message: 'Invalid pincode' });
+    res.json(rows[0]);
+  } catch (e) { next(e); }
+});
+
+module.exports = router;
+----- File Content End -----
+
+[File] routes\products.js
+----- File Content Start -----
+/* backend/routes/products.js */
+
+const express = require('express');
+const router = express.Router();
+const auth = require('../middleware/auth');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const {
+  createListing,
+  getMyListings,
+  getAllListings,
+  getListing
+} = require('../controllers/productController');
+
+// Configure multer
+const storage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    const dir = path.join(__dirname, '../../uploads/products');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (_req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, `prod-${unique}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    const allowed = ['.jpg', '.jpeg', '.png'];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowed.includes(ext)) return cb(null, true);
+    cb(new Error('Only JPG, JPEG, PNG files allowed'));
+  }
+});
+
+/* ---------- Public routes ---------- */
+router.get('/', getAllListings);
+router.get('/:id', getListing);
+
+/* ---------- Serve images with base64 fallback ---------- */
+router.get('/image/:id', async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      'SELECT storage_type, photo_path, base64_preview FROM listing_photos WHERE id = $1',
+      [req.params.id]
+    );
+    
+    if (!rows.length) return res.status(404).json({ message: 'Image not found' });
+
+    const image = rows[0];
+    
+    // If base64 is requested and available
+    if (req.query.format === 'base64' && image.base64_preview) {
+      return res.json({ base64: image.base64_preview });
+    }
+
+    // If S3 migration happened
+    if (image.storage_type === 's3') {
+      // Redirect to S3 URL
+      return res.redirect(image.full_url);
+    }
+
+    // Serve local file
+    const filePath = path.join(__dirname, '../../', image.photo_path);
+    if (fs.existsSync(filePath)) {
+      return res.sendFile(filePath);
+    }
+
+    // Fallback to base64 if file missing
+    if (image.base64_preview) {
+      return res.json({ base64: image.base64_preview });
+    }
+
+    res.status(404).json({ message: 'Image not found' });
+  } catch (e) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+/* ---------- Protected routes ---------- */
+router.post('/list', auth, upload.array('photos', 5), createListing);
+router.get('/my/listings', auth, getMyListings);
+
+module.exports = router;
+----- File Content End -----
+
+[File] routes\user.js
+----- File Content Start -----
+const express = require('express');
+const pool = require('../config/database');
+const router = express.Router();
+
+/* ---------- GET /api/user/profile  (dummy) ---------- */
+router.get('/profile', (_req, res) => res.json({ user: 'placeholder' }));
+
+module.exports = router;
+----- File Content End -----
+
+[File] scripts\initDB.js
+----- File Content Start -----
+const { query } = require('../config/database');
+require('dotenv').config();
+
+const initDatabase = async () => {
+  try {
+    console.log('Initializing database...');
+    
+    // Create users table
+    await query(`
+      CREATE TABLE IF NOT EXISTS users (
+        user_id BIGSERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        phone VARCHAR(15) UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        account_status VARCHAR(20) DEFAULT 'pending' CHECK (account_status IN ('active', 'inactive', 'suspended', 'pending')),
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        last_login TIMESTAMPTZ NULL
+      )
+    `);
+    
+    // Create user_profiles table
+    await query(`
+      CREATE TABLE IF NOT EXISTS user_profiles (
+        profile_id BIGSERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+        first_name VARCHAR(100) NOT NULL,
+        last_name VARCHAR(100) NOT NULL,
+        date_of_birth DATE,
+        gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'other')),
+        profile_picture_url TEXT,
+        created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    // Create login_sessions table
+    await query(`
+      CREATE TABLE IF NOT EXISTS login_sessions (
+        session_id VARCHAR(255) PRIMARY KEY,
+        user_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+        device_info TEXT,
+        ip_address VARCHAR(45),
+        user_agent TEXT,
+        login_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        last_activity TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+        expiry_time TIMESTAMPTZ NOT NULL,
+        is_active BOOLEAN DEFAULT TRUE
+      )
+    `);
+    
+    // Create indexes
+    await query('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)');
+    await query('CREATE INDEX IF NOT EXISTS idx_users_phone ON users(phone)');
+    await query('CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)');
+    await query('CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id)');
+    await query('CREATE INDEX IF NOT EXISTS idx_login_sessions_user_id ON login_sessions(user_id)');
+    await query('CREATE INDEX IF NOT EXISTS idx_login_sessions_expiry_time ON login_sessions(expiry_time)');
+    
+    console.log('Database initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database:', error);
+  }
+};
+
+// Run if this script is executed directly
+if (require.main === module) {
+  initDatabase();
+}
+
+module.exports = initDatabase;
+----- File Content End -----
+
+[File] scripts\migrate.js
+----- File Content Start -----
+const fs = require('fs');
+const path = require('path');
+const pool = require('../config/database');
+
+(async () => {
+  const files = [
+    '../tables/Users TAble.sql',
+    '../tables/User_Profiles Table.sql',
+    '../tables/Login_Attempts Table.sql',
+    '../tables/Login_Sessions Table.sql',
+    '../tables/Password_Reset_Tokens Table.sql',
+    '../tables/Social_Logins Table.sql'
+  ].map(f => path.resolve(__dirname, f));
+
+  for (const file of files) {
+    const sql = fs.readFileSync(file, 'utf8');
+    await pool.query(sql);
+    console.log(`✅ ${path.basename(file)}`);
+  }
+  await pool.end();
+})();
+----- File Content End -----
+
+[File] utils\emailService.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] utils\helpers.js
+----- File Content Start -----
+
+----- File Content End -----
+
+[File] utils\paymentGateway.js
+----- File Content Start -----
+
+----- File Content End -----
+

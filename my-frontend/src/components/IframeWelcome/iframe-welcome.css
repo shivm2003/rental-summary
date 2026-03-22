@@ -1,0 +1,41 @@
+/* ==========================================
+   iframe-welcome.css
+   Drop into: src/components/IframeWelcome/
+   ========================================== */
+
+   .iframe-backdrop {
+    position: fixed;
+    inset: 0;                          /* top / right / bottom / left = 0 */
+    background: rgba(0, 0, 0, 0.45);   /* dim the page */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;                     /* sit above everything */
+  }
+  
+  .iframe-box {
+    position: relative;                /* anchor for the close button */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+  
+  .iframe-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #ffffff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  
+  .iframe-close:hover {
+    transform: scale(1.1);
+  }

@@ -1,0 +1,352 @@
+/* AssetInventory.scss */
+.asset-inventory {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .page-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--lender-text-primary);
+      margin: 0;
+    }
+    .page-subtitle {
+      color: var(--lender-text-secondary);
+      margin: 0.25rem 0 0;
+      font-size: 0.9rem;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+
+      button {
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+
+        &.btn-secondary {
+          background-color: var(--lender-card-bg);
+          color: var(--lender-text-primary);
+          border: 1px solid var(--lender-border);
+          &:hover { background-color: #f1f5f9; }
+        }
+
+        &.btn-primary {
+          background-color: var(--lender-primary);
+          color: white;
+          &:hover { background-color: var(--lender-primary-hover); }
+        }
+      }
+    }
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+      background: var(--lender-card-bg);
+      border: 1px solid var(--lender-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+
+        &.bg-blue-100 { background: #dbeafe; }
+        &.bg-gray-100 { background: #f1f5f9; }
+        &.bg-orange-100 { background: #ffedd5; }
+        &.bg-red-100 { background: #fee2e2; }
+      }
+
+      .text-blue-600 { color: #2563eb; }
+      .text-gray-600 { color: #475569; }
+      .text-orange-600 { color: #ea580c; }
+      .text-red-600 { color: #dc2626; }
+
+      .stat-badge {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: #e0e7ff;
+        color: #4338ca;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+
+        &.neutral {
+          background: #f1f5f9;
+          color: #475569;
+        }
+      }
+
+      .stat-lbl {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--lender-text-secondary);
+        letter-spacing: 0.5px;
+      }
+
+      .stat-val {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--lender-text-primary);
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .table-container {
+    background: var(--lender-card-bg);
+    border: 1px solid var(--lender-border);
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid var(--lender-border);
+
+      .tabs {
+        display: flex;
+        gap: 2rem;
+        white-space: nowrap;
+        overflow-x: auto;
+
+        .tab {
+          background: none;
+          border: none;
+          padding: 1rem 0;
+          font-weight: 600;
+          font-size: 0.9rem;
+          color: var(--lender-text-secondary);
+          cursor: pointer;
+          position: relative;
+
+          &.active {
+            color: var(--lender-primary);
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -1px;
+              left: 0;
+              right: 0;
+              height: 2px;
+              background: var(--lender-primary);
+            }
+          }
+        }
+      }
+
+      .sort-by {
+        font-size: 0.85rem;
+        color: var(--lender-text-secondary);
+        strong {
+          color: var(--lender-text-primary);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .inventory-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px; /* Forces scrolling on small screens instead of crushing content */
+
+      th {
+        text-align: left;
+        padding: 1rem 1.5rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--lender-text-secondary);
+        border-bottom: 1px solid var(--lender-border);
+        background: #f8fafc;
+      }
+
+      td {
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--lender-border);
+        font-size: 0.9rem;
+        color: var(--lender-text-primary);
+        vertical-align: middle;
+      }
+
+      .font-bold { font-weight: 700; }
+      .text-blue { color: var(--lender-primary); }
+      .text-secondary { color: var(--lender-text-secondary); }
+
+      .prod-cell {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .prod-img {
+          width: 48px;
+          height: 48px;
+          border-radius: 8px;
+          object-fit: cover;
+          border: 1px solid var(--lender-border);
+        }
+
+        .prod-name {
+          font-weight: 700;
+          font-size: 0.95rem;
+        }
+
+        .prod-sub {
+          font-size: 0.8rem;
+          color: var(--lender-text-secondary);
+          margin-top: 2px;
+        }
+      }
+
+      .badge {
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 700;
+
+        &.badge-available { background: #e0e7ff; color: #4338ca; }
+        &.badge-rented { background: #fee2e2; color: #ef4444; }
+        &.badge-maintenance { background: #fef3c7; color: #d97706; }
+        &.badge-inactive { background: #f1f5f9; color: #64748b; }
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        
+        .icon-btn {
+          background: none;
+          border: none;
+          color: var(--lender-text-secondary);
+          cursor: pointer;
+          padding: 6px;
+          border-radius: 6px;
+          
+          &:hover { background: #f1f5f9; color: var(--lender-text-primary); }
+          &.text-blue { color: var(--lender-primary); }
+        }
+      }
+    }
+
+    .pagination {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .info {
+        font-size: 0.85rem;
+        color: var(--lender-text-secondary);
+        strong { color: var(--lender-text-primary); }
+      }
+
+      .pages {
+        display: flex;
+        gap: 0.4rem;
+
+        .page-btn {
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: var(--lender-card-bg);
+          border: 1px solid var(--lender-border);
+          border-radius: 6px;
+          color: var(--lender-text-secondary);
+          font-weight: 600;
+          font-size: 0.85rem;
+          cursor: pointer;
+
+          &.active {
+            background: var(--lender-primary);
+            color: white;
+            border-color: var(--lender-primary);
+          }
+
+          &:hover:not(.active) {
+            background: #f1f5f9;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .panel {
+      background: var(--lender-card-bg);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--lender-border);
+      display: flex;
+      gap: 1.5rem;
+
+      .p-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        background: #f1f5f9;
+        color: #64748b;
+      }
+
+      .p-content {
+        h3 { margin: 0; font-size: 1.05rem; font-weight: 700; color: var(--lender-text-primary); }
+        p { margin: 0.5rem 0 1rem; font-size: 0.85rem; color: var(--lender-text-secondary); line-height: 1.5; }
+        a { color: var(--lender-primary); font-weight: 600; font-size: 0.85rem; text-decoration: none; }
+      }
+
+      &.suggestion-panel {
+        background: #fefbf4;
+        border-color: #fce7b8;
+        .p-icon { background: #fef08a; color: #d97706; }
+      }
+    }
+  }
+}

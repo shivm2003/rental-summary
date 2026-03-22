@@ -1,0 +1,587 @@
+[2025-10-28T17:08:36.321Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\authController.js:85:19)
+[2025-11-10T17:46:38.482Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\authController.js:99:19)
+[2025-11-10T18:33:34.249Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:34.256Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:47.927Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:33:47.932Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:51:02.603Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:51:02.607Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:52:50.836Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T18:52:50.840Z] Error: Cannot find module 'sharp'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:8:15)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2025-11-10T19:02:57.446Z] error: column "storage_type" of relation "listing_photos" does not exist
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg\lib\client.js:545:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:130:7)
+[2025-11-10T19:21:51.229Z] error: syntax error at or near "FILTER"
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:200:22)
+[2025-11-10T19:30:07.474Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:30:13.567Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:30:24.363Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:32:51.189Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:32:54.344Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:33:46.310Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-10T19:33:50.010Z] error: FILTER specified, but json_build_object is not an aggregate function
+    at C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\node_modules\pg-pool\index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.getAllListings (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental\backend\controllers\productController.js:201:22)
+[2025-11-14T17:38:41.747Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:92:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2025-11-14T17:38:49.764Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:92:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+[2026-01-19T16:56:14.266Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:99:19)
+[2026-01-29T17:54:54.562Z] TypeError: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+    at name (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:96:19)
+    at parse (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:113:68)
+    at pathToRegexp (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:267:58)
+    at Object.match (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:237:30)
+    at matcher (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:86:23)
+    at new Layer (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:93:62)
+    at router.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\index.js:428:17)
+    at app.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:257:22)
+    at app.<computed> [as get] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:478:22)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js:146:5)
+[2026-01-29T17:57:21.551Z] TypeError: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+    at name (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:96:19)
+    at parse (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:113:68)
+    at pathToRegexp (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:267:58)
+    at Object.match (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:237:30)
+    at matcher (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:86:23)
+    at new Layer (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:93:62)
+    at router.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\index.js:428:17)
+    at app.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:257:22)
+    at app.<computed> [as get] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:478:22)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js:146:5)
+[2026-01-29T17:58:09.754Z] TypeError: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+    at name (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:96:19)
+    at parse (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:113:68)
+    at pathToRegexp (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:267:58)
+    at Object.match (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:237:30)
+    at matcher (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:86:23)
+    at new Layer (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:93:62)
+    at router.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\index.js:428:17)
+    at app.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:257:22)
+    at app.<computed> [as get] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:478:22)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js:146:5)
+[2026-01-29T17:58:37.145Z] TypeError: Missing parameter name at index 1: *; visit https://git.new/pathToRegexpError for info
+    at name (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:96:19)
+    at parse (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:113:68)
+    at pathToRegexp (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:267:58)
+    at Object.match (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\path-to-regexp\dist\index.js:237:30)
+    at matcher (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:86:23)
+    at new Layer (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\lib\layer.js:93:62)
+    at router.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\router\index.js:428:17)
+    at app.route (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:257:22)
+    at app.<computed> [as get] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\express\lib\application.js:478:22)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js:146:5)
+[2026-01-29T18:52:03.382Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:52:03.392Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:12.661Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:12.665Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:14.553Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:14.557Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:15.754Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T18:54:15.760Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T19:12:40.451Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T19:12:40.454Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T19:13:49.023Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T19:13:49.026Z] Error: Cannot find module '@aws-sdk/s3-request-presigner'
+Require stack:
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\products.js
+- C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1420:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1058:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1063:22)
+    at Module._load (node:internal/modules/cjs/loader:1226:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:2:26)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+[2026-01-29T19:16:23.874Z] MulterError: Unexpected field
+    at wrappedFileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\index.js:40:19)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:16:34.878Z] MulterError: Unexpected field
+    at wrappedFileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\index.js:40:19)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:16:59.830Z] MulterError: Unexpected field
+    at wrappedFileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\index.js:40:19)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:17:03.807Z] MulterError: Unexpected field
+    at wrappedFileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\index.js:40:19)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:21:12.296Z] ReferenceError: path is not defined
+    at fileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:17:17)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:21:18.394Z] ReferenceError: path is not defined
+    at fileFilter (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:17:17)
+    at Multipart.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\multer\lib\make-middleware.js:132:7)
+    at Multipart.emit (node:events:508:28)
+    at HeaderParser.cb (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:358:14)
+    at HeaderParser.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:162:20)
+    at SBMH.ssCb [as _cb] (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:394:37)
+    at feed (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:248:10)
+    at SBMH.push (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\streamsearch\lib\sbmh.js:104:16)
+    at Multipart._write (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\node_modules\busboy\lib\types\multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:570:12)
+[2026-01-29T19:23:13.839Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:38:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:26:53.135Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:27:02.658Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:32:16.262Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:33:58.338Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:38:10.109Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:43:53.103Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:44:00.448Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:45:46.509Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-01-29T19:47:27.383Z] Error: Failed to upload file to S3
+    at uploadToS3 (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\utils\s3.js:62:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async exports.createListing (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\productController.js:115:21)
+[2026-02-04T17:15:47.078Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:244:19)
+[2026-02-04T17:33:47.916Z] C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:103
+    if (!rows.length) {
+    ^^
+
+SyntaxError: Unexpected token 'if'
+    at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:20)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\auth.js:2:41)
+[2026-02-04T17:33:49.739Z] C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:102
+    console/.log
+            ^
+
+SyntaxError: Unexpected token '.'
+    at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:20)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\auth.js:2:41)
+[2026-02-04T17:33:53.576Z] C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:103
+    if (!rows.length) {
+                      ^
+
+SyntaxError: Unexpected token '{'
+    at wrapSafe (node:internal/modules/cjs/loader:1691:18)
+    at Module._compile (node:internal/modules/cjs/loader:1734:20)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.require (node:internal/modules/cjs/loader:1503:12)
+    at require (node:internal/modules/helpers:152:16)
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\routes\auth.js:2:41)
+[2026-02-04T17:37:59.446Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:244:19)
+[2026-02-04T17:38:55.737Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:244:19)
+[2026-02-04T17:39:14.578Z] Error: Invalid credentials
+    at exports.login (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\controllers\authController.js:244:19)
+[2026-02-04T17:57:38.798Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:57:38.894Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:57:39.134Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:57:55.295Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:58:43.183Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:58:44.277Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:58:46.310Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:58:50.343Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:58:58.422Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T17:59:14.461Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T18:00:52.948Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T18:00:55.290Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T18:03:01.290Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T18:03:55.291Z] Error: ENOENT: no such file or directory, stat 'C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\frontend\build\index.html'
+[2026-02-04T18:06:22.640Z] ReferenceError: safeLoad is not defined
+    at Object.<anonymous> (C:\Users\shivam\Desktop\EveryThing Rental\every-thing-rental2\every-thing-rental\backend\server.js:47:1)
+    at Module._compile (node:internal/modules/cjs/loader:1760:14)
+    at Object..js (node:internal/modules/cjs/loader:1893:10)
+    at Module.load (node:internal/modules/cjs/loader:1480:32)
+    at Module._load (node:internal/modules/cjs/loader:1299:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
