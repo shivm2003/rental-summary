@@ -39,7 +39,7 @@ export default function Register() {
     if (form.password.length < 8) {
       return setError('Password must be at least 8 characters long');
     }
-    if (!/\\d/.test(form.password)) {
+    if (!/\d/.test(form.password)) {
       return setError('Password must contain at least one number');
     }
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(form.password)) {

@@ -24,12 +24,12 @@ const registerLimiter = rateLimit({
 
 // Validation rules
 const registerValidation = [
-  body('username').trim().notEmpty().withMessage('Username is required').escape(),
+  body('username').optional().trim().escape(),
   body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
   body('phone').trim().notEmpty().withMessage('Phone is required').escape(),
   body('password')
     .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
-    .matches(/\\d/).withMessage('Password must contain at least one number')
+    .matches(/\d/).withMessage('Password must contain at least one number')
     .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Password must contain at least one special character'),
   body('firstName').optional().trim().escape(),
   body('lastName').optional().trim().escape(),
