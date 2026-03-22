@@ -5,7 +5,6 @@ import { APP_NAME } from '../../../utils/constants';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCart } from '../../../contexts/CartContext'; // ✅ Added cart context
 import './index.css';
-import logo from "C:\Users\shivam\Desktop\EveryThing Rental\17 Feb - Copy\my-frontend\src\assets\Logo.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -43,10 +42,10 @@ export default function Header() {
         <div className="container">
           {/* ---------- Product Logo ---------- */}
           <Link to="/" className="logo">
-            <img 
-              src={LogoImage} 
-              alt="EveryThingRental Logo" 
-              className="logo-img" 
+            <img
+              src="/logo.png"
+              alt="EveryThingRental Logo"
+              className="logo-img"
               style={{ height: '48px', width: 'auto' }}
             />
           </Link>
@@ -78,8 +77,8 @@ export default function Header() {
 
           <div className="desktop-actions">
             {/* ✅ ADDED: Cart Icon */}
-            <Link 
-              to="/cart" 
+            <Link
+              to="/cart"
               className="cart-icon-wrapper"
               aria-label="Shopping cart"
             >
@@ -136,8 +135,8 @@ export default function Header() {
                     }}
                   />
                 ) : null}
-                <div 
-                  className="avatar-fallback" 
+                <div
+                  className="avatar-fallback"
                   style={{ display: user?.profilePictureUrl ? 'none' : 'flex' }}
                 >
                   {getUserInitials()}
@@ -194,8 +193,8 @@ export default function Header() {
                     }}
                   />
                 ) : null}
-                <div 
-                  className="avatar-fallback" 
+                <div
+                  className="avatar-fallback"
                   style={{ display: user.profilePictureUrl ? 'none' : 'flex' }}
                 >
                   {getUserInitials()}
@@ -210,8 +209,8 @@ export default function Header() {
           )}
 
           {/* ✅ ADDED: Mobile Cart Link */}
-          <Link 
-            to="/cart" 
+          <Link
+            to="/cart"
             className="mobile-cart-link"
             onClick={() => setOpen(false)}
           >
