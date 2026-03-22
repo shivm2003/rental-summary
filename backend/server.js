@@ -46,7 +46,9 @@ app.use(cors({
     "http://localhost:5173",
     "http://localhost:5174",
     "https://rental-summary.vercel.app",
-    "https://rental-summary-ocm4-2003shivam1990-3296s-projects.vercel.app"
+    "https://rental-summary-ocm4-2003shivam1990-3296s-projects.vercel.app",
+    "https://everythingrental.in",
+    "https://www.everythingrental.in"
   ],
   credentials: true
 }));
