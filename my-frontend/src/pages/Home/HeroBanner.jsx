@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function HeroBanner() {
   const [banners, setBanners] = useState([]);
@@ -9,7 +9,7 @@ export default function HeroBanner() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`${API}/hero/active`)
+    axios.get(`${API}/api/hero/active`)
       .then(res => setBanners(res.data?.banners ?? []))
       .catch(err => console.error('Failed to load banners:', err))
       .finally(() => setLoading(false));
