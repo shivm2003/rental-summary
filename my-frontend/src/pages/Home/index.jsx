@@ -193,7 +193,8 @@ export default function Home() {
 
     setIsSubscribing(true);
     try {
-      const { data } = await axios.post('http://localhost:5001/api/subscriptions', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+      const { data } = await axios.post(`${API_URL}/api/subscriptions`, {
         email: subEmail.trim() || undefined,
         phone: subPhone.trim() || undefined
       });
