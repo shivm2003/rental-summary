@@ -8,6 +8,7 @@ import { CartProvider } from './contexts/CartContext';
 import Home from './pages/Home/index.jsx';
 import Login from './pages/Login/index.jsx';
 import Register from './pages/Register/index.jsx';
+import ForgotPassword from './pages/ForgotPassword/index.jsx';
 import ProductDetail from './pages/ProductDetail/index.jsx';
 
 /* ---------- Cart Page ---------- */
@@ -128,6 +129,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
           <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
+          <Route path="/forgot-password" element={<AuthRoute><ForgotPassword /></AuthRoute>} />
 
           {/* Main App Layout - Always shows Home first */}
           <Route element={<UserLayout />}>

@@ -39,7 +39,7 @@ exports.register = async (req, res, next) => {
 
   const client = await pool.connect();
   try {
-    const { 
+    let { 
       username, 
       email, 
       phone, 
@@ -48,6 +48,10 @@ exports.register = async (req, res, next) => {
       lastName = '',
       desiredRole = 'user' // 'user', 'lender', or 'both'
     } = req.body;
+    
+    if (!username && email) {
+      username = email.split('@')[0];
+    }
     
     if (!username || !email || !phone || !password) {
       return res.status(400).json({ message: 'Missing required fields' });
@@ -64,6 +68,13 @@ exports.register = async (req, res, next) => {
     }
 
     await client.query('BEGIN');
+    
+    // Ensure username is unique if auto-generated
+    const { rows: uniqueCheck } = await client.query('SELECT 1 FROM users WHERE username = $1', [username]);
+    if (uniqueCheck.length > 0) {
+      username = username + Math.floor(Math.random() * 10000);
+    }
+    
     const hash = await bcrypt.hash(password, 12);
 
     // Determine initial role based on selection
