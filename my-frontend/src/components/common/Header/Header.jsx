@@ -5,7 +5,7 @@ import { APP_NAME } from '../../../utils/constants';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCart } from '../../../contexts/CartContext'; // ✅ Added cart context
 import './index.css';
-import logo from "../../../../assets/logo.png";
+import logo from "../../../../assets/Logo.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
