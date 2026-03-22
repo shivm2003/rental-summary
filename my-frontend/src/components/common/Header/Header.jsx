@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react'; // ✅ Added cart icon
+import { ShoppingCart, Menu, X, Search, LayoutGrid, Package, PlusSquare, Store, LogIn, LogOut } from 'lucide-react'; // ✅ Added cart icon
 import { APP_NAME } from '../../../utils/constants';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCart } from '../../../contexts/CartContext'; // ✅ Added cart context
@@ -157,7 +157,7 @@ export default function Header() {
             onClick={() => setOpen(true)}
             aria-label="Open menu"
           >
-            <span className="material-symbols-outlined">menu</span>
+            <Menu size={26} color="var(--text-primary-light)" className="menu-btn-icon" />
           </button>
         </div>
       </header>
@@ -176,7 +176,7 @@ export default function Header() {
             onClick={() => setOpen(false)}
             aria-label="Close menu"
           >
-            <span className="material-symbols-outlined">close</span>
+            <X size={26} color="var(--text-primary-light)" className="close-btn-icon" />
           </button>
 
           {/* ---------- Mobile User Profile Card ---------- */}
@@ -230,20 +230,20 @@ export default function Header() {
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button type="submit">
-                <span className="material-symbols-outlined">search</span>
+                <Search size={20} color="var(--text-secondary-light)" />
               </button>
             </form>
           )}
 
           <nav className="mobile-nav">
             <Link to="/categories" onClick={() => setOpen(false)}>
-              <span className="material-symbols-outlined"></span>
+              <LayoutGrid size={20} />
               Categories
             </Link>
             {/* ✅ REMOVED: Dashboard link from mobile menu */}
             {user?.lender && (
               <Link to="/lender/products" onClick={() => setOpen(false)}>
-                <span className="material-symbols-outlined"></span>
+                <Package size={20} />
                 My Rentals
               </Link>
             )}
@@ -252,12 +252,12 @@ export default function Header() {
               <>
                 {user.lender ? (
                   <Link to="/list-product" onClick={() => setOpen(false)} className="btn-lender mobile-cta">
-                    <span className="material-symbols-outlined"></span>
+                    <PlusSquare size={20} />
                     List a Product
                   </Link>
                 ) : (
                   <Link to="/list-item" onClick={() => setOpen(false)} className="btn-lender mobile-cta">
-                    <span className="material-symbols-outlined">store</span>
+                    <Store size={20} className="icon-mr" />
                     Become a Lender
                   </Link>
                 )}
@@ -268,18 +268,18 @@ export default function Header() {
                     setOpen(false);
                   }}
                 >
-                  <span className="material-symbols-outlined">logout</span>
+                  <LogOut size={20} className="icon-mr" />
                   Logout
                 </button>
               </>
             ) : (
               <>
                 <Link to="/login" onClick={() => setOpen(false)} className="mobile-login">
-                  <span className="material-symbols-outlined">login</span>
+                  <LogIn size={20} className="icon-mr" />
                   Login
                 </Link>
                 <Link to="/list-item" onClick={() => setOpen(false)} className="btn-lender mobile-cta">
-                  <span className="material-symbols-outlined">store</span>
+                  <Store size={20} className="icon-mr" />
                   Become a Lender
                 </Link>
               </>
