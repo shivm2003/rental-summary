@@ -1,6 +1,6 @@
-node_modules
 .env
 *.env
-logs
+node_modules
 Dataset
-dist
+logs
+Backend1.txt
