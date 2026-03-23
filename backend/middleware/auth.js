@@ -20,8 +20,6 @@ module.exports = function (req, res, next) {
       role: decoded.role || 'user' // fallback to 'user' if missing
     };
     
-    console.log('🔐 Auth middleware decoded:', req.user);
-    
     next();
   } catch (err) {
     console.error('❌ Token verification failed:', err.message);

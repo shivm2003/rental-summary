@@ -7,7 +7,7 @@ import { toast } from 'react-hot-toast';
 import { 
   Trash2, Plus, Minus, MapPin, ShieldCheck, 
   Truck, Package, ChevronRight, Percent, 
-  Clock, ArrowRight
+  Clock, ArrowRight, ShoppingCart
 } from 'lucide-react';
 import './CartPage.css';
 
@@ -167,24 +167,7 @@ export default function CartPage() {
                       </div>
                     </div>
 
-                    {/* Quantity */}
-                    <div className="fk-quantity-control">
-                      <span className="fk-control-label">Quantity:</span>
-                      <div className="fk-qty-control">
-                        <button 
-                          onClick={() => updateQuantity(item.id, Math.max(1, (item.quantity || 1) - 1))}
-                          disabled={(item.quantity || 1) <= 1}
-                        >
-                          <Minus size={14} />
-                        </button>
-                        <span>{item.quantity || 1}</span>
-                        <button 
-                          onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
-                        >
-                          <Plus size={14} />
-                        </button>
-                      </div>
-                    </div>
+
                   </div>
 
                   <div className="fk-item-pricing">

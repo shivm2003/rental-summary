@@ -329,7 +329,7 @@ export default function Home() {
       {!category && !searchQuery && (
         <div className="newsletter-section" style={{ padding: '60px 20px', backgroundColor: '#cf1417ff' }}>
           <h3 style={{ textAlign: 'center', fontSize: '28px', fontWeight: '600', color: '#212121', marginBottom: '8px' }}>Get Exclusive Deals</h3>
-          <p style={{ textAlign: 'center', color: '#878787', marginBottom: '40px', fontSize: '15px' }}>Subscribe for new listings and special offers</p>
+          <p style={{ textAlign: 'center', color: 'black', marginBottom: '40px', fontSize: '15px' }}>Subscribe for new listings and special offers</p>
 
           <form onSubmit={handleSubscribe} style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', gap: '32px', justifyContent: 'center' }}>
@@ -363,8 +363,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div style={{ textAlign: 'center', fontSize: '14px', color: '#878787' }}>
-              Fill in either your Email <span style={{ fontWeight: 'bold', color: '#212121' }}>OR</span> Mobile Number to subscribe.
+            <div style={{ textAlign: 'center', fontSize: '14px', color: 'black' }}>
+              Fill in either your Email <span style={{ fontWeight: 'bold' }}>OR</span> Mobile Number to subscribe.
             </div>
 
             <button

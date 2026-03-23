@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Upload, Image as ImageIcon, Loader, CheckCircle,
-  AlertCircle, RefreshCw, Edit2, Eye, EyeOff, FolderOpen
+  AlertCircle, RefreshCw, Edit2, Eye, EyeOff, FolderOpen, Plus
 } from 'lucide-react';
 import axios from 'axios';
 
@@ -127,6 +127,21 @@ export default function AdminCategories() {
     }
   };
 
+  const handleAddCategory = async () => {
+    const name = prompt('Enter new category name:');
+    if (!name || !name.trim()) return;
+    try {
+      await axios.post(
+        `${API}/categories`, 
+        { name: name.trim(), description: '' }, 
+        { headers: authHeader() }
+      );
+      loadCategories();
+    } catch (err) {
+      alert('Add failed: ' + (err?.response?.data?.message || err.message));
+    }
+  };
+
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap');
     *{box-sizing:border-box;}
@@ -204,7 +219,10 @@ export default function AdminCategories() {
           </div>
           <div className="pg-sub">Top-level active categories · Upload images &amp; manage visibility</div>
         </div>
-        <button className="ref-btn" onClick={loadCategories}><RefreshCw size={14} /> Refresh</button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button className="ref-btn" onClick={handleAddCategory}><Plus size={14} /> Add Category</button>
+          <button className="ref-btn" onClick={loadCategories}><RefreshCw size={14} /> Refresh</button>
+        </div>
       </div>
 
       {/* Error */}

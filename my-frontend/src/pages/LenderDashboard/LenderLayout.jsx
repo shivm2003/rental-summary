@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, PlusCircle, ShoppingBag, 
-  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut 
+  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut, MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useSocket } from '../../contexts/SocketContext';
 import './LenderLayout.scss';
 
 export default function LenderLayout() {
   const { user, logout } = useAuth();
+  const { unreadCount } = useSocket();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -28,6 +30,7 @@ export default function LenderLayout() {
     { to: '/lender/orders', icon: <ShoppingBag size={20} />, label: 'Rental Orders' },
     { to: '/lender/maintenance', icon: <Wrench size={20} />, label: 'Maintenance' },
     { to: '/lender/earnings', icon: <DollarSign size={20} />, label: 'Earnings' },
+    { to: '/chat', icon: <MessageSquare size={20} />, label: 'Messages' },
     { to: '/lender/analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
     { to: '/lender/notifications', icon: <Bell size={20} />, label: 'Notifications' },
   ];
@@ -110,10 +113,10 @@ export default function LenderLayout() {
           </div>
           <div className="user-controls">
             <button className="icon-btn"><HelpCircle size={20} /></button>
-            <button className="icon-btn notification-btn">
+            <Link to="/lender/notifications" className="icon-btn notification-btn">
               <Bell size={20} />
-              <span className="badge"></span>
-            </button>
+              {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
+            </Link>
             <div className="user-profile">
               <div className="details">
                 <span className="name">{user?.first_name} {user?.last_name || user?.username}</span>

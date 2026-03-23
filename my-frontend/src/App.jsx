@@ -3,6 +3,8 @@ import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { SocketProvider } from './contexts/SocketContext';
+import { Toaster } from 'react-hot-toast';
 
 /* ---------- Public Pages ---------- */
 import Home from './pages/Home/index.jsx';
@@ -40,6 +42,11 @@ import CategoryPage from './pages/CategoryPage/index.jsx';
 import AllCategories from './pages/AllCategories/index.jsx';
 import About from './pages/About/index.jsx';
 import Careers from './pages/Careers/index.jsx';
+import FAQ from './pages/FAQ/index.jsx';
+import Terms from './pages/Terms/index.jsx';
+import Contact from './pages/Contact/index.jsx';
+import Orders from './pages/Orders/index.jsx';
+import Chat from './pages/Chat/index.jsx';
 
 /* ---------- Layout for Users/Lenders (With Header) ---------- */
 const UserLayout = () => {
@@ -124,8 +131,10 @@ const AuthRoute = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
-      <CartProvider>
-        <Routes>
+      <SocketProvider>
+        <CartProvider>
+          <Toaster position="top-center" />
+          <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<AuthRoute><Login /></AuthRoute>} />
           <Route path="/register" element={<AuthRoute><Register /></AuthRoute>} />
@@ -140,6 +149,11 @@ function App() {
             <Route path="/category/:slug" element={<CategoryPage />} />
             <Route path="/search" element={<Home />} />
             <Route path="/categories" element={<AllCategories />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/chat" element={<Chat />} />
 
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/list-item" element={<Lender />} />
@@ -198,7 +212,8 @@ function App() {
             </div>
           } />
         </Routes>
-      </CartProvider>
+        </CartProvider>
+      </SocketProvider>
     </AuthProvider>
   );
 }

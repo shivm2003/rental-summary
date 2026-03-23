@@ -16,6 +16,10 @@ const pool = new Pool(
       }
 );
 
+pool.on('error', (err, client) => {
+  console.error('Unexpected database error on idle client', err);
+});
+
 pool.connect()
   .then(() => console.log('PostgreSQL connected'))
   .catch((err) => console.error('Connection error', err.stack));

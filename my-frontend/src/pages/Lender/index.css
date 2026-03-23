@@ -15,6 +15,16 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .alert { padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 0.875rem; }
 .alert.error { background: #fee; color: #b91c1c; border: 1px solid #fca5a5; }
 .alert.success { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+
+/* Mobile Reponsiveness */
+@media (max-width: 768px) {
+  .lender-page { margin: 16px auto; }
+  .card { padding: 16px; }
+  .row { grid-template-columns: 1fr; }
+  .form-actions { flex-direction: column; }
+  .btn-cancel, button[type="submit"] { width: 100%; }
+}
+
 /* ======  DESKTOP-FIRST – spread across screen  ====== */
 @media (min-width: 1024px) {
     .lender-page {
