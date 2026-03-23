@@ -5,6 +5,8 @@ import { fetchProduct } from '../../services/products';
 import { fetchProducts } from '../../services/products';
 import { getGalleryImages, getMainImage } from '../../services/images';
 import { useCart } from '../../contexts/CartContext';
+import { useAuth } from '../../contexts/AuthContext';
+import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { 
   Heart, Share2, Truck, ShieldCheck, RotateCcw, 
@@ -17,6 +19,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { user } = useAuth();
   
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -89,13 +92,38 @@ export default function ProductDetail() {
       rentalDays,
       totalPrice: calculateTotal()
     });
-    
-    toast.success('Added to cart!');
   };
 
   const handleBuyNow = () => {
     handleAddToCart();
     navigate('/cart');
+  };
+
+  const handleStartChat = async () => {
+    if (!user) {
+      toast.error('Please login to chat with the lender.');
+      navigate('/login');
+      return;
+    }
+    
+    if (user.id == product.lender_id) {
+      toast.error('You cannot chat with yourself on your own product.');
+      return;
+    }
+    
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/chat/rooms`, {
+        lenderId: product.lender_id,
+        listingId: product.id || product._id
+      }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      
+      navigate('/chat');
+    } catch (err) {
+      console.error('Error starting chat', err);
+      toast.error('Could not start chat');
+    }
   };
 
   const calculateTotal = () => {
@@ -322,15 +350,15 @@ export default function ProductDetail() {
                   <span>Rental Price ({rentalDays} day{rentalDays > 1 ? 's' : ''})</span>
                   <span>₹{price * rentalDays}</span>
                 </div>
-                {product.security_deposit > 0 && (
+                {Number(product.security_deposit || 0) > 0 && (
                   <div className="fk-calc-row">
                     <span>Security Deposit (Refundable)</span>
-                    <span>₹{product.security_deposit}</span>
+                    <span>₹{Number(product.security_deposit)}</span>
                   </div>
                 )}
                 <div className="fk-calc-row fk-total">
                   <span>Total Amount</span>
-                  <span>₹{totalPrice + (product.security_deposit || 0)}</span>
+                  <span>₹{totalPrice + Number(product.security_deposit || 0)}</span>
                 </div>
               </div>
             </div>
@@ -420,7 +448,7 @@ export default function ProductDetail() {
                   <h4>{product.lender_name || product.lender || 'Verified Lender'}</h4>
                   <p>Member since 2023 • 98% Positive ratings</p>
                 </div>
-                <button className="fk-chat-btn">Chat</button>
+                <button className="fk-chat-btn" onClick={handleStartChat}>Chat with Lender</button>
               </div>
             </div>
           </div>

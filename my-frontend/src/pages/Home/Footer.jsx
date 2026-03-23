@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { APP_NAME } from '../../utils/constants';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Facebook,
+  Twitter,
+  Instagram,
   Youtube,
   Send
 } from 'lucide-react';
@@ -18,7 +18,7 @@ export default function Footer() {
   return (
     <footer className="premium-footer">
       <div className="footer-container">
-        
+
         {/* Column 1: Brand Info */}
         <div className="footer-column">
           <h3 className="footer-brand">{APP_NAME}</h3>
@@ -28,7 +28,7 @@ export default function Footer() {
           <div className="contact-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginTop: '0.5rem' }}>
             <div className="contact-item">
               <div className="contact-icon"><Phone size={14} /></div>
-              <span>+91 00000 00000</span>
+              <span>+91 9198496753</span>
             </div>
             <div className="contact-item">
               <div className="contact-icon"><Mail size={14} /></div>
@@ -36,7 +36,7 @@ export default function Footer() {
             </div>
             <div className="contact-item">
               <div className="contact-icon"><MapPin size={14} /></div>
-              <span>Mumbai, India</span>
+              <span>Gurgaon, India</span>
             </div>
           </div>
         </div>
@@ -45,10 +45,11 @@ export default function Footer() {
         <div className="footer-column">
           <h3 className="footer-heading">Quick Links</h3>
           <ul className="footer-links">
+            <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/careers">Careers</Link></li>
-            <li><Link to="#">Our Blog</Link></li>
-            <li><Link to="#">Press</Link></li>
+            <li><Link to="/products">All Products</Link></li>
+            <li><Link to="/list-item">Become a Lender</Link></li>
+            <li><Link to="/login">Login / Register</Link></li>
           </ul>
         </div>
 
@@ -56,16 +57,20 @@ export default function Footer() {
         <div className="footer-column">
           <h3 className="footer-heading">Help & Support</h3>
           <ul className="footer-links">
-            {['FAQ', 'Returns & Exchanges', 'Shipping Info', 'Track Order', 'Terms & Conditions'].map((item) => (
-              <li key={item}><Link to="#">{item}</Link></li>
-            ))}
+            <li><Link to="/cart">Shopping Cart</Link></li>
+            <li><Link to="/faq">FAQ</Link></li>
+            <li><Link to="/terms">Terms & Conditions</Link></li>
+            <li><Link to="/contact">Contact Us</Link></li>
           </ul>
         </div>
 
         {/* Column 4: Newsletter */}
         <div className="footer-column">
           <h3 className="footer-heading">Newsletter</h3>
-          <p className="footer-desc">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+          <p className="footer-desc newsletter-text" style={{ color: 'black', fontWeight: '500' }}>
+            1.Subscribe for new listings and special offers<br />
+            2.Fill in either your Email OR Mobile Number to subscribe.
+          </p>
           <div className="newsletter-form">
             <input type="email" placeholder="Enter your email" className="newsletter-input" />
             <button className="newsletter-btn"><Send size={16} /></button>
@@ -79,20 +84,6 @@ export default function Footer() {
 
       </div>
 
-      {/* Bottom Copyright Bar */}
-      <div className="footer-bottom">
-        <div className="footer-bottom-container">
-          <div className="copyright-text">
-            © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
-          </div>
-          <div className="payment-methods">
-            <div className="payment-badge"><span className="payment-text visa">VISA</span></div>
-            <div className="payment-badge"><span className="payment-text mc"><span className="mc-dot"></span>MC</span></div>
-            <div className="payment-badge"><span className="payment-text paypal">PayPal</span></div>
-          </div>
-        </div>
-      </div>
-      
     </footer>
   );
 }

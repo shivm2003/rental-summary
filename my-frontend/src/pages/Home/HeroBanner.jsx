@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5001';
@@ -116,7 +117,7 @@ export default function HeroBanner() {
           <h2 className="hero-title">{current.title}</h2>
           {current.subtitle && <p className="hero-sub">{current.subtitle}</p>}
           {current.button_text && current.button_link && (
-            <a href={current.button_link} className="hero-btn">{current.button_text}</a>
+            <Link to={current.button_link} className="hero-btn">{current.button_text}</Link>
           )}
         </div>
 

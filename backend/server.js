@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -7,7 +9,46 @@ const helmet = require('helmet');
 const fs = require('fs');
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
+
+// ---------- Socket.IO Setup ----------
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "https://rental-summary.vercel.app",
+      "https://everythingrental.in",
+      "https://www.everythingrental.in"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  }
+});
+
+// Configure Socket Events
+io.on('connection', (socket) => {
+  // Join personal user room for global notifications
+  socket.on('join_user', (userId) => {
+    socket.join(`user_${userId}`);
+  });
+
+  // Join a specific chat room
+  socket.on('join_chat', (roomId) => {
+    socket.join(`chat_${roomId}`);
+  });
+
+  // Leave a specific chat room
+  socket.on('leave_chat', (roomId) => {
+    socket.leave(`chat_${roomId}`);
+  });
+
+  socket.on('disconnect', () => {});
+});
+
+// Make `io` accessible within Express routes
+app.set('io', io);
 
 /* ---------- Config ---------- */
 const LOG_DIR = path.join(__dirname, 'logs');
@@ -123,6 +164,8 @@ const routes = [
   // ✅ FIXED: Removed middleware: auth - let addresses router handle auth per-route
   { path: './routes/addresses', mount: '/api/addresses' },
   { path: './routes/subscriptions', mount: '/api/subscriptions' },
+  { path: './routes/chat', mount: '/api/chat', middleware: auth },
+  { path: './routes/notifications', mount: '/api/notifications', middleware: auth },
 ];
 
 let loadedRoutes = 0;
@@ -209,7 +252,8 @@ app.use((err, req, res, next) => {
 });
 
 /* ---------- Start ---------- */
-const server = app.listen(PORT, () => {
+// Use the HTTP server we created to listen
+server.listen(PORT, () => {
   console.log(`✅ Server listening on port ${PORT}`);
   console.log(`☁️ S3 Bucket: ${process.env.AWS_S3_BUCKET_NAME || 'everythingrental'}`);
 });

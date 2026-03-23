@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
       if (existing) {
-        const updated = prev.map(item => 
+        return prev.map(item => 
           item.id === product.id 
             ? { 
                 ...item, 
@@ -31,12 +31,11 @@ export const CartProvider = ({ children }) => {
               }
             : item
         );
-        toast.success('Updated quantity in cart');
-        return updated;
       }
-      toast.success('Added to cart');
       return [...prev, { ...product, quantity: product.quantity || 1, rentalDays: product.rentalDays || 1 }];
     });
+    
+    toast.success('Product Added', { duration: 1000 });
   }, []);
 
   const removeFromCart = useCallback((productId) => {

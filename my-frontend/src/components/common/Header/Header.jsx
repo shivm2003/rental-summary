@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, LayoutGrid, Package, PlusSquare, Store, LogIn, LogOut } from 'lucide-react'; // ✅ Added cart icon
+import { ShoppingCart, Menu, X, Search, LayoutGrid, Package, PlusSquare, Store, LogIn, LogOut, MessageSquare, Bell } from 'lucide-react'; // ✅ Added cart icon
 import { APP_NAME } from '../../../utils/constants';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useCart } from '../../../contexts/CartContext'; // ✅ Added cart context
+import { useSocket } from '../../../contexts/SocketContext';
 import './index.css';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const location = useLocation();
-  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { getCartCount } = useCart(); // ✅ Get cart count
+  const { unreadCount } = useSocket();
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q');
+    if (q) {
+      setSearch(q);
+    }
+  }, [location.search]);
 
   // Updated to hide search on the new list-product page
   const hideSearchRoutes = ['/login', '/register', '/list-item', '/list-product'];
@@ -22,7 +31,6 @@ export default function Header() {
     e.preventDefault();
     if (!search.trim()) return;
     navigate(`/search?q=${encodeURIComponent(search.trim())}`);
-    setSearch('');
     setOpen(false);
   };
 
@@ -69,9 +77,11 @@ export default function Header() {
           {/* ---------- Desktop Nav ---------- */}
           <nav className="desktop-nav">
             <Link to="/categories">Categories</Link>
-            {/* ✅ REMOVED: <Link to="/dashboard">Dashboard</Link> */}
             {user?.lender && (
               <Link to="/lender/products">My Rentals</Link>
+            )}
+            {user && (
+              <Link to="/orders">My Orders</Link>
             )}
           </nav>
 
@@ -90,6 +100,15 @@ export default function Header() {
 
             {user ? (
               <>
+                <Link to="/chat" className="cart-icon-wrapper" aria-label="Messages">
+                  <MessageSquare size={24} />
+                </Link>
+                <Link to="/lender/notifications" className="cart-icon-wrapper" aria-label="Notifications">
+                  <Bell size={24} />
+                  {unreadCount > 0 && (
+                    <span className="cart-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
+                  )}
+                </Link>
                 <span className="user-name">Hi, {user.firstName || user.username}</span>
                 <button className="btn-logout" onClick={logout}>Logout</button>
                 {/* Show "List a Product" for verified lenders */}
@@ -160,6 +179,24 @@ export default function Header() {
             <Menu size={26} color="var(--text-primary-light)" className="menu-btn-icon" />
           </button>
         </div>
+
+        {/* ---------- Mobile Search Bar (Below Header) ---------- */}
+        {!hideSearch && (
+          <div className="mobile-search-bar-container">
+            <form className="header-search-mobile" onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search products"
+              />
+              <button type="submit" aria-label="Search">
+                <span className="material-symbols-outlined">search</span>
+              </button>
+            </form>
+          </div>
+        )}
       </header>
 
       {/* ---------- Mobile Slide-In Menu ---------- */}
@@ -221,31 +258,33 @@ export default function Header() {
             )}
           </Link>
 
-          {!hideSearch && (
-            <form className="mobile-search" onSubmit={handleSearch}>
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <button type="submit">
-                <Search size={20} color="var(--text-secondary-light)" />
-              </button>
-            </form>
-          )}
-
           <nav className="mobile-nav">
             <Link to="/categories" onClick={() => setOpen(false)}>
               <LayoutGrid size={20} />
               Categories
             </Link>
-            {/* ✅ REMOVED: Dashboard link from mobile menu */}
             {user?.lender && (
               <Link to="/lender/products" onClick={() => setOpen(false)}>
                 <Package size={20} />
                 My Rentals
               </Link>
+            )}
+            {user && (
+              <>
+                <Link to="/orders" onClick={() => setOpen(false)}>
+                  <Package size={20} />
+                  My Orders
+                </Link>
+                <Link to="/chat" onClick={() => setOpen(false)}>
+                  <MessageSquare size={20} />
+                  Messages
+                </Link>
+                <Link to="/lender/notifications" onClick={() => setOpen(false)}>
+                  <Bell size={20} />
+                  Notifications
+                  {unreadCount > 0 && <span className="mobile-cart-badge" style={{ position:'relative', top: 'auto', right: 'auto', marginLeft: 'auto' }}>{unreadCount}</span>}
+                </Link>
+              </>
             )}
 
             {user ? (
