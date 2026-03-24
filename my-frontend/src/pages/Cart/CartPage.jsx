@@ -9,6 +9,9 @@ import {
   Truck, Package, ChevronRight, Percent, 
   Clock, ArrowRight, ShoppingCart
 } from 'lucide-react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
 import './CartPage.css';
 
 export default function CartPage() {
@@ -19,6 +22,7 @@ export default function CartPage() {
     removeFromCart, 
     updateQuantity, 
     updateRentalDays,
+    updateRentalDates,
     clearCart,
     getCartTotal 
   } = useCart();
@@ -27,6 +31,96 @@ export default function CartPage() {
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [savingAmount, setSavingAmount] = useState(0);
+  
+  // Bookings state for restricting dates in cart
+  const [productBookings, setProductBookings] = useState({});
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const bookingsMap = { ...productBookings };
+      let updated = false;
+      for (const item of cart) {
+         if (!bookingsMap[item.id]) {
+           try {
+             const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+             const res = await axios.get(`${apiBaseUrl}/api/orders/product/${item.id}/bookings`);
+             bookingsMap[item.id] = res.data.bookings || [];
+             updated = true;
+           } catch (e) {
+             console.warn('Failed to fetch product booked dates:', e);
+           }
+         }
+      }
+      if (updated) {
+        setProductBookings(bookingsMap);
+      }
+    };
+    if (cart.length > 0) {
+      fetchBookings();
+    }
+  }, [cart]);
+
+  const getExcludedIntervals = (productId) => {
+    const bookings = productBookings[productId] || [];
+    return bookings.map(b => {
+      const s = new Date(b.start_date);
+      s.setHours(0, 0, 0, 0);
+      const e = new Date(b.end_date);
+      e.setHours(23, 59, 59, 999);
+      return { start: s, end: e };
+    });
+  };
+
+  const checkDateOverlap = (productId, start, end) => {
+    if (!start || !end) return true;
+    const s = new Date(start);
+    s.setHours(0, 0, 0, 0);
+    const e = new Date(end);
+    e.setHours(23, 59, 59, 999);
+    
+    const bookings = productBookings[productId] || [];
+    for (const b of bookings) {
+      if (!b.start_date || !b.end_date) continue;
+      const bs = new Date(b.start_date);
+      const be = new Date(b.end_date);
+      bs.setHours(0, 0, 0, 0);
+      be.setHours(23, 59, 59, 999);
+      if (s <= be && e >= bs) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleStartChange = (item, date) => {
+     if (item.end_date && date > new Date(item.end_date)) {
+         updateRentalDates(item.id, date.toISOString(), date.toISOString());
+     } else if (item.end_date) {
+         if (checkDateOverlap(item.id, date, item.end_date)) {
+             toast.error('Warning: These dates span across an already booked period.');
+             return;
+         }
+         updateRentalDates(item.id, date.toISOString(), item.end_date);
+     } else {
+         updateRentalDates(item.id, date.toISOString(), null);
+     }
+  };
+
+  const handleEndChange = (item, date) => {
+     if (item.start_date) {
+         if (date < new Date(item.start_date)) {
+             toast.error('End date cannot be before start date.');
+             return;
+         }
+         if (checkDateOverlap(item.id, item.start_date, date)) {
+             toast.error('Warning: These dates span across an already booked period.');
+             return;
+         }
+         updateRentalDates(item.id, item.start_date, date.toISOString());
+     } else {
+         updateRentalDates(item.id, null, date.toISOString());
+     }
+  };
 
   const handleApplyCoupon = () => {
     if (couponCode.toLowerCase() === 'rent10') {
@@ -148,22 +242,37 @@ export default function CartPage() {
                       <span className="fk-badge">Verified</span>
                     </div>
 
-                    {/* Rental Duration */}
-                    <div className="fk-rental-control">
-                      <span className="fk-control-label">Rental Days:</span>
-                      <div className="fk-qty-control">
-                        <button 
-                          onClick={() => updateRentalDays(item.id, Math.max(1, (item.rentalDays || 1) - 1))}
-                          disabled={(item.rentalDays || 1) <= 1}
-                        >
-                          <Minus size={14} />
-                        </button>
-                        <span>{item.rentalDays || 1}</span>
-                        <button 
-                          onClick={() => updateRentalDays(item.id, (item.rentalDays || 1) + 1)}
-                        >
-                          <Plus size={14} />
-                        </button>
+                    {/* Rental Dates Picker */}
+                    <div className="fk-rental-control" style={{ flexDirection: 'column', alignItems: 'flex-start', background: '#f8fafc', padding: '12px', borderRadius: '8px', marginTop: '10px' }}>
+                      <span className="fk-control-label" style={{ fontWeight: 600, marginBottom: '8px', display: 'block' }}>Rental Dates</span>
+                      <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+                        <div style={{ flex: 1, zIndex: 10 }}>
+                          <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>Start</label>
+                          <DatePicker
+                            selected={item.start_date ? new Date(item.start_date) : null}
+                            onChange={(date) => handleStartChange(item, date)}
+                            minDate={new Date()}
+                            excludeDateIntervals={getExcludedIntervals(item.id)}
+                            placeholderText="Select start"
+                            dateFormat="dd/MM/yyyy"
+                            className="fk-date-picker-input-small"
+                          />
+                        </div>
+                        <div style={{ flex: 1, zIndex: 10 }}>
+                          <label style={{ display: 'block', fontSize: '0.75rem', color: '#64748b', marginBottom: '4px' }}>End</label>
+                          <DatePicker
+                            selected={item.end_date ? new Date(item.end_date) : null}
+                            onChange={(date) => handleEndChange(item, date)}
+                            minDate={item.start_date ? new Date(item.start_date) : new Date()}
+                            excludeDateIntervals={getExcludedIntervals(item.id)}
+                            placeholderText="Select end"
+                            dateFormat="dd/MM/yyyy"
+                            className="fk-date-picker-input-small"
+                          />
+                        </div>
+                      </div>
+                      <div style={{ marginTop: '8px', fontSize: '0.85rem', color: '#334155' }}>
+                        Total Duration: <strong>{item.rentalDays || 1} day(s)</strong>
                       </div>
                     </div>
 

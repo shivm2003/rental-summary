@@ -487,11 +487,35 @@ export default function CheckoutPage() {
 
     setPlacingOrder(true);
     
-    setTimeout(() => {
+    try {
+      const response = await fetch(`${API_URL}/api/orders`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          items: cart,
+          selectedAddressId: selectedAddressId,
+          paymentMethod: selectedPayment,
+          deliveryCharge: deliveryCharge
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setOrderSuccess(true);
+        clearCart();
+      } else {
+        throw new Error(data.message || 'Failed to place order');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      toast.error(error.message || 'Error placing order. Please try again.');
+    } finally {
       setPlacingOrder(false);
-      setOrderSuccess(true);
-      clearCart();
-    }, 2000);
+    }
   };
 
   // Selected address details

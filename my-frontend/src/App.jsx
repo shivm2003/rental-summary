@@ -4,6 +4,7 @@ import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { SocketProvider } from './contexts/SocketContext';
+import { LocationProvider } from './contexts/LocationContext';
 import { Toaster } from 'react-hot-toast';
 
 /* ---------- Public Pages ---------- */
@@ -47,6 +48,7 @@ import Terms from './pages/Terms/index.jsx';
 import Contact from './pages/Contact/index.jsx';
 import Orders from './pages/Orders/index.jsx';
 import Chat from './pages/Chat/index.jsx';
+import Profile from './pages/Profile/index.jsx';
 
 /* ---------- Layout for Users/Lenders (With Header) ---------- */
 const UserLayout = () => {
@@ -132,6 +134,7 @@ function App() {
   return (
     <AuthProvider>
       <SocketProvider>
+        <LocationProvider>
         <CartProvider>
           <Toaster position="top-center" />
           <Routes>
@@ -154,6 +157,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/profile" element={<Profile />} />
 
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/list-item" element={<Lender />} />
@@ -213,6 +217,7 @@ function App() {
           } />
         </Routes>
         </CartProvider>
+        </LocationProvider>
       </SocketProvider>
     </AuthProvider>
   );
