@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Search, LayoutGrid, Package, PlusSquare, Store, LogIn, LogOut, MessageSquare, Bell } from 'lucide-react'; // ✅ Added cart icon
+import { ShoppingCart, Menu, X, Search, LayoutGrid, Package, PlusSquare, Store, LogIn, LogOut, MessageSquare, Bell, User, MapPin, ChevronDown } from 'lucide-react';
 import { APP_NAME } from '../../../utils/constants';
 import { useAuth } from '../../../contexts/AuthContext';
-import { useCart } from '../../../contexts/CartContext'; // ✅ Added cart context
+import { useCart } from '../../../contexts/CartContext';
 import { useSocket } from '../../../contexts/SocketContext';
+import { useLocationContext } from '../../../contexts/LocationContext';
 import './index.css';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [locationSearch, setLocationSearch] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const { getCartCount } = useCart(); // ✅ Get cart count
+  const { getCartCount } = useCart();
   const { unreadCount } = useSocket();
+  const { district, city, districts, showPicker, setShowPicker, setManualDistrict, requestLocation, loading: locationLoading } = useLocationContext();
+
+  // Sync context showPicker → local modal state (triggered by Home page 'Change' button)
+  React.useEffect(() => {
+    if (showPicker) {
+      setShowLocationModal(true);
+      setShowPicker(false);
+    }
+  }, [showPicker, setShowPicker]);
 
   React.useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -58,6 +71,17 @@ export default function Header() {
             />
           </Link>
 
+          {/* ---------- Desktop Location Badge ---------- */}
+          <button 
+            className="header-location-badge"
+            onClick={() => setShowLocationModal(true)}
+            aria-label="Change location"
+          >
+            <MapPin size={14} />
+            <span>{district || city || 'Select Location'}</span>
+            <ChevronDown size={12} />
+          </button>
+
           {/* ---------- Search Bar ---------- */}
           {!hideSearch && (
             <form className="header-search" onSubmit={handleSearch}>
@@ -81,7 +105,10 @@ export default function Header() {
               <Link to="/lender/products">My Rentals</Link>
             )}
             {user && (
-              <Link to="/orders">My Orders</Link>
+              <>
+                <Link to="/orders">My Orders</Link>
+                <Link to="/profile">Profile</Link>
+              </>
             )}
           </nav>
 
@@ -183,6 +210,15 @@ export default function Header() {
         {/* ---------- Mobile Search Bar (Below Header) ---------- */}
         {!hideSearch && (
           <div className="mobile-search-bar-container">
+            {/* Mobile Location Bar - between header and search */}
+            <button 
+              className="mobile-location-bar"
+              onClick={() => setShowLocationModal(true)}
+            >
+              <MapPin size={14} />
+              <span>Deliver to: <strong>{district || city || 'Select Location'}</strong></span>
+              <ChevronDown size={14} />
+            </button>
             <form className="header-search-mobile" onSubmit={handleSearch}>
               <input
                 type="text"
@@ -198,6 +234,57 @@ export default function Header() {
           </div>
         )}
       </header>
+
+      {/* ---------- Location Picker Modal ---------- */}
+      {showLocationModal && (
+        <div className="location-modal-overlay" onClick={() => { setShowLocationModal(false); setLocationSearch(''); }}>
+          <div className="location-modal" onClick={e => e.stopPropagation()}>
+            <div className="location-modal-header">
+              <h3><MapPin size={18}/> Choose Your City</h3>
+              <button onClick={() => { setShowLocationModal(false); setLocationSearch(''); }}><X size={18}/></button>
+            </div>
+            <button 
+              className="location-use-gps"
+              onClick={() => { requestLocation(); setShowLocationModal(false); setLocationSearch(''); }}
+              disabled={locationLoading}
+            >
+              <MapPin size={16}/>
+              {locationLoading ? 'Detecting...' : 'Use My Current Location'}
+            </button>
+            <div className="location-divider">or search / select city</div>
+            {/* Search Input */}
+            <div className="location-search-wrap">
+              <Search size={16} />
+              <input
+                className="location-search-input"
+                type="text"
+                placeholder="Search city..."
+                value={locationSearch}
+                onChange={e => setLocationSearch(e.target.value)}
+                autoFocus
+              />
+              {locationSearch && (
+                <button className="location-search-clear" onClick={() => setLocationSearch('')}>
+                  <X size={14}/>
+                </button>
+              )}
+            </div>
+            <div className="location-districts-grid">
+              {districts
+                .filter(d => d.toLowerCase().includes(locationSearch.toLowerCase()))
+                .map(d => (
+                  <button
+                    key={d}
+                    className={`location-district-btn ${district === d ? 'active' : ''}`}
+                    onClick={() => { setManualDistrict(d); setShowLocationModal(false); setLocationSearch(''); }}
+                  >
+                    {d}
+                  </button>
+                ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ---------- Mobile Slide-In Menu ---------- */}
       <div
@@ -274,6 +361,10 @@ export default function Header() {
                 <Link to="/orders" onClick={() => setOpen(false)}>
                   <Package size={20} />
                   My Orders
+                </Link>
+                <Link to="/profile" onClick={() => setOpen(false)}>
+                  <User size={20} />
+                  Profile
                 </Link>
                 <Link to="/chat" onClick={() => setOpen(false)}>
                   <MessageSquare size={20} />

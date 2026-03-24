@@ -166,6 +166,7 @@ const routes = [
   { path: './routes/subscriptions', mount: '/api/subscriptions' },
   { path: './routes/chat', mount: '/api/chat', middleware: auth },
   { path: './routes/notifications', mount: '/api/notifications', middleware: auth },
+  { path: './routes/orders', mount: '/api/orders' },
 ];
 
 let loadedRoutes = 0;

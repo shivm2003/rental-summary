@@ -1,4 +1,3 @@
-// src/pages/Home/index.jsx
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useNavigate, useParams, Link } from 'react-router-dom';
 import HeroBanner from './HeroBanner';
@@ -6,7 +5,9 @@ import CategoryGrid from './CategoryGrid';
 import Footer from './Footer';
 import { fetchProducts } from '../../services/products';
 import { useCart } from '../../contexts/CartContext';
+import { useLocationContext } from '../../contexts/LocationContext';
 import { toast } from 'react-hot-toast';
+import { MapPin } from 'lucide-react';
 import axios from 'axios';
 import './index.css';
 
@@ -79,9 +80,9 @@ function ProductCard({ product }) {
         ₹{Number(price).toLocaleString('en-IN')}
         <span className="product-price-unit">/day</span>
       </div>
-      {product.location && (
+      {(product.city || product.location) && (
         <div className="product-location">
-          <span>📍</span> {product.location.trim()}
+          <span>📍</span> {(product.city || product.location).trim()}
         </div>
       )}
       <button
@@ -168,6 +169,10 @@ export default function Home() {
   const category = slug || categoryFromQuery; // Prefer URL param, fallback to query param
   const searchQuery = searchParams.get('q');
 
+  const { district, city, setShowPicker } = useLocationContext();
+  // city is stored when user picks or GPS detects — matches l.location / l.city in backend
+  const locationLabel = city || district || '';
+
   const [featured, setFeatured] = useState([]);
   const [trending, setTrending] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
@@ -226,20 +231,18 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (searchQuery) {
-      // Search mode
       loadProducts({ search: searchQuery, limit: 50 }, setSearchResults, 'search');
     } else if (category) {
-      // Category filter mode - load only category products
-      loadProducts({ cat: category, limit: 20 }, setCategoryProducts, 'category');
+      loadProducts({ cat: category, limit: 20, ...(locationLabel ? { city: locationLabel } : {}) }, setCategoryProducts, 'category');
     } else {
-      // Home mode - load all sections
+      const locFilter = locationLabel ? { city: locationLabel } : {};
       Promise.all([
-        loadProducts({ sort: 'popular', limit: 10 }, setTrending, 'trending'),
-        loadProducts({ sort: 'rating', limit: 10 }, setFeatured, 'featured'),
-        loadProducts({ sort: 'newest', limit: 10 }, setNewArrivals, 'new'),
+        loadProducts({ sort: 'popular', limit: 10, ...locFilter }, setTrending, 'trending'),
+        loadProducts({ sort: 'rating', limit: 10, ...locFilter }, setFeatured, 'featured'),
+        loadProducts({ sort: 'newest', limit: 10, ...locFilter }, setNewArrivals, 'new'),
       ]);
     }
-  }, [category, searchQuery, loadProducts]);
+  }, [category, searchQuery, loadProducts, locationLabel]);
 
   const formatCat = (cat) =>
     cat ? cat.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') : '';
@@ -279,6 +282,15 @@ export default function Home() {
         <div className="section-wrap">
           <div className="section-heading">Rent Category</div>
           <CategoryGrid />
+        </div>
+      )}
+
+      {/* Location Banner */}
+      {!searchQuery && locationLabel && (
+        <div className="location-banner">
+          <MapPin size={16} />
+          <span>Showing products available in: <strong>{locationLabel}</strong></span>
+          <button className="location-change-btn" onClick={() => setShowPicker(true)}>Change</button>
         </div>
       )}
 

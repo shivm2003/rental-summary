@@ -13,6 +13,7 @@ const {
   getAllListings,
   getListing,
   getPincodeInfo,
+  getLocationGroups,
   uploadMiddleware,
 } = require('../controllers/productController');
 
@@ -72,6 +73,12 @@ router.get('/image/:photoId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
+// ============================================
+// Location Groups lookup
+// GET /api/products/locations
+// ============================================
+router.get('/locations', getLocationGroups);
 
 // ============================================
 // Pincode lookup (used by frontend auto-fill)
