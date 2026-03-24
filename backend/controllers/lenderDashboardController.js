@@ -97,11 +97,16 @@ exports.getOrders = async (req, res, next) => {
     const { rows } = await pool.query(`
       SELECT o.order_id, o.start_date, o.end_date, o.duration_days, o.total_amount, o.status,
              l.item_name,
-             u.first_name, u.last_name, u.city, u.state,
+             up.first_name, up.last_name, ua.city, ua.state,
              COALESCE((SELECT full_url FROM listing_photos WHERE listing_id = l.id ORDER BY display_order ASC LIMIT 1), '') as image
       FROM orders o
       JOIN listings l ON o.product_id = l.id
-      JOIN users u ON o.borrower_id = u.user_id
+      JOIN user_profiles up ON o.borrower_id = up.user_id
+      LEFT JOIN (
+        SELECT user_id, city, state,
+               ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY is_default DESC, id ASC) as rn
+        FROM user_addresses
+      ) ua ON o.borrower_id = ua.user_id AND ua.rn = 1
       WHERE o.lender_id = $1
       ORDER BY o.created_at DESC
     `, [lenderId]);

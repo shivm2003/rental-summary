@@ -278,3 +278,37 @@ footer {
   .product-price { font-size: 0.88rem; }
   .section-wrap { padding: 12px; }
 }
+
+/* ── Location Banner ── */
+.location-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #eff8ff;
+  border: 1px solid #bae0fd;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  font-size: 0.875rem;
+  color: #334155;
+}
+.location-banner strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+.location-change-btn {
+  margin-left: auto;
+  padding: 4px 12px;
+  background: transparent;
+  border: 1.5px solid var(--primary);
+  border-radius: 6px;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.location-change-btn:hover {
+  background: var(--primary);
+  color: white;
+}

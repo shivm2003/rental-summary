@@ -52,8 +52,8 @@ function ProductCard({ product }) {
         <div className="cp-product-price">
           ₹{Number(price).toLocaleString('en-IN')}<span>/day</span>
         </div>
-        {product.location && (
-          <div className="cp-product-location">📍 {product.location.trim()}</div>
+        {(product.city || product.location) && (
+          <div className="cp-product-location">📍 {(product.city || product.location).trim()}</div>
         )}
         <button className="cp-rent-btn" onClick={handleRentNow}>Rent Now</button>
       </div>

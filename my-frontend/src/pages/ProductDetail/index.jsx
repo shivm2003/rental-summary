@@ -13,6 +13,8 @@ import {
   ChevronLeft, ChevronRight, Star, MapPin, 
   Minus, Plus, ShoppingCart, Zap
 } from 'lucide-react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
 
 export default function ProductDetail() {
@@ -27,6 +29,13 @@ export default function ProductDetail() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [rentalDays, setRentalDays] = useState(1);
+  
+  // New Booking States
+  const [bookedDates, setBookedDates] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [dateError, setDateError] = useState('');
+
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -54,6 +63,17 @@ export default function ProductDetail() {
           exclude: id 
         });
         setRelatedProducts(related.listings || related.products || []);
+        
+        // Fetch existing bookings to block dates
+        try {
+          const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+          const bookingsRes = await axios.get(`${apiBaseUrl}/api/orders/product/${id}/bookings`);
+          if (bookingsRes.data && bookingsRes.data.bookings) {
+            setBookedDates(bookingsRes.data.bookings);
+          }
+        } catch (bookingErr) {
+          console.warn('Failed to fetch product booked dates:', bookingErr);
+        }
         
       } catch (err) {
         console.error('Error fetching product:', err);
@@ -83,13 +103,92 @@ export default function ProductDetail() {
     }
   };
 
+  // Check if chosen range overlaps with existing bookings
+  const checkDateOverlap = (start, end) => {
+    if (!start || !end) return true;
+    const s = new Date(start);
+    const e = new Date(end);
+    
+    // Normalize time to start of day for comparison
+    s.setHours(0, 0, 0, 0);
+    e.setHours(23, 59, 59, 999);
+
+    for (const b of bookedDates) {
+      if (!b.start_date || !b.end_date) continue;
+      
+      const bs = new Date(b.start_date);
+      const be = new Date(b.end_date);
+      bs.setHours(0, 0, 0, 0);
+      be.setHours(23, 59, 59, 999);
+
+      // (StartA <= EndB) and (EndA >= StartB) means overlap
+      if (s <= be && e >= bs) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const excludedIntervals = bookedDates.map(b => {
+    const s = new Date(b.start_date);
+    s.setHours(0, 0, 0, 0);
+    const e = new Date(b.end_date);
+    e.setHours(23, 59, 59, 999);
+    return { start: s, end: e };
+  });
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    setDateError('');
+
+    if (endDate && date > endDate) {
+      setEndDate(date);
+      setRentalDays(1);
+    } else if (endDate) {
+      const days = Math.max(1, Math.ceil((endDate - date) / (1000 * 60 * 60 * 24)) + 1);
+      setRentalDays(days);
+      if (checkDateOverlap(date, endDate)) {
+        setDateError('Warning: These dates span across an already booked period. Please adjust.');
+      }
+    }
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    setDateError('');
+    
+    if (startDate) {
+      if (date < startDate) {
+        setDateError('End date cannot be before start date.');
+        return;
+      }
+      const days = Math.max(1, Math.ceil((date - startDate) / (1000 * 60 * 60 * 24)) + 1);
+      setRentalDays(days);
+      if (checkDateOverlap(startDate, date)) {
+        setDateError('Warning: These dates span across an already booked period. Please adjust.');
+      }
+    }
+  };
+
   const handleAddToCart = () => {
     if (!product) return;
+    
+    if (!startDate || !endDate) {
+      toast.error('Please select both Start Date and End Date to rent this product.');
+      return;
+    }
+    
+    if (dateError) {
+      toast.error('Cannot add to cart: Selected dates are already booked.');
+      return;
+    }
     
     addToCart({
       ...product,
       quantity,
       rentalDays,
+      start_date: startDate.toISOString(),
+      end_date: endDate.toISOString(),
       totalPrice: calculateTotal()
     });
   };
@@ -327,22 +426,43 @@ export default function ProductDetail() {
 
             {/* Rental Duration Selector */}
             <div className="fk-rental-section">
-              <h3>Rental Duration</h3>
-              <div className="fk-duration-selector">
-                <button 
-                  className="fk-qty-btn"
-                  onClick={() => setRentalDays(Math.max(1, rentalDays - 1))}
-                >
-                  <Minus size={16} />
-                </button>
-                <span className="fk-duration-value">{rentalDays} day{rentalDays > 1 ? 's' : ''}</span>
-                <button 
-                  className="fk-qty-btn"
-                  onClick={() => setRentalDays(rentalDays + 1)}
-                >
-                  <Plus size={16} />
-                </button>
+              <h3>Select Rental Dates</h3>
+              <p style={{ margin: '0 0 10px', fontSize: '0.85rem', color: '#666' }}>
+                Please pick when you want to use the product.
+              </p>
+              
+              <div style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
+                <div style={{ flex: 1, zIndex: 10 }}>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '5px', fontWeight: 600 }}>Start Date</label>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    minDate={new Date()}
+                    excludeDateIntervals={excludedIntervals}
+                    placeholderText="Select start date"
+                    dateFormat="dd/MM/yyyy"
+                    className="fk-date-picker-input"
+                  />
+                </div>
+                <div style={{ flex: 1, zIndex: 10 }}>
+                  <label style={{ display: 'block', fontSize: '0.85rem', marginBottom: '5px', fontWeight: 600 }}>End Date</label>
+                  <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    minDate={startDate || new Date()}
+                    excludeDateIntervals={excludedIntervals}
+                    placeholderText="Select end date"
+                    dateFormat="dd/MM/yyyy"
+                    className="fk-date-picker-input"
+                  />
+                </div>
               </div>
+              
+              {dateError && (
+                <div style={{ color: '#d32f2f', background: '#ffebee', padding: '10px', borderRadius: '4px', marginBottom: '15px', fontSize: '0.9rem', fontWeight: 500 }}>
+                  ⚠️ {dateError}
+                </div>
+              )}
               
               {/* Total Calculation */}
               <div className="fk-total-calc">

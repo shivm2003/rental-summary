@@ -27,12 +27,20 @@ export const CartProvider = ({ children }) => {
             ? { 
                 ...item, 
                 quantity: (item.quantity || 1) + (product.quantity || 1),
-                rentalDays: product.rentalDays || item.rentalDays || 1
+                rentalDays: product.rentalDays || item.rentalDays || 1,
+                start_date: product.start_date || item.start_date,
+                end_date: product.end_date || item.end_date
               }
             : item
         );
       }
-      return [...prev, { ...product, quantity: product.quantity || 1, rentalDays: product.rentalDays || 1 }];
+      return [...prev, { 
+        ...product, 
+        quantity: product.quantity || 1, 
+        rentalDays: product.rentalDays || 1,
+        start_date: product.start_date,
+        end_date: product.end_date
+      }];
     });
     
     toast.success('Product Added', { duration: 1000 });
@@ -61,6 +69,23 @@ export const CartProvider = ({ children }) => {
     );
   }, []);
 
+  const updateRentalDates = useCallback((productId, startDate, endDate) => {
+    setCart(prev => 
+      prev.map(item => {
+        if (item.id === productId) {
+          let days = item.rentalDays || 1;
+          if (startDate && endDate) {
+            const msDiff = new Date(endDate) - new Date(startDate);
+            // Allow 1 day minimum if start == end
+            days = Math.max(1, Math.ceil(msDiff / (1000 * 60 * 60 * 24)) + 1);
+          }
+          return { ...item, start_date: startDate, end_date: endDate, rentalDays: days };
+        }
+        return item;
+      })
+    );
+  }, []);
+
   const clearCart = useCallback(() => {
     setCart([]);
     toast.success('Cart cleared');
@@ -85,11 +110,12 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     updateQuantity,
     updateRentalDays,
+    updateRentalDates,
     clearCart,
     getCartTotal,
     getCartCount,
     isInCart: (id) => cart.some(item => item.id === id)
-  }), [cart, addToCart, removeFromCart, updateQuantity, updateRentalDays, clearCart, getCartTotal, getCartCount]);
+  }), [cart, addToCart, removeFromCart, updateQuantity, updateRentalDays, updateRentalDates, clearCart, getCartTotal, getCartCount]);
 
   return (
     <CartContext.Provider value={value}>
