@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { getPincode, submitLender } from '../../services/lender';
+import { Navigation } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import './index.css';
 
 export default function Lender() {
@@ -39,7 +41,54 @@ export default function Lender() {
   const [gstCertificate, setGstCertificate] = useState(null);
 
   const [loading, setLoading] = useState(false);
+  const [locationLoading, setLocationLoading] = useState(false);
   const [msg, setMsg] = useState({ text: '', type: '', show: false });
+
+  /* ---------- get current location ---------- */
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      toast.error('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setLocationLoading(true);
+    toast.loading('Fetching your location...', { id: 'location_toast' });
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
+          );
+          const data = await response.json();
+
+          if (data && data.address) {
+            const addr = data.address;
+            const extractedPincode = addr.postcode || '';
+
+            if (extractedPincode && /^\d{6}$/.test(extractedPincode)) {
+              setPincode(extractedPincode);
+            } else if (addr.city || addr.town || addr.state) {
+              setCity(addr.city || addr.town || '');
+              setState(addr.state || '');
+            }
+            toast.success('Location detected successfully!', { id: 'location_toast' });
+          }
+        } catch (error) {
+          console.error('Geocoding error:', error);
+          toast.error('Failed to fetch address details', { id: 'location_toast' });
+        } finally {
+          setLocationLoading(false);
+        }
+      },
+      (error) => {
+        setLocationLoading(false);
+        toast.error('Unable to get your location. Please enable location access.', { id: 'location_toast' });
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  };
 
   /* ---------- auto-dismiss success message ---------- */
   useEffect(() => {
@@ -127,7 +176,7 @@ export default function Lender() {
 
   return (
     <div className="lender-page">
-      <div className="card">
+      <div className="lender-card">
         <h1>Become a Lender</h1>
 
         {/* ---- type toggle ---- */}
@@ -160,7 +209,24 @@ export default function Lender() {
 
           <label>
             Pincode <span>*</span>
-            <input type="text" pattern="\d{6}" required value={pincode} onChange={(e) => setPincode(e.target.value)} />
+            <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
+              <input type="text" pattern="\d{6}" required value={pincode} onChange={(e) => setPincode(e.target.value)} style={{ flex: 1, marginTop: 0 }} />
+              <button 
+                type="button" 
+                onClick={getCurrentLocation}
+                disabled={locationLoading}
+                style={{ 
+                  display: 'flex', alignItems: 'center', gap: '6px', 
+                  padding: '10px 16px', background: '#f8fafc', 
+                  color: '#334155', border: '1px solid #cbd5e1', borderRadius: '8px',
+                  cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <Navigation size={16} />
+                {locationLoading ? 'Locating...' : 'Locate Me'}
+              </button>
+            </div>
           </label>
 
           <div className="row">

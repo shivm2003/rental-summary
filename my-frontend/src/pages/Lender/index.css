@@ -1,13 +1,13 @@
-.lender-page { max-width: 720px; margin: 48px auto; padding: 0 16px; }
-.card { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
-.type-toggle { display: flex; gap: 12px; margin-bottom: 24px; }
-.type-toggle button { flex: 1; padding: 10px; border: 1px solid #d1d5db; background: #fff; cursor: pointer; border-radius: 8px; font-weight: 600; }
+.lender-page { max-width: 720px; margin: 48px auto; padding: 0 16px; width: 100%; box-sizing: border-box; }
+.lender-card { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,.06); width: 100%; box-sizing: border-box; }
+.type-toggle { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.type-toggle button { flex: 1; padding: 10px; border: 1px solid #d1d5db; background: #fff; cursor: pointer; border-radius: 8px; font-weight: 600; min-width: 120px; }
 .type-toggle button.active { background: #1193d4; color: #fff; border-color: #1193d4; }
-label { display: flex; flex-direction: column; font-size: 0.875rem; font-weight: 500; margin-bottom: 16px; }
+label { display: flex; flex-direction: column; font-size: 0.875rem; font-weight: 500; margin-bottom: 16px; width: 100%; }
 label span { color: #ef4444; }
-input, textarea { padding: 10px; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 6px; }
+input, textarea { width: 100%; box-sizing: border-box; padding: 10px; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 8px; margin-top: 6px; }
 input[readonly] { background: #f3f4f6; }
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
 .form-actions { display: flex; gap: 12px; margin-top: 32px; }
 .btn-cancel { flex: 1; padding: 12px; border: 1px solid #d1d5db; background: #fff; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; color: #374151; }
 button[type="submit"] { flex: 1; padding: 12px; background: #1193d4; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
@@ -25,73 +25,38 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   .btn-cancel, button[type="submit"] { width: 100%; }
 }
 
-/* ======  DESKTOP-FIRST – spread across screen  ====== */
+/* Desktop View */
 @media (min-width: 1024px) {
-    .lender-page {
-      max-width: 100%;              /* kill narrow card */
-      padding: 0;
-    }
-    .lender-page .card {
-      border-radius: 0;             /* full-bleed look  */
-      padding: 48px 64px;
-      box-shadow: none;
-    }
-  
-    /* ---- 3-column grid for inputs ---- */
-    .lender-page form {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      column-gap: 32px;
-      row-gap: 24px;
-    }
-    /* full-width exceptions */
-    .lender-page form label:has(textarea),
-    .lender-page form .form-actions,
-    .lender-page form h3 {
-      grid-column: 1 / -1;          /* span all columns */
-    }
-  
-    /* ---- file uploads – 3-column ---- */
-    .lender-page form label:has(input[type="file"]) {
-      grid-column: auto;            /* keep in grid   */
-    }
-  
-    /* ---- bigger typography ---- */
-    .lender-page h1 {
-      font-size: 2rem;
-      margin-bottom: 32px;
-    }
-    .lender-page input,
-    .lender-page textarea,
-    .lender-page select {
-      font-size: 1rem;
-      padding: 12px 16px;
-    }
-  
-    /* ---- buttons at bottom ---- */
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-    .btn-cancel,
-    button[type="submit"] {
-      width: auto;
-      padding: 14px 40px;
-      font-size: 1rem;
-    }
+  .lender-page { max-width: 900px; }
+  .lender-page form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
   }
-  
-  /* ---- ultra-wide 1440+ ---- */
-  @media (min-width: 1440px) {
-    .lender-page .card {
-      padding: 64px 128px;
-    }
-    .lender-page form {
-      column-gap: 48px;
-    }
+  .lender-page form label {
+    margin-bottom: 20px;
   }
-  /* ---- success / error message ---- */
+  /* Elements that span full width */
+  .lender-page form label:has(textarea),
+  .lender-page form h3,
+  .lender-page form .form-actions,
+  .lender-page form .row {
+    grid-column: 1 / -1;
+  }
+  .type-toggle {
+    margin-bottom: 32px;
+  }
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+  }
+  .btn-cancel, button[type="submit"] {
+    flex: none;
+    min-width: 200px;
+  }
+}
+/* ---- success / error message ---- */
 .alert {
   padding: 12px 16px;
   border-radius: 4px;

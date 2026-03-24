@@ -592,6 +592,8 @@ async function getAllListings(req, res, next) {
       state,
       country,
       pincode,
+      district,
+      location_group_id,
       exclude,
       sort    = 'newest',
       order   = 'desc',
@@ -600,7 +602,7 @@ async function getAllListings(req, res, next) {
     } = req.query;
 
     const offset = (page - 1) * limit;
-    const args   = [`%${search}%`];
+    const args   = [];
 
     let sql = `
       SELECT
@@ -622,8 +624,13 @@ async function getAllListings(req, res, next) {
       JOIN  users         u  ON u.user_id    = l.lender_id
       LEFT JOIN listing_photos lp ON lp.listing_id = l.id
       WHERE l.status = 'active'
-        AND (l.item_name ILIKE $1 OR l.description ILIKE $1)
     `;
+
+    // Only apply search filter when a search term is actually provided
+    if (search && search.trim()) {
+      sql += ` AND (l.item_name ILIKE $${args.length + 1} OR l.description ILIKE $${args.length + 1})`;
+      args.push(`%${search.trim()}%`);
+    }
 
     // Filters - FIXED: Handle category as string name or ID
     if (cat) {
@@ -645,8 +652,13 @@ async function getAllListings(req, res, next) {
       args.push(parseInt(subcat));
     }
     if (city) {
-      sql += ` AND l.city ILIKE $${args.length + 1}`;
-      args.push(`%${city}%`);
+      sql += ` AND l.city = $${args.length + 1}`;
+      args.push(city);
+    }
+    // PREFERRED: Filter by location group ID (exact, covers all aliases)
+    if (location_group_id) {
+      sql += ` AND l.location_group_id = $${args.length + 1}`;
+      args.push(parseInt(location_group_id));
     }
     if (state) {
       sql += ` AND l.state ILIKE $${args.length + 1}`;
@@ -659,6 +671,10 @@ async function getAllListings(req, res, next) {
     if (pincode) {
       sql += ` AND l.pincode = $${args.length + 1}`;
       args.push(pincode);
+    }
+    if (district) {
+      sql += ` AND (l.district ILIKE $${args.length + 1} OR l.city ILIKE $${args.length + 1})`,
+      args.push(`%${district}%`);
     }
     
     // FIXED: Handle exclude parameter
@@ -682,9 +698,14 @@ async function getAllListings(req, res, next) {
 
     const { rows } = await pool.query(sql, args);
 
-    // Count query (mirrors filters, no GROUP BY / ORDER BY / LIMIT)
-    let countSql  = `SELECT COUNT(*) AS total FROM listings l WHERE l.status='active' AND (l.item_name ILIKE $1 OR l.description ILIKE $1)`;
-    const countArgs = [`%${search}%`];
+    // Count query — mirrors the same filters
+    const countArgs = [];
+    let countSql = `SELECT COUNT(*) AS total FROM listings l WHERE l.status = 'active'`;
+
+    if (search && search.trim()) {
+      countSql += ` AND (l.item_name ILIKE $${countArgs.length + 1} OR l.description ILIKE $${countArgs.length + 1})`;
+      countArgs.push(`%${search.trim()}%`);
+    }
 
     // FIXED: Apply same filters to count query
     if (cat) {
@@ -698,10 +719,12 @@ async function getAllListings(req, res, next) {
       }
     }
     if (subcat)  { countSql += ` AND l.subcategory_id = $${countArgs.length+1}`;    countArgs.push(parseInt(subcat)); }
-    if (city)    { countSql += ` AND l.city   ILIKE $${countArgs.length+1}`;        countArgs.push(`%${city}%`); }
+    if (city)    { countSql += ` AND l.city = $${countArgs.length+1}`; countArgs.push(city); }
     if (state)   { countSql += ` AND l.state  ILIKE $${countArgs.length+1}`;        countArgs.push(`%${state}%`); }
     if (country) { countSql += ` AND l.country ILIKE $${countArgs.length+1}`;       countArgs.push(`%${country}%`); }
     if (pincode) { countSql += ` AND l.pincode = $${countArgs.length+1}`;           countArgs.push(pincode); }
+    if (district) { countSql += ` AND (l.district ILIKE $${countArgs.length+1} OR l.city ILIKE $${countArgs.length+1})`; countArgs.push(`%${district}%`); }
+    if (location_group_id) { countSql += ` AND l.location_group_id = $${countArgs.length+1}`; countArgs.push(parseInt(location_group_id)); }
     if (exclude) { countSql += ` AND l.id != $${countArgs.length+1}`;               countArgs.push(parseInt(exclude)); }
 
     const { rows: [{ total }] } = await pool.query(countSql, countArgs);
@@ -822,15 +845,38 @@ async function getPincodeInfo(req, res, next) {
 }
 
 // ============================================
+// Controller: getLocationGroups
+// GET /api/locations
+// ============================================
+async function getLocationGroups(req, res, next) {
+  try {
+    const { rows } = await pool.query(
+      `SELECT g.id, g.display_name, g.region,
+              COUNT(l.id) AS listings_count
+       FROM location_groups g
+       LEFT JOIN listings l ON l.location_group_id = g.id AND l.status = 'active'
+       GROUP BY g.id, g.display_name, g.region
+       ORDER BY g.display_name ASC`
+    );
+    res.json({ success: true, locations: rows });
+  } catch (error) {
+    console.error('getLocationGroups error:', error);
+    next(error);
+  }
+}
+
+// ============================================
 // Exports
 // ============================================
 module.exports = {
   createListing,
   updateListing,
   deleteListing,
-  getAllListings,
   getMyListings,
+  getAllListings,
   getListing,
   getPincodeInfo,
+  getLocationGroups,
   uploadMiddleware: upload.any(),
 };
+
