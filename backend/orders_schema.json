@@ -1,0 +1,70 @@
+[
+  {
+    "column_name": "id",
+    "data_type": "integer"
+  },
+  {
+    "column_name": "order_id",
+    "data_type": "character varying"
+  },
+  {
+    "column_name": "product_id",
+    "data_type": "integer"
+  },
+  {
+    "column_name": "lender_id",
+    "data_type": "bigint"
+  },
+  {
+    "column_name": "borrower_id",
+    "data_type": "bigint"
+  },
+  {
+    "column_name": "start_date",
+    "data_type": "date"
+  },
+  {
+    "column_name": "end_date",
+    "data_type": "date"
+  },
+  {
+    "column_name": "duration_days",
+    "data_type": "integer"
+  },
+  {
+    "column_name": "total_amount",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "base_rental_amount",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "security_deposit",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "delivery_charge",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "platform_fee",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "status",
+    "data_type": "character varying"
+  },
+  {
+    "column_name": "payment_status",
+    "data_type": "character varying"
+  },
+  {
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone"
+  },
+  {
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone"
+  }
+]

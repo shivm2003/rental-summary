@@ -275,68 +275,69 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      {/* Only show HeroBanner and CategoryGrid on pure home page */}
       {!category && !searchQuery && <HeroBanner />}
 
-      {!category && !searchQuery && (
-        <div className="section-wrap">
-          <div className="section-heading">Rent Category</div>
-          <CategoryGrid />
-        </div>
-      )}
-
-      {/* Location Banner */}
-      {!searchQuery && locationLabel && (
-        <div className="location-banner">
-          <MapPin size={16} />
-          <span>Showing products available in: <strong>{locationLabel}</strong></span>
-          <button className="location-change-btn" onClick={() => setShowPicker(true)}>Change</button>
-        </div>
-      )}
-
-      {/* Breadcrumb for category page */}
-      {category && !searchQuery && <CategoryBreadcrumb />}
-
-      {!category && !searchQuery && (
-        <div className="trust-badges">
-          <div className="badges-grid">
-            {[
-              { icon: '🛡️', text: 'Verified Lenders' },
-              { icon: '⚡', text: 'Instant Booking' },
-              { icon: '💰', text: 'Best Prices' },
-              { icon: '🔄', text: 'Easy Returns' },
-            ].map((b, i) => (
-              <div key={i} className="badge">
-                <span className="badge-icon">{b.icon}</span>
-                <span className="badge-text">{b.text}</span>
-              </div>
-            ))}
+      <div className="content-container">
+        {!category && !searchQuery && (
+          <div className="section-wrap" style={{ marginTop: '20px' }}>
+            <div className="section-heading">Rent Category</div>
+            <CategoryGrid />
           </div>
-        </div>
-      )}
+        )}
 
-      {errors.category && <div className="error-banner">⚠️ {errors.category}</div>}
-      {errors.search && <div className="error-banner">⚠️ {errors.search}</div>}
+        {/* Location Banner */}
+        {!searchQuery && locationLabel && (
+          <div className="location-banner">
+            <MapPin size={16} />
+            <span>Showing products available in: <strong>{locationLabel}</strong></span>
+            <button className="location-change-btn" onClick={() => setShowPicker(true)}>Change</button>
+          </div>
+        )}
 
-      {searchQuery ? (
-        <ProductSection
-          title={`Search Results for "${searchQuery}"`}
-          products={searchResults}
-          loading={loading.search}
-        />
-      ) : category ? (
-        <ProductSection
-          title={`${formatCat(category)} Rentals`}
-          products={categoryProducts}
-          loading={loading.category}
-        />
-      ) : (
-        <>
-          <ProductSection title="🔥 Trending Now" products={trending} loading={loading.trending} />
-          <ProductSection title="⭐ Featured Rentals" products={featured} loading={loading.featured} />
-          <ProductSection title="✨ New Arrivals" products={newArrivals} loading={loading.new} />
-        </>
-      )}
+        {/* Breadcrumb for category page */}
+        {category && !searchQuery && <CategoryBreadcrumb />}
+
+        {!category && !searchQuery && (
+          <div className="trust-badges">
+            <div className="badges-grid">
+              {[
+                { icon: '🛡️', text: 'Verified Lenders' },
+                { icon: '⚡', text: 'Instant Booking' },
+                { icon: '💰', text: 'Best Prices' },
+                { icon: '🔄', text: 'Easy Returns' },
+              ].map((b, i) => (
+                <div key={i} className="badge">
+                  <span className="badge-icon">{b.icon}</span>
+                  <span className="badge-text">{b.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {errors.category && <div className="error-banner">⚠️ {errors.category}</div>}
+        {errors.search && <div className="error-banner">⚠️ {errors.search}</div>}
+
+        {searchQuery ? (
+          <ProductSection
+            title={`Search Results for "${searchQuery}"`}
+            products={searchResults}
+            loading={loading.search}
+          />
+        ) : category ? (
+          <ProductSection
+            title={`${formatCat(category)} Rentals`}
+            products={categoryProducts}
+            loading={loading.category}
+          />
+        ) : (
+          <>
+            <ProductSection title="🔥 Trending Now" products={trending} loading={loading.trending} />
+            <ProductSection title="⭐ Featured Rentals" products={featured} loading={loading.featured} />
+            <ProductSection title="✨ New Arrivals" products={newArrivals} loading={loading.new} />
+          </>
+        )}
+      </div>
 
       {!category && !searchQuery && (
         <div className="newsletter-section" style={{ padding: '60px 20px', backgroundColor: '#cf1417ff' }}>

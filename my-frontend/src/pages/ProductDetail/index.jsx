@@ -35,6 +35,7 @@ export default function ProductDetail() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [dateError, setDateError] = useState('');
+  const [reviews, setReviews] = useState([]);
 
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -73,6 +74,17 @@ export default function ProductDetail() {
           }
         } catch (bookingErr) {
           console.warn('Failed to fetch product booked dates:', bookingErr);
+        }
+
+        // Fetch product reviews
+        try {
+          const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+          const revRes = await axios.get(`${apiBaseUrl}/api/products/${id}/reviews`);
+          if (revRes.data && revRes.data.reviews) {
+            setReviews(revRes.data.reviews);
+          }
+        } catch (revErr) {
+          console.warn('Failed to fetch product reviews:', revErr);
         }
         
       } catch (err) {
@@ -377,11 +389,17 @@ export default function ProductDetail() {
               </h1>
               
               <div className="fk-rating-row">
-                <div className="fk-rating-badge">
-                  <span className="fk-rating-value">4.3</span>
-                  <Star size={14} fill="white" />
-                </div>
-                <span className="fk-rating-count">2,847 ratings & 412 reviews</span>
+                {reviews.length > 0 ? (
+                  <>
+                    <div className="fk-rating-badge">
+                      <span className="fk-rating-value">{(reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)}</span>
+                      <Star size={14} fill="white" />
+                    </div>
+                    <span className="fk-rating-count">{reviews.length} review{reviews.length > 1 ? 's' : ''}</span>
+                  </>
+                ) : (
+                  <span className="fk-rating-count">No reviews yet</span>
+                )}
                 {product.brand && (
                   <span className="fk-brand-badge">{product.brand}</span>
                 )}
@@ -572,6 +590,29 @@ export default function ProductDetail() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Product Reviews Section */}
+        <div className="fk-reviews-section" style={{ background: 'white', padding: '24px', borderRadius: '4px', marginTop: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Customer Reviews ({reviews.length})</h2>
+          {reviews.length === 0 ? (
+            <p style={{ color: '#878787' }}>No reviews yet. Rent this product and be the first to review!</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {reviews.map(rev => (
+                <div key={rev.id} style={{ borderBottom: '1px solid #f0f0f0', paddingBottom: '16px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                    <div style={{ background: '#388e3c', color: 'white', padding: '2px 6px', borderRadius: '3px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {rev.rating} <Star size={10} fill="white" />
+                    </div>
+                    <strong>{rev.user_name}</strong>
+                    <span style={{ color: '#878787', fontSize: '12px' }}>{new Date(rev.created_at).toLocaleDateString()}</span>
+                  </div>
+                  {rev.comment && <p style={{ margin: 0, fontSize: '14px', color: '#212121' }}>{rev.comment}</p>}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Related Products Section */}
