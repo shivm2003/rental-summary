@@ -70,9 +70,9 @@ html, body {
 }
 
 .header-rentkart .container {
-  max-width: 1320px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

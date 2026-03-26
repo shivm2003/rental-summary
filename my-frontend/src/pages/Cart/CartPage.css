@@ -625,3 +625,17 @@
       align-items: flex-start;
     }
   }
+
+.fk-date-picker-input-small {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #212121;
+}
+
+.fk-date-picker-input-small:focus {
+  outline: none;
+  border-color: #2874f0;
+}

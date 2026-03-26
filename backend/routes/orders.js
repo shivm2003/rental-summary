@@ -9,6 +9,7 @@ const auth = require('../middleware/auth');
 
 // All routes below are protected by auth middleware
 router.get('/my-orders', auth, orderController.getMyOrders);
+router.get('/:id', auth, orderController.getOrderById);
 router.post('/', auth, orderController.createOrder);
 
 module.exports = router;

@@ -866,6 +866,53 @@ async function getLocationGroups(req, res, next) {
 }
 
 // ============================================
+async function addReview(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { rating, comment, orderId } = req.body;
+    const userId = req.user.uid;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res.status(400).json({ success: false, message: 'Invalid rating' });
+    }
+
+    const { rows } = await pool.query(
+      `INSERT INTO reviews (product_id, user_id, order_id, rating, comment)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [id, userId, orderId, rating, comment]
+    );
+
+    res.status(201).json({ success: true, review: rows[0], message: 'Review submitted successfully' });
+  } catch (error) {
+    if (error.constraint === 'reviews_product_id_user_id_order_id_key') {
+      return res.status(400).json({ success: false, message: 'You have already reviewed this product for this order.' });
+    }
+    console.error('addReview error:', error);
+    next(error);
+  }
+}
+
+async function getReviews(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { rows } = await pool.query(
+      `SELECT r.id, r.rating, r.comment, r.created_at, 
+              COALESCE(p.first_name, u.username, 'User') as user_name
+       FROM reviews r
+       JOIN users u ON r.user_id = u.user_id::text
+       LEFT JOIN user_profiles p ON p.user_id = u.user_id
+       WHERE r.product_id = $1
+       ORDER BY r.created_at DESC`,
+      [id]
+    );
+    res.json({ success: true, reviews: rows });
+  } catch (error) {
+    console.error('getReviews error:', error);
+    next(error);
+  }
+}
+
+// ============================================
 // Exports
 // ============================================
 module.exports = {
@@ -878,5 +925,7 @@ module.exports = {
   getPincodeInfo,
   getLocationGroups,
   uploadMiddleware: upload.any(),
+  addReview,
+  getReviews
 };
 

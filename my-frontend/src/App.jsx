@@ -23,6 +23,7 @@ import AdminLayout from './pages/Admin/AdminLayout.jsx';
 import AdminDashboard from './pages/Admin/AdminDashboard.jsx';
 import AdminCategories from './pages/Admin/Admincategories.jsx';
 import AdminHeroBanners from './pages/Admin/Adminherobanners.jsx';
+import AdminQueries from './pages/Admin/AdminQueries.jsx';
 
 /* ---------- Lender Pages ---------- */
 import Lender from './pages/Lender/index.jsx';
@@ -35,6 +36,7 @@ import Maintenance from './pages/LenderDashboard/Maintenance.jsx';
 import Earnings from './pages/LenderDashboard/Earnings.jsx';
 import Analytics from './pages/LenderDashboard/Analytics.jsx';
 import Notifications from './pages/LenderDashboard/Notifications.jsx';
+import LenderCoupons from './pages/LenderDashboard/LenderCoupons.jsx';
 
 /* ---------- Common ---------- */
 import Header from './components/common/Header/Header.jsx';
@@ -47,6 +49,7 @@ import FAQ from './pages/FAQ/index.jsx';
 import Terms from './pages/Terms/index.jsx';
 import Contact from './pages/Contact/index.jsx';
 import Orders from './pages/Orders/index.jsx';
+import OrderDetails from './pages/Orders/OrderDetails.jsx';
 import Chat from './pages/Chat/index.jsx';
 import Profile from './pages/Profile/index.jsx';
 
@@ -156,6 +159,7 @@ function App() {
             <Route path="/terms" element={<Terms />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<OrderDetails />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />
 
@@ -175,6 +179,7 @@ function App() {
               <Route path="earnings" element={<Earnings />} />
               <Route path="analytics" element={<Analytics />} />
               <Route path="notifications" element={<Notifications />} />
+              <Route path="coupons" element={<LenderCoupons />} />
             </Route>
 
             <Route element={<LenderRoute />}>
@@ -188,6 +193,7 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="hero" element={<AdminHeroBanners />} />
+            <Route path="queries" element={<AdminQueries />} />
           </Route>
 
           {/* 404 */}

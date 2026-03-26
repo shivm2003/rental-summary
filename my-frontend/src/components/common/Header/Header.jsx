@@ -106,8 +106,7 @@ export default function Header() {
             )}
             {user && (
               <>
-                <Link to="/orders">My Orders</Link>
-                <Link to="/profile">Profile</Link>
+                {/* Removed for cleaner UI */}
               </>
             )}
           </nav>

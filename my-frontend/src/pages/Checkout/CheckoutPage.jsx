@@ -71,13 +71,69 @@ export default function CheckoutPage() {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
+  // Coupon & Delivery states
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [couponCode, setCouponCode] = useState('');
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+
   // Calculate totals
   const cartTotal = getCartTotal();
-  const deliveryCharge = cartTotal > 500 ? 0 : 49;
   const securityDeposit = cart.reduce((sum, item) => 
     sum + (item.security_deposit || 0) * (item.quantity || 1), 0
   );
-  const finalTotal = cartTotal + securityDeposit + deliveryCharge;
+  
+  // Fetch delivery charge from DB
+  useEffect(() => {
+    const fetchDeliveryCharge = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/admin/delivery-charges?amount=${cartTotal}`);
+        const data = await res.json();
+        if (data.success) setDeliveryCharge(parseFloat(data.deliveryCharge));
+      } catch (e) { console.error('Delivery fetch failed', e); }
+    };
+    fetchDeliveryCharge();
+  }, [cartTotal]);
+
+  const finalTotal = cartTotal + securityDeposit + deliveryCharge - couponDiscount;
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setIsValidatingCoupon(true);
+    try {
+      const res = await fetch(`${API_URL}/api/admin/coupons/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          code: couponCode, 
+          amount: cartTotal,
+          lenderId: cart[0]?.lender_id // Simplification: use first item's lender
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setCouponDiscount(data.coupon.discount);
+        setAppliedCoupon(data.coupon);
+        toast.success(data.coupon.message);
+      } else {
+        toast.error(data.message || 'Invalid coupon');
+        setCouponDiscount(0);
+        setAppliedCoupon(null);
+      }
+    } catch (e) {
+      toast.error('Failed to validate coupon');
+    } finally {
+      setIsValidatingCoupon(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponCode('');
+    toast.success('Coupon removed');
+  };
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -498,7 +554,9 @@ export default function CheckoutPage() {
           items: cart,
           selectedAddressId: selectedAddressId,
           paymentMethod: selectedPayment,
-          deliveryCharge: deliveryCharge
+          deliveryCharge: deliveryCharge,
+          couponId: appliedCoupon?.id,
+          discountAmount: couponDiscount
         })
       });
 
@@ -965,7 +1023,42 @@ export default function CheckoutPage() {
                     {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
                   </span>
                 </div>
+
+                {appliedCoupon && (
+                  <div className="fk-price-item fk-coupon-discount">
+                    <span style={{ color: '#388e3c' }}>Coupon ({appliedCoupon.code})</span>
+                    <span style={{ color: '#388e3c' }}>- ₹${couponDiscount}</span>
+                  </div>
+                )}
               </div>
+
+              {/* Coupon Input */}
+              {!appliedCoupon ? (
+                <div className="fk-coupon-input-wrapper" style={{ marginTop: '16px', display: 'flex', gap: '8px' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Enter Coupon Code" 
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    style={{ flex: 1, padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '4px', textTransform: 'uppercase' }}
+                  />
+                  <button 
+                    onClick={handleApplyCoupon}
+                    disabled={isValidatingCoupon}
+                    style={{ padding: '8px 16px', background: '#2874f0', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 600, cursor: 'pointer' }}
+                  >
+                    {isValidatingCoupon ? '...' : 'APPLY'}
+                  </button>
+                </div>
+              ) : (
+                <div className="fk-applied-coupon" style={{ marginTop: '16px', padding: '12px', background: '#f0fdf4', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px dashed #388e3c' }}>
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 600, color: '#388e3c' }}>COUPON APPLIED</div>
+                    <div style={{ fontSize: '14px', fontWeight: 700 }}>{appliedCoupon.code}</div>
+                  </div>
+                  <button onClick={removeCoupon} style={{ color: '#dc2626', background: 'none', border: 'none', fontWeight: 600, cursor: 'pointer' }}>REMOVE</button>
+                </div>
+              )}
 
               <div className="fk-price-total">
                 <span>Total Amount</span>

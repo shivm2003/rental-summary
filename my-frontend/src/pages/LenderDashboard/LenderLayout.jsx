@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, PlusCircle, ShoppingBag, 
-  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut, MessageSquare
+  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut, MessageSquare, Ticket
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSocket } from '../../contexts/SocketContext';
@@ -30,6 +30,7 @@ export default function LenderLayout() {
     { to: '/lender/orders', icon: <ShoppingBag size={20} />, label: 'Rental Orders' },
     { to: '/lender/maintenance', icon: <Wrench size={20} />, label: 'Maintenance' },
     { to: '/lender/earnings', icon: <DollarSign size={20} />, label: 'Earnings' },
+    { to: '/lender/coupons', icon: <Ticket size={20} />, label: 'Coupons' },
     { to: '/chat', icon: <MessageSquare size={20} />, label: 'Messages' },
     { to: '/lender/analytics', icon: <BarChart3 size={20} />, label: 'Analytics' },
     { to: '/lender/notifications', icon: <Bell size={20} />, label: 'Notifications' },
