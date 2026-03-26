@@ -23,9 +23,15 @@ body, html {
 
 /* ── Page wrapper ── */
 .home-page {
-  max-width: 1280px;
+  width: 100%;
+  margin: 0;
+  padding: 0; /* Remove padding for full-width components like Hero */
+}
+
+.content-container {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 12px;
+  padding: 0 20px;
 }
 
 /* ── Section wrapper ── */
@@ -261,6 +267,9 @@ footer {
 }
 
 /* ── Responsive ── */
+@media (min-width: 1400px) {
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
 @media (max-width: 1024px) {
   .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }

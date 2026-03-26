@@ -1,6 +1,11 @@
 .env
 *.env
+*.env*
 node_modules
 Dataset
 logs
 Backend1.txt
+push_err.txt
+push_error.txt
+crash.log
+*.log

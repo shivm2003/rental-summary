@@ -15,6 +15,8 @@ const {
   getPincodeInfo,
   getLocationGroups,
   uploadMiddleware,
+  addReview,
+  getReviews
 } = require('../controllers/productController');
 
 // ============================================
@@ -24,7 +26,29 @@ const {
 // Listings
 router.get('/',             getAllListings);
 router.get('/my/listings',  auth, getMyListings);
+
+/* ---------- GET /api/products/user/reviews ---------- */
+router.get('/user/reviews', auth, async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT r.*, p.title as product_name 
+       FROM reviews r
+       JOIN products p ON r.product_id = p.id
+       WHERE r.user_id = $1
+       ORDER BY r.created_at DESC`,
+      [req.user.uid]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
 router.get('/:id',          getListing);
+router.get('/:id/reviews',  getReviews);
+
+// Protected routes (require auth) are below, we'll add the POST review here
+router.post('/:id/reviews', auth, addReview);
 
 // Image serving (base64 preview, S3 redirect, or legacy local file)
 router.get('/image/:photoId', async (req, res) => {

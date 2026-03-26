@@ -167,6 +167,7 @@ const routes = [
   { path: './routes/chat', mount: '/api/chat', middleware: auth },
   { path: './routes/notifications', mount: '/api/notifications', middleware: auth },
   { path: './routes/orders', mount: '/api/orders' },
+  { path: './routes/queries', mount: '/api/queries', middleware: auth },
 ];
 
 let loadedRoutes = 0;
@@ -230,7 +231,7 @@ app.use('/api', (req, res) => {
 
 // SPA fallback - regex that excludes /api paths
 app.get(/^(?!\/api).*/, (req, res) => {
-  const buildPath = path.join(__dirname, '../frontend/build/index.html');
+  const buildPath = path.join(__dirname, '../my-frontend/dist/index.html');
   if (fs.existsSync(buildPath)) {
     res.sendFile(buildPath);
   } else {

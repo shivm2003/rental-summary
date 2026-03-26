@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, FolderOpen, Image as ImageIcon, LogOut, Zap } from 'lucide-react';
+import { LayoutGrid, FolderOpen, Image as ImageIcon, LogOut, Zap, MessageSquare } from 'lucide-react';
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -9,6 +9,7 @@ export default function AdminLayout() {
     { path: '/admin/dashboard', icon: LayoutGrid, label: 'Dashboard' },
     { path: '/admin/categories', icon: FolderOpen, label: 'Categories' },
     { path: '/admin/hero', icon: ImageIcon, label: 'Hero Banners' },
+    { path: '/admin/queries', icon: MessageSquare, label: 'Customer Queries' },
   ];
 
   return (

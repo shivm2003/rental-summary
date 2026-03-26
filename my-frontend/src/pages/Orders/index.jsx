@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { Package } from 'lucide-react';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function Orders() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +85,7 @@ export default function Orders() {
             const dynamicStatus = getDynamicStatus(o);
             const style = getStatusStyle(dynamicStatus);
             return (
-            <div key={o.id} style={{ border: '1px solid #e2e8f0', padding: '20px', borderRadius: '12px', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+            <div key={o.id} onClick={() => navigate(`/orders/${o.id}`)} style={{ border: '1px solid #e2e8f0', padding: '20px', borderRadius: '12px', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.01)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px', marginBottom: '16px' }}>
                 <div>
                   <h4 style={{ margin: '0 0 4px 0', color: '#0f172a' }}>Order #{o.id}</h4>

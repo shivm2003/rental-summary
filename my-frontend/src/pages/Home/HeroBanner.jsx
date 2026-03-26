@@ -39,18 +39,18 @@ export default function HeroBanner() {
   const current = banners[idx];
 
   return (
-    <div style={{ position: 'relative', width: '100%', marginBottom: '16px' }}>
+    <div style={{ position: 'relative', width: '100%' }}>
       <style>{`
         .hero-wrap {
           width: 100%;
           height: 320px;
-          border-radius: 12px;
           overflow: hidden;
           position: relative;
           background: #1e293b;
         }
-        @media (min-width: 640px)  { .hero-wrap { height: 360px; } }
-        @media (min-width: 1024px) { .hero-wrap { height: 420px; } }
+        @media (min-width: 640px)  { .hero-wrap { height: 400px; } }
+        @media (min-width: 1024px) { .hero-wrap { height: 500px; } }
+        @media (min-width: 1400px) { .hero-wrap { height: 550px; } }
 
         .hero-img {
           width: 100%;

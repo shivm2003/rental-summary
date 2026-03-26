@@ -1,0 +1,65 @@
+[
+  {
+    "table_name": "hero_banners"
+  },
+  {
+    "table_name": "lender_applications"
+  },
+  {
+    "table_name": "listing_photos"
+  },
+  {
+    "table_name": "login_attempts"
+  },
+  {
+    "table_name": "password_reset_tokens"
+  },
+  {
+    "table_name": "social_logins"
+  },
+  {
+    "table_name": "maintenance_logs"
+  },
+  {
+    "table_name": "orders"
+  },
+  {
+    "table_name": "pincode_master"
+  },
+  {
+    "table_name": "subscriptions"
+  },
+  {
+    "table_name": "listings"
+  },
+  {
+    "table_name": "login_sessions"
+  },
+  {
+    "table_name": "users"
+  },
+  {
+    "table_name": "user_addresses"
+  },
+  {
+    "table_name": "user_profiles"
+  },
+  {
+    "table_name": "notifications"
+  },
+  {
+    "table_name": "location_groups"
+  },
+  {
+    "table_name": "location_aliases"
+  },
+  {
+    "table_name": "categories"
+  },
+  {
+    "table_name": "chat_rooms"
+  },
+  {
+    "table_name": "chat_messages"
+  }
+]
