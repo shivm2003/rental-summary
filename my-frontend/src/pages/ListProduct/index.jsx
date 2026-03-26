@@ -78,6 +78,7 @@ export default function ListProduct() {
     // ── Pricing ───────────────────────────────────
     securityDeposit:   '',
     rentalPricePerDay: '',
+    priceUnit:         'day',
 
     // ── Terms & Promo ─────────────────────────────
     termsAndConditions: '',
@@ -458,12 +459,18 @@ export default function ListProduct() {
             <h2>Pricing</h2>
 
             <label>
-              Rental Price per Day *
-              <div className="currency-input">
-                <span className="currency-symbol">₹</span>
-                <input type="number" name="rentalPricePerDay" value={form.rentalPricePerDay}
-                  onChange={handleInput} min="1" step="0.01" placeholder="0.00"
-                  className={errors.rentalPricePerDay ? 'error' : ''} />
+              Rental Price *
+              <div className="price-input-row">
+                <div className="currency-input">
+                  <span className="currency-symbol">₹</span>
+                  <input type="number" name="rentalPricePerDay" value={form.rentalPricePerDay}
+                    onChange={handleInput} min="1" step="0.01" placeholder="0.00"
+                    className={errors.rentalPricePerDay ? 'error' : ''} />
+                </div>
+                <select name="priceUnit" value={form.priceUnit} onChange={handleInput} className="price-unit-select">
+                  <option value="day">per day</option>
+                  <option value="month">per month</option>
+                </select>
               </div>
               {errors.rentalPricePerDay && <span className="error-msg">{errors.rentalPricePerDay}</span>}
             </label>

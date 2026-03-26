@@ -128,6 +128,7 @@ async function createListing(req, res, next) {
       // Pricing
       securityDeposit,
       rentalPricePerDay,
+      priceUnit = 'day',
 
       // Terms & promo
       termsAndConditions,
@@ -241,6 +242,7 @@ async function createListing(req, res, next) {
 
         security_deposit,
         rental_price_per_day,
+        price_unit,
 
         terms_and_conditions,
         discount_type,
@@ -259,9 +261,9 @@ async function createListing(req, res, next) {
         $16,$17,$18,
         $19,$20,$21,$22,
         $23,$24,
-        $25,$26,
-        $27,$28,$29,$30,$31,$32,$33,
-        $34, 'active'
+        $25,$26,$27,
+        $28,$29,$30,$31,$32,$33,$34,
+        $35, 'active'
       )
       RETURNING id
     `;
@@ -299,15 +301,16 @@ async function createListing(req, res, next) {
 
       toNumberOrNull(securityDeposit) || 0,  // $25 security_deposit
       Number(rentalPricePerDay),             // $26 rental_price_per_day
+      priceUnit,                             // $27 price_unit
 
-      termsAndConditions?.trim() || null,    // $27 terms_and_conditions
-      discountType || null,                  // $28 discount_type
-      toNumberOrNull(discountValue),         // $29 discount_value
-      discountStartDate || null,             // $30 discount_start_date
-      discountEndDate || null,               // $31 discount_end_date
-      promoCode?.trim() || null,             // $32 promo_code
-      displayTagline?.trim() || null,        // $33 display_tagline
-      JSON.stringify([]),                     // $34 availability (default empty array)
+      termsAndConditions?.trim() || null,    // $28 terms_and_conditions
+      discountType || null,                  // $29 discount_type
+      toNumberOrNull(discountValue),         // $30 discount_value
+      discountStartDate || null,             // $31 discount_start_date
+      discountEndDate || null,               // $32 discount_end_date
+      promoCode?.trim() || null,             // $33 promo_code
+      displayTagline?.trim() || null,        // $34 display_tagline
+      JSON.stringify([]),                     // $35 availability (default empty array)
     ]);
 
     // ── Process and upload images ─────────────────────────────────────────
@@ -461,6 +464,7 @@ async function updateListing(req, res, next) {
       country:              'country',
       securityDeposit:      'security_deposit',
       rentalPricePerDay:    'rental_price_per_day',
+      priceUnit:            'price_unit',
       originalPurchasePrice:'original_purchase_price',
       termsAndConditions:   'terms_and_conditions',
       discountType:         'discount_type',

@@ -96,7 +96,8 @@ export const CartProvider = ({ children }) => {
       const price = item.rental_price_per_day || item.price || 0;
       const days = item.rentalDays || 1;
       const qty = item.quantity || 1;
-      return total + (price * days * qty);
+      const unitMultiplier = (item.price_unit === 'month') ? (days / 30) : days;
+      return total + (price * unitMultiplier * qty);
     }, 0);
   }, [cart]);
 

@@ -78,8 +78,13 @@ function ProductCard({ product }) {
       <div className="product-name">{name}</div>
       <div className="product-price">
         ₹{Number(price).toLocaleString('en-IN')}
-        <span className="product-price-unit">/day</span>
+        <span className="product-price-unit">/{product.price_unit || 'day'}</span>
       </div>
+      {(product.min_rental_days > 1) && (
+        <div style={{ fontSize: '11px', color: '#878787', marginTop: '2px', fontWeight: '500' }}>
+          Min. rent: {product.min_rental_days} days
+        </div>
+      )}
       {(product.city || product.location) && (
         <div className="product-location">
           <span>📍</span> {(product.city || product.location).trim()}

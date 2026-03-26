@@ -157,6 +157,23 @@ input.error, select.error, textarea.error {
   background: transparent;
 }
 
+/* Price Input Row */
+.price-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.price-input-row .currency-input {
+  flex: 1;
+}
+
+.price-unit-select {
+  width: auto;
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
 /* Suffix input (km, etc.) */
 .suffix-input {
   display: flex;

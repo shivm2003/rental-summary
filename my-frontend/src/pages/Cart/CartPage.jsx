@@ -148,9 +148,10 @@ export default function CartPage() {
   };
 
   const calculateItemTotal = (item) => {
+    const unitMultiplier = (item.price_unit === 'month') ? ((item.rentalDays || 1) / 30) : (item.rentalDays || 1);
     return (item.rental_price_per_day || item.price || 0) * 
            (item.quantity || 1) * 
-           (item.rentalDays || 1);
+           unitMultiplier;
   };
 
   const cartTotal = getCartTotal();
@@ -284,7 +285,7 @@ export default function CartPage() {
                       ₹{calculateItemTotal(item)}
                     </div>
                     <div className="fk-item-rate">
-                      ₹{item.rental_price_per_day || item.price}/day
+                      ₹{item.rental_price_per_day || item.price}/{item.price_unit || 'day'}
                     </div>
                     
                     <button 

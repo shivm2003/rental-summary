@@ -16,7 +16,8 @@ exports.createOrder = async (req, res) => {
 
     for (const item of items) {
       const durationDays = item.rental_days || item.duration_days || item.rentalDays || 1;
-      const baseRental = Number(item.rental_price_per_day || item.price) * durationDays;
+      const unitMultiplier = (item.price_unit === 'month') ? (durationDays / 30) : durationDays;
+      const baseRental = Number(item.rental_price_per_day || item.price) * unitMultiplier;
       const securityDeposit = Number(item.security_deposit) || 0;
       
       const itemDelivery = (Number(deliveryCharge) || 0) / items.length;

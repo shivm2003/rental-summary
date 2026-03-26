@@ -194,6 +194,11 @@ export default function ProductDetail() {
       toast.error('Cannot add to cart: Selected dates are already booked.');
       return;
     }
+
+    if (product.min_rental_days && rentalDays < product.min_rental_days) {
+      toast.error(`Minimum rental period is ${product.min_rental_days} days.`);
+      return;
+    }
     
     addToCart({
       ...product,
@@ -239,7 +244,8 @@ export default function ProductDetail() {
 
   const calculateTotal = () => {
     const price = product?.rental_price_per_day || product?.price || 0;
-    return price * quantity * rentalDays;
+    const unitMultiplier = (product?.price_unit === 'month') ? (rentalDays / 30) : rentalDays;
+    return price * quantity * unitMultiplier;
   };
 
   const calculateDiscount = () => {
@@ -410,8 +416,13 @@ export default function ProductDetail() {
             <div className="fk-price-section">
               <div className="fk-price-row">
                 <span className="fk-current-price">₹{price}</span>
-                <span className="fk-per-day">/day</span>
+                <span className="fk-per-day">/{product?.price_unit || 'day'}</span>
               </div>
+              {product?.min_rental_days > 1 && (
+                <div style={{ color: '#878787', fontSize: '13px', marginTop: '4px', fontWeight: '500' }}>
+                  Minimum rent: {product.min_rental_days} days
+                </div>
+              )}
               
               {discount > 0 && (
                 <div className="fk-price-details">

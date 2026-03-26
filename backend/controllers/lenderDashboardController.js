@@ -62,7 +62,7 @@ exports.getProducts = async (req, res, next) => {
     const lenderId = req.user.uid;
     
     const { rows } = await pool.query(
-      `SELECT l.id, l.item_name, l.category, l.rental_price_per_day, l.status, l.created_at,
+      `SELECT l.id, l.item_name, l.category, l.rental_price_per_day, l.price_unit, l.status, l.created_at,
         COALESCE(
           (SELECT full_url FROM listing_photos WHERE listing_id = l.id ORDER BY display_order ASC LIMIT 1),
           ''
@@ -79,7 +79,7 @@ exports.getProducts = async (req, res, next) => {
       name: r.item_name,
       sub: `Added ${new Date(r.created_at).toLocaleDateString()}`,
       cat: r.category,
-      price: `₹${r.rental_price_per_day}`,
+      price: `₹${r.rental_price_per_day} / ${r.price_unit || 'day'}`,
       status: r.status === 'active' ? 'Available' : r.status,
       img: r.image
     }));
