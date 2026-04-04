@@ -17,7 +17,7 @@ router.get('/:pincode', async (req, res, next) => {
     }
 
     const { rows } = await pool.query(
-      'SELECT pincode, city, state, area FROM pincode_master WHERE pincode = $1',
+      'SELECT pincode, city, state, district FROM pincode_master WHERE pincode = $1',
       [pincode]
     );
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { getPincode, submitLender } from '../../services/lender';
+import { reverseGeocode, parseNominatimAddress } from '../../services/pincode';
 import { Navigation } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import './index.css';
@@ -58,21 +59,19 @@ export default function Lender() {
       async (position) => {
         const { latitude, longitude } = position.coords;
         try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`
-          );
-          const data = await response.json();
+          const data = await reverseGeocode(latitude, longitude);
 
           if (data && data.address) {
-            const addr = data.address;
-            const extractedPincode = addr.postcode || '';
-
-            if (extractedPincode && /^\d{6}$/.test(extractedPincode)) {
-              setPincode(extractedPincode);
-            } else if (addr.city || addr.town || addr.state) {
-              setCity(addr.city || addr.town || '');
-              setState(addr.state || '');
+            const parsed = parseNominatimAddress(data.address, data.display_name);
+            
+            if (parsed.pincode && /^\d{6}$/.test(parsed.pincode)) {
+              setPincode(parsed.pincode);
             }
+            
+            // Auto-fill city/state even if pincode is missing or needs lookup
+            if (parsed.city) setCity(parsed.city);
+            if (parsed.state) setState(parsed.state);
+            
             toast.success('Location detected successfully!', { id: 'location_toast' });
           }
         } catch (error) {
@@ -105,8 +104,10 @@ export default function Lender() {
     if (pincode.length === 6) {
       getPincode(pincode)
         .then((res) => {
-          setCity(res.city);
-          setState(res.state);
+          // Backend returns { success: true, pincode: { city, state ... } }
+          const details = res.pincode || res; 
+          setCity(details.city || '');
+          setState(details.state || '');
           setMsg({ text: '', type: '', show: false });
         })
         .catch(() => {

@@ -108,8 +108,6 @@ exports.register = async (req, res, next) => {
 
     await client.query('COMMIT');
 
-    await client.query('COMMIT');
-
     res.status(201).json({ 
       user_id: uid, 
       username, 

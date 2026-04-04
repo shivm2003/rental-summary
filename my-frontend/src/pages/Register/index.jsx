@@ -112,7 +112,7 @@ export default function Register() {
                 <input name="lastName"  placeholder="Last name"  value={form.lastName}  onChange={handleChange} required />
               </div>
               <input name="email" type="email" placeholder="Email address" value={form.email} onChange={handleChange} required />
-              <input name="phone" type="tel"  placeholder="Phone number"  value={form.phone} onChange={handleChange} />
+              <input name="phone" type="tel"  placeholder="Phone number"  value={form.phone} onChange={handleChange} required />
               <input name="password" type="password" placeholder="Password"      value={form.password} onChange={handleChange} required minLength={8} />
               <input name="confirm"  type="password" placeholder="Confirm password" value={form.confirm}  onChange={handleChange} required />
 
