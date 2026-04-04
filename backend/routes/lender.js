@@ -90,7 +90,8 @@ router.post('/register',
         first_id_proof: dbPath(req, 'firstIdProof'),
         second_id_proof: dbPath(req, 'secondIdProof'),
         shop_photo: dbPath(req, 'shopPhoto'),
-        gst_certificate: dbPath(req, 'gstCertificate')
+        gst_certificate: dbPath(req, 'gstCertificate'),
+        status: 'pending'
       };
 
       const cols = Object.keys(payload).join(',');

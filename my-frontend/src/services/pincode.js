@@ -57,7 +57,7 @@ export const reverseGeocode = async (lat, lon) => {
  */
 export const extractPincodeFromDisplayName = (displayName) => {
   if (!displayName) return null;
-  const match = displayName.match(/\\b\\d{6}\\b/);
+  const match = displayName.match(/\b\d{6}\b/);
   return match ? match[0] : null;
 };
 

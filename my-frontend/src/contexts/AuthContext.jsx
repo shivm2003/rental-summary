@@ -111,6 +111,33 @@ export const AuthProvider = ({ children }) => {
     return normalizedUser;
   }, [navigate]);
 
+  const fetchMe = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const { data } = await api.get('/api/auth/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const normalizedUser = {
+        id: data.id || data.uid,
+        username: data.username || data.userName || null,
+        firstName: data.firstName || data.first_name || '',
+        lastName: data.lastName || data.last_name || '',
+        role: data.role,
+        lender: data.lender || false,
+      };
+
+      setUser(normalizedUser);
+      localStorage.setItem('user', JSON.stringify(normalizedUser));
+      return normalizedUser;
+    } catch (error) {
+      console.error('❌ fetchMe error:', error);
+      // Optional: don't logout automatically here if it's just a transient error
+    }
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -136,13 +163,14 @@ export const AuthProvider = ({ children }) => {
     loading: loading || !isInitialized,
     login,
     logout,
+    fetchMe,
     isAdmin,
     isLender,
     isUser,
     isBoth,
     hasRole,
     isAuthenticated: !!user
-  }), [user, loading, isInitialized, login, logout, isAdmin, isLender, isUser, isBoth, hasRole]);
+  }), [user, loading, isInitialized, login, logout, fetchMe, isAdmin, isLender, isUser, isBoth, hasRole]);
 
   return (
     <AuthContext.Provider value={value}>

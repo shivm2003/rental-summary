@@ -246,6 +246,7 @@ app.use((err, req, res, next) => {
 
   const isDev = process.env.NODE_ENV === 'development';
 
+  console.error('🔥 Server Error:', err);
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Internal server error',
