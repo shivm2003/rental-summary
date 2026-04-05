@@ -118,22 +118,24 @@ exports.register = async (req, res, next) => {
     const isLender = desiredRole === 'lender' || desiredRole === 'both';
     
     // Generate OTP
-    const otp = generateOTP();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+    // const otp = generateOTP();
+    // const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
 
-    // Create user and require OTP verification
+    // Create user and skip OTP verification for now
     const { rows } = await client.query(
-      `INSERT INTO users (username, email, phone, password_hash, password_salt, role, is_verified, account_status, otp_code, otp_expires_at)
-       VALUES ($1,$2,$3,$4,'',$5,false,'active',$6,$7) RETURNING user_id`,
-      [username, email, phone, hash, initialRole, otp, otpExpires]
+      `INSERT INTO users (username, email, phone, password_hash, password_salt, role, is_verified, account_status)
+       VALUES ($1,$2,$3,$4,'',$5,true,'active') RETURNING user_id`,
+      [username, email, phone, hash, initialRole]
     );
 
+    /*
     transporter.sendMail({
       from: `"EveryThingRental" <${process.env.SMTP_USER}>`,
       to: email,
       subject: 'Welcome! Verify your account - EveryThingRental',
       html: generateEmailTemplate(otp, 'account'),
     }).catch(err => console.error('Email send error:', err));
+    */
     const uid = rows[0].user_id;
 
     // Create profile with lender flag
@@ -391,7 +393,9 @@ exports.login = async (req, res, next) => {
       throw err;
     }
 
-    // Passwords match! Since OTP is globally mandated for login:
+    // Passwords match!
+    /*
+    // OTP logic temporarily bypassed
     const otp = generateOTP();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
     await pool.query('UPDATE users SET otp_code = $1, otp_expires_at = $2 WHERE user_id = $3', [otp, otpExpires, rows[0].user_id]);
@@ -404,6 +408,21 @@ exports.login = async (req, res, next) => {
     }).catch(err => console.log('OTP Email error:', err));
 
     return res.json({ requireOtp: true, email: rows[0].email });
+    */
+
+    // Direct Login without OTP:
+    const userRole = rows[0].role || 'user';
+    const token = createToken(rows[0].user_id, rows[0].first_name, userRole);
+    return res.json({ 
+      token, 
+      user: { 
+        id: rows[0].user_id, 
+        email: rows[0].email, 
+        first_name: rows[0].first_name, 
+        role: userRole, 
+        lender: rows[0].lender 
+      } 
+    });
   } catch (e) {
     next(e);
   }

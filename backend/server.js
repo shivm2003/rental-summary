@@ -9,6 +9,7 @@ const helmet = require('helmet');
 const fs = require('fs');
 
 const app = express();
+app.set('trust proxy', 1); // Respect Render's reverse proxy for express-rate-limit
 const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
