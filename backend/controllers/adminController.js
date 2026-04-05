@@ -50,7 +50,9 @@ exports.getPendingLenders = async (req, res, next) => {
       SELECT DISTINCT ON (a.user_id) a.*, u.username, u.email, u.phone 
       FROM lender_applications a
       JOIN users u ON a.user_id = u.user_id
+      LEFT JOIN user_profiles p ON p.user_id = a.user_id
       WHERE a.status = 'pending'
+        AND (p.lender IS NULL OR p.lender = false)
       ORDER BY a.user_id, a.created_at DESC
     `);
     res.json({ success: true, applications: rows });
