@@ -21,6 +21,28 @@ const transporter = nodemailer.createTransport({
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
+const generateEmailTemplate = (otp, type = 'account') => `
+<div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f9f9f9; padding: 40px 20px; border-radius: 10px;">
+  <div style="background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center;">
+    <h1 style="color: #2874f0; margin-bottom: 10px; font-size: 28px; font-weight: 800;">EveryThingRental</h1>
+    <h2 style="color: #333; margin-bottom: 20px; font-weight: 500;">Verify your ${type}</h2>
+    <p style="color: #666; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+      Hello,<br>
+      Please use the verification code below to securely sign into your EveryThingRental account. This code will expire in exactly 10 minutes.
+    </p>
+    <div style="background-color: #f0f7ff; border: 2px dashed #2874f0; border-radius: 8px; padding: 20px; margin: 0 auto; display: inline-block;">
+      <span style="font-size: 32px; font-weight: bold; color: #2874f0; letter-spacing: 6px;">${otp}</span>
+    </div>
+    <p style="color: #999; font-size: 13px; margin-top: 40px;">
+      If you didn't request this code, you can safely ignore this email. Someone else might have typed your email address by mistake.
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #aaa; font-size: 12px;">
+    &copy; ${new Date().getFullYear()} EveryThingRental. All rights reserved.
+  </div>
+</div>
+`;
+
 /* ---------- helpers ---------- */
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -95,11 +117,11 @@ exports.register = async (req, res, next) => {
       [username, email, phone, hash, initialRole, otp, otpExpires]
     );
 
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"EveryThingRental" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: 'Verify your account',
-      text: `Your EveryThingRental verification OTP is: ${otp}`,
+      subject: 'Welcome! Verify your account - EveryThingRental',
+      html: generateEmailTemplate(otp, 'account'),
     }).catch(err => console.error('Email send error:', err));
     const uid = rows[0].user_id;
 
@@ -363,11 +385,11 @@ exports.login = async (req, res, next) => {
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
     await pool.query('UPDATE users SET otp_code = $1, otp_expires_at = $2 WHERE user_id = $3', [otp, otpExpires, rows[0].user_id]);
     
-    await transporter.sendMail({
+    transporter.sendMail({
       from: `"EveryThingRental" <${process.env.SMTP_USER}>`,
       to: rows[0].email,
-      subject: 'Verify your login',
-      text: `Your EveryThingRental login verification OTP is: ${otp}`,
+      subject: 'Verify your secure login - EveryThingRental',
+      html: generateEmailTemplate(otp, 'login'),
     }).catch(err => console.log('OTP Email error:', err));
 
     return res.json({ requireOtp: true, email: rows[0].email });

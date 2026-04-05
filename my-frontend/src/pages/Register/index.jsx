@@ -29,6 +29,11 @@ export default function Register() {
   const handleSubmit = async e => {
     e.preventDefault();
     setError('');
+
+    if (!form.email || !form.email.trim() || !form.email.includes('@')) {
+      return setError('Email ID is strictly mandatory for registration.');
+    }
+
     if (!termsAccepted) {
       return setError('You must accept the Terms and Conditions to register.');
     }

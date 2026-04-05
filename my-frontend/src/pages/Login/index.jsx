@@ -121,7 +121,6 @@ export default function Login() {
                 useOneTap
               />
             </div>
-            <button className="social" disabled={loading}>Continue with Apple</button>
 
             <p className="signup">
               New to EveryThingRental? <Link to="/register">Sign Up</Link>
