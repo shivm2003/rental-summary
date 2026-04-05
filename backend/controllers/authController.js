@@ -10,13 +10,24 @@ const nodemailer = require('nodemailer');
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'placeholder');
 
 const transporter = nodemailer.createTransport({
-  host: 'smtpout.secureserver.net',
-  port: 465,
-  secure: true,
+  host: process.env.SMTP_HOST || 'smtpout.secureserver.net',
+  port: parseInt(process.env.SMTP_PORT || '465'),
+  secure: process.env.SMTP_PORT === '587' ? false : true, // true for 465, false for other ports
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+transporter.verify(function (error, success) {
+  if (error) {
+    console.error('SMTP Error in Production:', error);
+  } else {
+    console.log('SMTP Server is ready to take our messages');
+  }
 });
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
