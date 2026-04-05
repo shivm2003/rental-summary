@@ -47,11 +47,11 @@ exports.approveListing = async (req, res, next) => {
 exports.getPendingLenders = async (req, res, next) => {
   try {
     const { rows } = await pool.query(`
-      SELECT a.*, u.username, u.email, u.phone 
+      SELECT DISTINCT ON (a.user_id) a.*, u.username, u.email, u.phone 
       FROM lender_applications a
       JOIN users u ON a.user_id = u.user_id
       WHERE a.status = 'pending'
-      ORDER BY a.created_at DESC
+      ORDER BY a.user_id, a.created_at DESC
     `);
     res.json({ success: true, applications: rows });
   } catch (error) {
@@ -93,6 +93,51 @@ exports.approveLender = async (req, res, next) => {
     next(error);
   } finally {
     client.release();
+  }
+};
+
+// Reject a listing with remark
+exports.rejectListing = async (req, res, next) => {
+  const { id } = req.params;
+  const { remark } = req.body;
+  if (!remark) return res.status(400).json({ success: false, message: 'Rejection remark is required' });
+  try {
+    const { rows } = await pool.query(
+      `UPDATE listings SET status = 'rejected', rejection_remark = $1, rejected_at = NOW(), updated_at = NOW() WHERE id = $2 RETURNING id`,
+      [remark, id]
+    );
+    if (!rows.length) return res.status(404).json({ success: false, message: 'Listing not found' });
+    res.json({ success: true, message: 'Listing rejected' });
+  } catch (error) {
+    // If columns don't exist yet, add them and retry
+    if (error.message.includes('rejection_remark')) {
+      await pool.query(`ALTER TABLE listings ADD COLUMN IF NOT EXISTS rejection_remark TEXT, ADD COLUMN IF NOT EXISTS rejected_at TIMESTAMP`);
+      return exports.rejectListing(req, res, next);
+    }
+    console.error('rejectListing error:', error);
+    next(error);
+  }
+};
+
+// Reject a lender application with remark
+exports.rejectLender = async (req, res, next) => {
+  const { id } = req.params;
+  const { remark } = req.body;
+  if (!remark) return res.status(400).json({ success: false, message: 'Rejection remark is required' });
+  try {
+    const { rows } = await pool.query(
+      `UPDATE lender_applications SET status = 'rejected', rejection_remark = $1, rejected_at = NOW(), updated_at = NOW() WHERE id = $2 RETURNING id`,
+      [remark, id]
+    );
+    if (!rows.length) return res.status(404).json({ success: false, message: 'Application not found' });
+    res.json({ success: true, message: 'Lender application rejected' });
+  } catch (error) {
+    if (error.message.includes('rejection_remark')) {
+      await pool.query(`ALTER TABLE lender_applications ADD COLUMN IF NOT EXISTS rejection_remark TEXT, ADD COLUMN IF NOT EXISTS rejected_at TIMESTAMP`);
+      return exports.rejectLender(req, res, next);
+    }
+    console.error('rejectLender error:', error);
+    next(error);
   }
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, Edit } from 'lucide-react';
+import { CheckCircle, XCircle, Edit } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -16,6 +16,10 @@ export default function AdminApprovals() {
   const [editingId, setEditingId] = useState(null);
   const [editCategory, setEditCategory] = useState({ id: '', name: '' });
 
+  // Reject Modal State
+  const [rejectModal, setRejectModal] = useState({ open: false, type: '', id: null });
+  const [rejectRemark, setRejectRemark] = useState('');
+
   useEffect(() => {
     fetchData();
   }, [activeTab]);
@@ -29,7 +33,7 @@ export default function AdminApprovals() {
       if (activeTab === 'products') {
         const [listRes, catRes] = await Promise.all([
           fetch(`${API_URL}/api/admin/listings/pending`, { headers }),
-          fetch(`${API_URL}/api/categories/all`)
+          fetch(`${API_URL}/api/categories`)
         ]);
         const listData = await listRes.json();
         const catData = await catRes.json();
@@ -83,8 +87,84 @@ export default function AdminApprovals() {
     }
   };
 
+  const openRejectModal = (type, id) => {
+    setRejectModal({ open: true, type, id });
+    setRejectRemark('');
+  };
+
+  const handleReject = async () => {
+    if (!rejectRemark.trim()) return alert('Please enter a remark for rejection.');
+    const { type, id } = rejectModal;
+    const endpoint = type === 'product'
+      ? `${API_URL}/api/admin/listings/${id}/reject`
+      : `${API_URL}/api/admin/lenders/${id}/reject`;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(endpoint, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ remark: rejectRemark.trim() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert(type === 'product' ? 'Product rejected.' : 'Lender application rejected.');
+        setRejectModal({ open: false, type: '', id: null });
+        setRejectRemark('');
+        fetchData();
+      } else alert(data.message || 'Error rejecting');
+    } catch (err) {
+      alert('Network error');
+    }
+  };
+
+  // ====================== MODAL ==========================
+  const RejectModal = () => {
+    if (!rejectModal.open) return null;
+    return (
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+      }}>
+        <div style={{
+          background: '#fff', borderRadius: '12px', padding: '28px 32px', width: '420px', maxWidth: '92vw',
+          boxShadow: '0 12px 40px rgba(0,0,0,0.18)'
+        }}>
+          <h3 style={{ margin: '0 0 6px', fontSize: '18px', fontWeight: 700, color: '#0f172a' }}>
+            Reject {rejectModal.type === 'product' ? 'Product' : 'Lender Application'}
+          </h3>
+          <p style={{ color: '#64748b', fontSize: '14px', margin: '0 0 16px' }}>
+            Please provide a reason for rejection. This will be stored for records.
+          </p>
+          <textarea
+            value={rejectRemark}
+            onChange={e => setRejectRemark(e.target.value)}
+            placeholder="Enter rejection reason / remark..."
+            rows={4}
+            style={{
+              width: '100%', padding: '10px 12px', border: '1.5px solid #cbd5e1', borderRadius: '8px',
+              fontSize: '14px', resize: 'vertical', fontFamily: 'inherit', boxSizing: 'border-box'
+            }}
+          />
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '16px' }}>
+            <button
+              onClick={() => { setRejectModal({ open: false, type: '', id: null }); setRejectRemark(''); }}
+              style={{ padding: '8px 18px', background: '#e2e8f0', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600, color: '#475569' }}
+            >Cancel</button>
+            <button
+              onClick={handleReject}
+              style={{ padding: '8px 18px', background: '#ef4444', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}
+            >Reject</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ====================== RENDER ==========================
   return (
     <div style={{ padding: '32px', fontFamily: "'DM Sans', sans-serif" }}>
+      <RejectModal />
+
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '700' }}>Pending Approvals</h2>
         
@@ -157,9 +237,14 @@ export default function AdminApprovals() {
                           <button onClick={() => setEditingId(null)} style={{ padding: '6px 12px', background: '#94a3b8', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
                         </div>
                       ) : (
-                        <button onClick={() => handleApproveProduct(listing.id, listing.category_id, listing.category)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                          <CheckCircle size={16} /> Approve
-                        </button>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button onClick={() => handleApproveProduct(listing.id, listing.category_id, listing.category)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                            <CheckCircle size={16} /> Approve
+                          </button>
+                          <button onClick={() => openRejectModal('product', listing.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                            <XCircle size={16} /> Reject
+                          </button>
+                        </div>
                       )}
                     </td>
                   </tr>
@@ -189,9 +274,14 @@ export default function AdminApprovals() {
                     <td style={{ padding: '12px', textTransform: 'capitalize' }}>{app.lender_type}</td>
                     <td style={{ padding: '12px' }}>{app.city}, {app.state}</td>
                     <td style={{ padding: '12px' }}>
-                      <button onClick={() => handleApproveLender(app.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
-                        <CheckCircle size={16} /> Approve
-                      </button>
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <button onClick={() => handleApproveLender(app.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                          <CheckCircle size={16} /> Approve
+                        </button>
+                        <button onClick={() => openRejectModal('lender', app.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                          <XCircle size={16} /> Reject
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

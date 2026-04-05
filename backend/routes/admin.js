@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const adminOnly = require('../middleware/admin');
 const pool = require('../config/database');
-const { getDashboardStats, getPendingListings, approveListing, getPendingLenders, approveLender } = require('../controllers/adminController');
+const { getDashboardStats, getPendingListings, approveListing, rejectListing, getPendingLenders, approveLender, rejectLender } = require('../controllers/adminController');
 const { getAllQueries, updateQueryStatus } = require('../controllers/queryController');
 
 // GET /api/admin/dashboard-stats
@@ -13,10 +13,12 @@ router.get('/dashboard-stats', adminOnly, getDashboardStats);
 // Product listings moderation
 router.get('/listings/pending', adminOnly, getPendingListings);
 router.put('/listings/:id/approve', adminOnly, approveListing);
+router.put('/listings/:id/reject', adminOnly, rejectListing);
 
 // Lender applications moderation
 router.get('/lenders/pending', adminOnly, getPendingLenders);
 router.put('/lenders/:id/approve', adminOnly, approveLender);
+router.put('/lenders/:id/reject', adminOnly, rejectLender);
 
 // Query management
 router.get('/queries', adminOnly, getAllQueries);
