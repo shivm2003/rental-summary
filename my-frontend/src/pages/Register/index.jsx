@@ -55,8 +55,7 @@ export default function Register() {
         phone    : form.phone,
         password : form.password,
       });
-      // OTP Phase Skipped
-      navigate('/login');
+      setOtpStep(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {

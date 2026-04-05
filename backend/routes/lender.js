@@ -101,11 +101,6 @@ router.post('/register',
         Object.values(payload)
       );
 
-      await client.query(
-        'UPDATE user_profiles SET lender = true WHERE user_id = $1',
-        [userId]
-      );
-
       await client.query('COMMIT');
       res.json({ success: true, message: 'Lender registration successful' });
     } catch (e) {

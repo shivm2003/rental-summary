@@ -7,6 +7,7 @@ export default function AdminLayout() {
 
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutGrid, label: 'Dashboard' },
+    { path: '/admin/approvals', icon: FolderOpen, label: 'Pending Approvals' },
     { path: '/admin/categories', icon: FolderOpen, label: 'Categories' },
     { path: '/admin/hero', icon: ImageIcon, label: 'Hero Banners' },
     { path: '/admin/queries', icon: MessageSquare, label: 'Customer Queries' },

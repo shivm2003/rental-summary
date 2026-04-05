@@ -3,6 +3,99 @@
 const pool = require('../config/database');
 
 // Get dashboard statistics
+exports.getPendingListings = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT l.*, u.username as lender_name 
+      FROM listings l 
+      JOIN users u ON l.lender_id = u.user_id 
+      WHERE l.status = 'pending' 
+      ORDER BY l.created_at DESC
+    `);
+    res.json({ success: true, listings: rows });
+  } catch (error) {
+    console.error('getPendingListings error:', error);
+    next(error);
+  }
+};
+
+exports.approveListing = async (req, res, next) => {
+  const { id } = req.params;
+  const { category_id, category } = req.body;
+  try {
+    let query;
+    const values = [];
+    if (category_id && category) {
+      query = 'UPDATE listings SET status = $1, category_id = $2, category = $3, updated_at = NOW() WHERE id = $4 RETURNING id';
+      values.push('active', category_id, category, id);
+    } else {
+      query = 'UPDATE listings SET status = $1, updated_at = NOW() WHERE id = $2 RETURNING id';
+      values.push('active', id);
+    }
+    
+    const { rows } = await pool.query(query, values);
+    if (!rows.length) {
+      return res.status(404).json({ success: false, message: 'Listing not found' });
+    }
+    res.json({ success: true, message: 'Listing approved successfully' });
+  } catch (error) {
+    console.error('approveListing error:', error);
+    next(error);
+  }
+};
+
+exports.getPendingLenders = async (req, res, next) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT a.*, u.username, u.email, u.phone 
+      FROM lender_applications a
+      JOIN users u ON a.user_id = u.user_id
+      WHERE a.status = 'pending'
+      ORDER BY a.created_at DESC
+    `);
+    res.json({ success: true, applications: rows });
+  } catch (error) {
+    console.error('getPendingLenders error:', error);
+    next(error);
+  }
+};
+
+exports.approveLender = async (req, res, next) => {
+  const { id } = req.params;
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // 1. Update lender_applications to approved
+    const { rows: updatedApp } = await client.query(
+      "UPDATE lender_applications SET status = 'approved', updated_at = NOW() WHERE id = $1 RETURNING user_id",
+      [id]
+    );
+
+    if (!updatedApp.length) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ success: false, message: 'Application not found' });
+    }
+
+    const userId = updatedApp[0].user_id;
+
+    // 2. Set user as a lender in user_profiles
+    await client.query(
+      'UPDATE user_profiles SET lender = true WHERE user_id = $1',
+      [userId]
+    );
+
+    await client.query('COMMIT');
+    res.json({ success: true, message: 'Lender approved successfully' });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    console.error('approveLender error:', error);
+    next(error);
+  } finally {
+    client.release();
+  }
+};
+
 exports.getDashboardStats = async (req, res, next) => {
   try {
     // Total active users (users who logged in within last 30 days)

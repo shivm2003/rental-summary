@@ -24,6 +24,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard.jsx';
 import AdminCategories from './pages/Admin/Admincategories.jsx';
 import AdminHeroBanners from './pages/Admin/Adminherobanners.jsx';
 import AdminQueries from './pages/Admin/AdminQueries.jsx';
+import AdminApprovals from './pages/Admin/AdminApprovals.jsx';
 
 /* ---------- Lender Pages ---------- */
 import Lender from './pages/Lender/index.jsx';
@@ -191,6 +192,7 @@ function App() {
           <Route path="/admin" element={<AdminRoute />}>
             <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="approvals" element={<AdminApprovals />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="hero" element={<AdminHeroBanners />} />
             <Route path="queries" element={<AdminQueries />} />

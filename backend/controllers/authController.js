@@ -10,7 +10,9 @@ const nodemailer = require('nodemailer');
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'placeholder');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtpout.secureserver.net',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -57,12 +59,12 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    // Check if users table has role column, if not create it (Done outside transaction)
     try {
       await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'user'");
       await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT false");
       await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_code VARCHAR(10)");
       await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMP");
+      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS account_status VARCHAR(20) DEFAULT 'active'");
     } catch (e) {
       // Column might already exist, continue
     }
@@ -82,12 +84,23 @@ exports.register = async (req, res, next) => {
     const initialRole = desiredRole === 'lender' ? 'user' : desiredRole;
     const isLender = desiredRole === 'lender' || desiredRole === 'both';
     
-    // Create user and auto-verify since OTP is skipped
+    // Generate OTP
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+
+    // Create user and require OTP verification
     const { rows } = await client.query(
-      `INSERT INTO users (username, email, phone, password_hash, password_salt, role, is_verified)
-       VALUES ($1,$2,$3,$4,'',$5,true) RETURNING user_id`,
-      [username, email, phone, hash, initialRole]
+      `INSERT INTO users (username, email, phone, password_hash, password_salt, role, is_verified, account_status, otp_code, otp_expires_at)
+       VALUES ($1,$2,$3,$4,'',$5,false,'active',$6,$7) RETURNING user_id`,
+      [username, email, phone, hash, initialRole, otp, otpExpires]
     );
+
+    await transporter.sendMail({
+      from: `"EveryThingRental" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Verify your account',
+      text: `Your EveryThingRental verification OTP is: ${otp}`,
+    }).catch(err => console.error('Email send error:', err));
     const uid = rows[0].user_id;
 
     // Create profile with lender flag
@@ -176,7 +189,7 @@ exports.verifyOtp = async (req, res, next) => {
 
   try {
     const { rows } = await pool.query(
-      `SELECT u.user_id, p.first_name, u.role, u.otp_code, u.otp_expires_at 
+      `SELECT u.user_id, p.first_name, u.role, p.lender, u.otp_code, u.otp_expires_at 
        FROM users u 
        JOIN user_profiles p ON p.user_id = u.user_id 
        WHERE u.email = $1`,
@@ -187,15 +200,30 @@ exports.verifyOtp = async (req, res, next) => {
     
     const user = rows[0];
     if (user.otp_code !== otp) return res.status(400).json({ message: 'Invalid OTP' });
-    if (new Date(user.otp_expires_at) < new Date()) return res.status(400).json({ message: 'OTP expired. Please try registering again.' });
+    if (new Date(user.otp_expires_at) < new Date()) return res.status(400).json({ message: 'OTP expired. Please try registering/logging in again.' });
 
     // Mark as verified
     await pool.query('UPDATE users SET is_verified = true, otp_code = NULL, otp_expires_at = NULL WHERE user_id = $1', [user.user_id]);
 
-    const token = createToken(user.user_id, user.first_name, user.role);
+    let userRole = user.role || 'user';
+    
+    // Check if user should be 'both' (has lender=true and approved application)
+    if (userRole === 'user' && user.lender === true) {
+      const { rows: app } = await pool.query(
+        'SELECT status FROM lender_applications WHERE user_id = $1 AND status = $2',
+        [user.user_id, 'approved']
+      );
+      
+      if (app.length > 0) {
+        userRole = 'both';
+        await pool.query('UPDATE users SET role = $1 WHERE user_id = $2', ['both', user.user_id]);
+      }
+    }
+
+    const token = createToken(user.user_id, user.first_name, userRole);
     res.json({ 
       token, 
-      user: { id: user.user_id, email, first_name: user.first_name, role: user.role } 
+      user: { id: user.user_id, email, first_name: user.first_name, role: userRole, lender: user.lender } 
     });
   } catch (e) {
     next(e);
@@ -304,6 +332,7 @@ exports.login = async (req, res, next) => {
     const { rows } = await pool.query(
       `SELECT u.user_id,
               u.username,
+              u.email,
               u.password_hash,
               u.role,
               u.is_verified,
@@ -322,11 +351,6 @@ exports.login = async (req, res, next) => {
       throw err;
     }
 
-    if (rows[0].is_verified === false) {
-      // Un-verifed users from earlier testing lockouts are overridden here
-      await pool.query('UPDATE users SET is_verified = true WHERE user_id = $1', [rows[0].user_id]);
-    }
-
     const match = await bcrypt.compare(password, rows[0].password_hash);
     if (!match) {
       const err = new Error('Invalid credentials');
@@ -334,35 +358,19 @@ exports.login = async (req, res, next) => {
       throw err;
     }
 
-    let userRole = rows[0].role || 'user';
+    // Passwords match! Since OTP is globally mandated for login:
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    await pool.query('UPDATE users SET otp_code = $1, otp_expires_at = $2 WHERE user_id = $3', [otp, otpExpires, rows[0].user_id]);
     
-    // Check if user should be 'both' (has lender=true and approved application)
-    if (userRole === 'user' && rows[0].lender === true) {
-      const { rows: app } = await pool.query(
-        'SELECT status FROM lender_applications WHERE user_id = $1 AND status = $2',
-        [rows[0].user_id, 'approved']
-      );
-      
-      if (app.length > 0) {
-        userRole = 'both';
-        // Update in database
-        await pool.query('UPDATE users SET role = $1 WHERE user_id = $2', ['both', rows[0].user_id]);
-      }
-    }
+    await transporter.sendMail({
+      from: `"EveryThingRental" <${process.env.SMTP_USER}>`,
+      to: rows[0].email,
+      subject: 'Verify your login',
+      text: `Your EveryThingRental login verification OTP is: ${otp}`,
+    }).catch(err => console.log('OTP Email error:', err));
 
-    const token = createToken(rows[0].user_id, rows[0].first_name, userRole);
-    
-    res.json({
-      user: {
-        token,
-        id: rows[0].user_id,
-        username: rows[0].username,
-        first_name: rows[0].first_name,
-        last_name: rows[0].last_name,
-        role: userRole,
-        lender: rows[0].lender
-      },
-    });
+    return res.json({ requireOtp: true, email: rows[0].email });
   } catch (e) {
     next(e);
   }
@@ -393,6 +401,9 @@ exports.googleAuth = async (req, res, next) => {
       BEGIN 
         IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='role') THEN
           ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'user';
+        END IF;
+        IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='users' AND column_name='account_status') THEN
+          ALTER TABLE users ADD COLUMN account_status VARCHAR(20) DEFAULT 'active';
         END IF;
       END $$;
     `).catch(() => {});
@@ -449,8 +460,8 @@ exports.googleAuth = async (req, res, next) => {
         }
 
         const { rows: newUser } = await client.query(
-          `INSERT INTO users (username, email, password_hash, password_salt, role, is_verified)
-           VALUES ($1, $2, $3, '', 'user', true) RETURNING user_id`,
+          `INSERT INTO users (username, email, password_hash, password_salt, role, is_verified, account_status)
+           VALUES ($1, $2, $3, '', 'user', true, 'active') RETURNING user_id`,
           [username, email, randomHash]
         );
         userId = newUser[0].user_id;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { getPincode, submitLender } from '../../services/lender';
+import { getPincode, submitLender, getLenderStatus } from '../../services/lender';
 import { reverseGeocode, parseNominatimAddress } from '../../services/pincode';
 import { Navigation } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -44,6 +44,19 @@ export default function Lender() {
   const [loading, setLoading] = useState(false);
   const [locationLoading, setLocationLoading] = useState(false);
   const [msg, setMsg] = useState({ text: '', type: '', show: false });
+
+  /* ---------- fetch status ---------- */
+  const [appStatus, setAppStatus] = useState(null);
+  const [checkingStatus, setCheckingStatus] = useState(true);
+
+  useEffect(() => {
+    getLenderStatus()
+      .then(status => {
+        setAppStatus(status);
+        setCheckingStatus(false);
+      })
+      .catch(() => setCheckingStatus(false));
+  }, []);
 
   /* ---------- get current location ---------- */
   const getCurrentLocation = () => {
@@ -174,6 +187,24 @@ export default function Lender() {
       setLoading(false);
     }
   };
+
+  if (checkingStatus) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Checking status...</div>;
+  }
+
+  if (appStatus && appStatus.status === 'pending') {
+    return (
+      <div className="lender-page">
+        <div className="lender-card" style={{ textAlign: 'center', padding: '60px 40px' }}>
+          <h2>Application Under Review</h2>
+          <p style={{ marginTop: '16px', color: '#64748b', fontSize: '1.1rem', lineHeight: '1.6' }}>
+            Your application to become a lender is currently pending admin approval. 
+            Once approved, you will be able to access the Lender Dashboard.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="lender-page">
