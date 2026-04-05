@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, Edit } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
 export default function AdminApprovals() {
   const [activeTab, setActiveTab] = useState('products');
   
@@ -26,15 +28,15 @@ export default function AdminApprovals() {
 
       if (activeTab === 'products') {
         const [listRes, catRes] = await Promise.all([
-          fetch('http://localhost:5001/api/admin/listings/pending', { headers }),
-          fetch('http://localhost:5001/api/categories/all')
+          fetch(`${API_URL}/api/admin/listings/pending`, { headers }),
+          fetch(`${API_URL}/api/categories/all`)
         ]);
         const listData = await listRes.json();
         const catData = await catRes.json();
         if (listData.success) setPendingProducts(listData.listings);
         if (catData.success || catData.categories) setCategories(catData.categories || catData.data?.categories || []);
       } else {
-        const lendRes = await fetch('http://localhost:5001/api/admin/lenders/pending', { headers });
+        const lendRes = await fetch(`${API_URL}/api/admin/lenders/pending`, { headers });
         const lendData = await lendRes.json();
         if (lendData.success) setPendingLenders(lendData.applications);
       }
@@ -48,7 +50,7 @@ export default function AdminApprovals() {
   const handleApproveProduct = async (id, catId, catName) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5001/api/admin/listings/${id}/approve`, {
+      const res = await fetch(`${API_URL}/api/admin/listings/${id}/approve`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ category_id: catId, category: catName })
@@ -67,7 +69,7 @@ export default function AdminApprovals() {
   const handleApproveLender = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5001/api/admin/lenders/${id}/approve`, {
+      const res = await fetch(`${API_URL}/api/admin/lenders/${id}/approve`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
       });
