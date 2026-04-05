@@ -63,7 +63,7 @@ export default function AdminApprovals() {
       if (data.success) {
         alert('Product approved successfully!');
         setEditingId(null);
-        fetchData();
+        setPendingProducts(prev => prev.filter(p => p.id !== id));
       } else alert(data.message || 'Error approving product');
     } catch (err) {
       alert('Network error');
@@ -80,7 +80,7 @@ export default function AdminApprovals() {
       const data = await res.json();
       if (data.success) {
         alert('Lender approved successfully!');
-        fetchData();
+        setPendingLenders(prev => prev.filter(l => l.id !== id));
       } else alert(data.message || 'Error approving lender');
     } catch (err) {
       alert('Network error');
@@ -108,9 +108,13 @@ export default function AdminApprovals() {
       const data = await res.json();
       if (data.success) {
         alert(type === 'product' ? 'Product rejected.' : 'Lender application rejected.');
+        if (type === 'product') {
+          setPendingProducts(prev => prev.filter(p => p.id !== id));
+        } else {
+          setPendingLenders(prev => prev.filter(l => l.id !== id));
+        }
         setRejectModal({ open: false, type: '', id: null });
         setRejectRemark('');
-        fetchData();
       } else alert(data.message || 'Error rejecting');
     } catch (err) {
       alert('Network error');
