@@ -92,16 +92,6 @@ exports.register = async (req, res, next) => {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
-    try {
-      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(20) DEFAULT 'user'");
-      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_verified BOOLEAN DEFAULT false");
-      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_code VARCHAR(10)");
-      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS otp_expires_at TIMESTAMP");
-      await client.query("ALTER TABLE users ADD COLUMN IF NOT EXISTS account_status VARCHAR(20) DEFAULT 'active'");
-    } catch (e) {
-      // Column might already exist, continue
-    }
-
     await client.query('BEGIN');
     
     // Ensure username is unique if auto-generated

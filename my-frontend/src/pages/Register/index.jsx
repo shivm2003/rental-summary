@@ -28,6 +28,7 @@ export default function Register() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if (loading) return;
     setError('');
 
     if (!form.email || !form.email.trim() || !form.email.includes('@')) {
@@ -70,6 +71,7 @@ export default function Register() {
 
   const handleOtpSubmit = async e => {
     e.preventDefault();
+    if (loading) return;
     if (!otp) return setError('Please enter the OTP sent to your email.');
 
     setLoading(true);

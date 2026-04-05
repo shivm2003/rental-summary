@@ -137,6 +137,7 @@ export default function Lender() {
   /* ---------- submit handler ---------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     setMsg({ text: '', type: '', show: false });
 

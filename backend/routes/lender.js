@@ -62,11 +62,22 @@ router.post('/register',
       if (mobiles.some(m => !/^\d{10}$/.test(m))) throw new Error('Invalid mobile number');
 
       /* ---- city/state ---- */
-      const { rows: [loc] } = await client.query(
+      let resolvedCity = body.city || '';
+      let resolvedState = body.state || '';
+      
+      const { rows: locRows } = await client.query(
         'SELECT city, state FROM pincode_master WHERE pincode = $1',
         [body.pincode]
       );
-      if (!loc) throw new Error('Pincode not found in master');
+      
+      if (locRows && locRows.length > 0) {
+        resolvedCity = locRows[0].city;
+        resolvedState = locRows[0].state;
+      }
+      
+      if (!resolvedCity || !resolvedState) {
+        throw new Error('City and State are required since pincode is not in master list');
+      }
 
       /* ---- payload ---- */
       const payload = {
@@ -75,8 +86,8 @@ router.post('/register',
         full_address: body.fullAddress,
         business_address: body.businessAddress || null,
         pincode: body.pincode,
-        city: loc.city,
-        state: loc.state,
+        city: resolvedCity,
+        state: resolvedState,
         digipin: body.digipin || null,
         ref1_name: body.ref1Name || null,
         ref1_mobile: body.ref1Mobile || null,
