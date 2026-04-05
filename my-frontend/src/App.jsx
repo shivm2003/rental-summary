@@ -25,6 +25,7 @@ import AdminCategories from './pages/Admin/Admincategories.jsx';
 import AdminHeroBanners from './pages/Admin/Adminherobanners.jsx';
 import AdminQueries from './pages/Admin/AdminQueries.jsx';
 import AdminApprovals from './pages/Admin/AdminApprovals.jsx';
+import AdminCityProducts from './pages/Admin/AdminCityProducts.jsx';
 
 /* ---------- Lender Pages ---------- */
 import Lender from './pages/Lender/index.jsx';
@@ -196,6 +197,7 @@ function App() {
             <Route path="categories" element={<AdminCategories />} />
             <Route path="hero" element={<AdminHeroBanners />} />
             <Route path="queries" element={<AdminQueries />} />
+            <Route path="city-products" element={<AdminCityProducts />} />
           </Route>
 
           {/* 404 */}

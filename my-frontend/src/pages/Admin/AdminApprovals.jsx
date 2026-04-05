@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, Edit } from 'lucide-react';
+import { CheckCircle, XCircle, Edit, Eye } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -19,6 +19,9 @@ export default function AdminApprovals() {
   // Reject Modal State
   const [rejectModal, setRejectModal] = useState({ open: false, type: '', id: null });
   const [rejectRemark, setRejectRemark] = useState('');
+
+  // View Details Modal State
+  const [viewLenderModal, setViewLenderModal] = useState({ open: false, data: null });
 
   useEffect(() => {
     fetchData();
@@ -81,6 +84,9 @@ export default function AdminApprovals() {
       if (data.success) {
         alert('Lender approved successfully!');
         setPendingLenders(prev => prev.filter(l => l.id !== id));
+        if (viewLenderModal.open && viewLenderModal.data?.id === id) {
+          setViewLenderModal({ open: false, data: null });
+        }
       } else alert(data.message || 'Error approving lender');
     } catch (err) {
       alert('Network error');
@@ -115,6 +121,9 @@ export default function AdminApprovals() {
         }
         setRejectModal({ open: false, type: '', id: null });
         setRejectRemark('');
+        if (type === 'lender' && viewLenderModal.open && viewLenderModal.data?.id === id) {
+          setViewLenderModal({ open: false, data: null });
+        }
       } else alert(data.message || 'Error rejecting');
     } catch (err) {
       alert('Network error');
@@ -164,10 +173,69 @@ export default function AdminApprovals() {
     );
   };
 
+  const ViewLenderModal = () => {
+    if (!viewLenderModal.open || !viewLenderModal.data) return null;
+    const app = viewLenderModal.data;
+    return (
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 999
+      }}>
+        <div style={{
+          background: '#fff', borderRadius: '12px', padding: '28px 32px', width: '550px', maxWidth: '92vw',
+          maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 12px 40px rgba(0,0,0,0.18)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 700, color: '#0f172a' }}>Lender Application Details</h3>
+            <button onClick={() => setViewLenderModal({ open: false, data: null })} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}><XCircle size={22} /></button>
+          </div>
+
+          <div style={{ display: 'grid', gap: '16px', fontSize: '14px', color: '#334155' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div><strong>Name:</strong> <br/>{app.username || 'N/A'}</div>
+              <div><strong>Email:</strong> <br/>{app.email || 'N/A'}</div>
+              <div><strong>Phone:</strong> <br/>{app.phone || 'N/A'}</div>
+              <div><strong>Type:</strong> <br/><span style={{ textTransform: 'capitalize' }}>{app.lender_type}</span></div>
+            </div>
+            
+            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
+              <strong>Business/Company Name:</strong> <br/>{app.business_name || 'N/A'}
+            </div>
+            {(app.gst_number || app.pan_number) && (
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
+                <div><strong>GST Number:</strong> <br/>{app.gst_number || 'N/A'}</div>
+                <div><strong>PAN Number:</strong> <br/>{app.pan_number || 'N/A'}</div>
+              </div>
+            )}
+            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div><strong>City:</strong> <br/>{app.city || 'N/A'}</div>
+              <div><strong>State:</strong> <br/>{app.state || 'N/A'}</div>
+            </div>
+            <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px' }}>
+              <strong>Full Address:</strong> <br/>{app.business_address || 'N/A'}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '24px', paddingTop: '16px', borderTop: '1px solid #e2e8f0' }}>
+            <button
+              onClick={() => { openRejectModal('lender', app.id); }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: '#fef2f2', color: '#ef4444', border: '1px solid #fca5a5', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}
+            ><XCircle size={16} /> Reject Application</button>
+            <button
+              onClick={() => handleApproveLender(app.id)}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 18px', background: '#10b981', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}
+            ><CheckCircle size={16} /> Approve & Verify</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // ====================== RENDER ==========================
   return (
     <div style={{ padding: '32px', fontFamily: "'DM Sans', sans-serif" }}>
       <RejectModal />
+      <ViewLenderModal />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '700' }}>Pending Approvals</h2>
@@ -279,6 +347,9 @@ export default function AdminApprovals() {
                     <td style={{ padding: '12px' }}>{app.city}, {app.state}</td>
                     <td style={{ padding: '12px' }}>
                       <div style={{ display: 'flex', gap: '8px' }}>
+                        <button onClick={() => setViewLenderModal({ open: true, data: app })} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                          <Eye size={16} /> View Form
+                        </button>
                         <button onClick={() => handleApproveLender(app.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
                           <CheckCircle size={16} /> Approve
                         </button>

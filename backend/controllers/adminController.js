@@ -47,13 +47,13 @@ exports.approveListing = async (req, res, next) => {
 exports.getPendingLenders = async (req, res, next) => {
   try {
     const { rows } = await pool.query(`
-      SELECT DISTINCT ON (a.user_id) a.*, u.username, u.email, u.phone 
+      SELECT DISTINCT ON (u.email) a.*, u.username, u.email, u.phone 
       FROM lender_applications a
       JOIN users u ON a.user_id = u.user_id
       LEFT JOIN user_profiles p ON p.user_id = a.user_id
       WHERE a.status = 'pending'
         AND (p.lender IS NULL OR p.lender = false)
-      ORDER BY a.user_id, a.created_at DESC
+      ORDER BY u.email, a.created_at DESC
     `);
     res.json({ success: true, applications: rows });
   } catch (error) {
@@ -145,7 +145,6 @@ exports.rejectLender = async (req, res, next) => {
 
 exports.getDashboardStats = async (req, res, next) => {
   try {
-    // Total active users (users who logged in within last 30 days)
     const { rows: [userStats] } = await pool.query(`
       SELECT 
         COUNT(*) as total_users,
@@ -155,7 +154,11 @@ exports.getDashboardStats = async (req, res, next) => {
       WHERE account_status = 'active'
     `);
 
-    // Total products/listings
+    const { rows: [lenderStats] } = await pool.query(`
+      SELECT COUNT(*) as total_lenders
+      FROM user_profiles WHERE lender = 'true'
+    `);
+
     const { rows: [productStats] } = await pool.query(`
       SELECT 
         COUNT(*) as total_products,
@@ -164,25 +167,28 @@ exports.getDashboardStats = async (req, res, next) => {
       FROM listings
     `);
 
-    // Revenue (if you have orders table)
-    const { rows: [revenueStats] } = await pool.query(`
+    const { rows: cityStats } = await pool.query(`
       SELECT 
-        COALESCE(SUM(total_amount), 0) as total_revenue,
-        COUNT(*) as total_orders
-      FROM orders 
-      WHERE status = 'completed'
-    `).catch(() => [{ total_revenue: 0, total_orders: 0 }]); // Graceful fallback
+        COALESCE(NULLIF(TRIM(city), ''), 'Unknown') as city,
+        COUNT(*) as total,
+        COUNT(CASE WHEN status = 'active' THEN 1 END) as active
+      FROM listings
+      GROUP BY COALESCE(NULLIF(TRIM(city), ''), 'Unknown')
+      ORDER BY total DESC
+    `);
 
-    // Recent activity (last 10 actions)
+    let revenueStats = { total_revenue: 0, total_orders: 0 };
+    try {
+      const { rows: [rv] } = await pool.query(`
+        SELECT COALESCE(SUM(total_amount), 0) as total_revenue, COUNT(*) as total_orders
+        FROM orders WHERE status = 'COMPLETED'
+      `);
+      revenueStats = rv;
+    } catch (_) {}
+
     const { rows: recentActivity } = await pool.query(`
-      SELECT 
-        'user_registered' as action_type,
-        username as item_name,
-        created_at as time,
-        'Admin' as user_name
-      FROM users
-      ORDER BY created_at DESC
-      LIMIT 5
+      SELECT 'user_registered' as action_type, username as item_name, created_at as time, 'Admin' as user_name
+      FROM users ORDER BY created_at DESC LIMIT 5
     `);
 
     res.json({
@@ -191,14 +197,16 @@ exports.getDashboardStats = async (req, res, next) => {
         active: parseInt(userStats.active_users),
         newThisWeek: parseInt(userStats.new_users_this_week)
       },
+      lenders: { total: parseInt(lenderStats.total_lenders) },
       products: {
         total: parseInt(productStats.total_products),
         active: parseInt(productStats.active_listings),
         newThisMonth: parseInt(productStats.new_this_month)
       },
+      cityStats,
       revenue: {
-        total: parseFloat(revenueStats.total_revenue) || 45200, // fallback for demo
-        orders: parseInt(revenueStats.total_orders) || 892
+        total: parseFloat(revenueStats.total_revenue) || 0,
+        orders: parseInt(revenueStats.total_orders) || 0
       },
       recentActivity: recentActivity.map(a => ({
         id: Math.random().toString(36),
@@ -232,3 +240,39 @@ function formatTimeAgo(date) {
   }
   return 'Just now';
 }
+
+// Get products by city with optional category filter
+exports.getCityProducts = async (req, res, next) => {
+  try {
+    const { city, category } = req.query;
+    let sql = `
+      SELECT l.id, l.item_name, l.city, l.status, l.rental_price_per_day, l.price_unit,
+             l.category, l.created_at, u.username as lender_name,
+             (SELECT full_url FROM listing_photos lp WHERE lp.listing_id = l.id ORDER BY display_order ASC LIMIT 1) as image_url
+      FROM listings l
+      JOIN users u ON l.lender_id = u.user_id
+      WHERE 1=1
+    `;
+    const args = [];
+    if (city && city !== 'all') {
+      args.push(city);
+      sql += ` AND TRIM(l.city) = $${args.length}`;
+    }
+    if (category && category !== 'all') {
+      args.push(category);
+      sql += ` AND l.category = $${args.length}`;
+    }
+    sql += ` ORDER BY l.created_at DESC`;
+
+    const { rows } = await pool.query(sql, args);
+
+    // Also return distinct cities and categories for filters
+    const { rows: cities } = await pool.query(`SELECT DISTINCT TRIM(city) as city FROM listings WHERE city IS NOT NULL AND TRIM(city) != '' ORDER BY city`);
+    const { rows: categories } = await pool.query(`SELECT DISTINCT category FROM listings WHERE category IS NOT NULL AND TRIM(category) != '' ORDER BY category`);
+
+    res.json({ success: true, products: rows, cities: cities.map(c => c.city), categories: categories.map(c => c.category) });
+  } catch (error) {
+    console.error('getCityProducts error:', error);
+    next(error);
+  }
+};
