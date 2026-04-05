@@ -19,13 +19,7 @@ const ADDRESS_TYPES = [
   { id: 'other', label: 'Other', icon: MapPin, color: '#388e3c' },
 ];
 
-// Payment methods
-const PAYMENT_METHODS = [
-  { id: 'upi', label: 'UPI', icon: Smartphone, subtext: 'Pay via any UPI app' },
-  { id: 'card', label: 'Credit/Debit Card', icon: CreditCard, subtext: 'Visa, Mastercard, RuPay' },
-  { id: 'netbanking', label: 'Net Banking', icon: Wallet, subtext: 'All major banks' },
-  { id: 'cod', label: 'Cash on Delivery', icon: Truck, subtext: 'Pay when you receive' },
-];
+
 
 // Initial empty address
 const EMPTY_ADDRESS = {
@@ -610,9 +604,7 @@ export default function CheckoutPage() {
           <div className="fk-checkout-steps">
             <span className="active">1. Address</span>
             <span>→</span>
-            <span className={selectedAddressId ? 'active' : ''}>2. Payment</span>
-            <span>→</span>
-            <span>3. Confirm</span>
+            <span className={selectedAddressId ? 'active' : ''}>2. Confirm Order</span>
           </div>
         </div>
 
@@ -939,64 +931,6 @@ export default function CheckoutPage() {
               )}
             </div>
 
-            {/* Payment Method Section */}
-            {selectedAddressId && (
-              <div className="fk-section-card">
-                <div className="fk-section-header">
-                  <div className="fk-section-title">
-                    <span className="fk-section-number">2</span>
-                    <div>
-                      <h3>Payment Method</h3>
-                      <p className="fk-selected-summary">
-                        {PAYMENT_METHODS.find(p => p.id === selectedPayment)?.label}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="fk-payment-methods">
-                  {PAYMENT_METHODS.map((method, index) => {
-                    const Icon = method.icon;
-                    return (
-                      <div
-                        key={`${method.id}-${index}`}
-                        className={`fk-payment-option ${selectedPayment === method.id ? 'selected' : ''}`}
-                        onClick={() => setSelectedPayment(method.id)}
-                      >
-                        <div className="fk-payment-radio">
-                          <div className={`fk-radio ${selectedPayment === method.id ? 'checked' : ''}`} />
-                        </div>
-                        <div className="fk-payment-icon">
-                          <Icon size={24} />
-                        </div>
-                        <div className="fk-payment-info">
-                          <h4>{method.label}</h4>
-                          <p>{method.subtext}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Payment Details Form */}
-                {selectedPayment === 'upi' && (
-                  <div className="fk-payment-details">
-                    <input type="text" placeholder="Enter UPI ID (e.g., name@upi)" />
-                  </div>
-                )}
-
-                {selectedPayment === 'card' && (
-                  <div className="fk-payment-details">
-                    <input type="text" placeholder="Card Number" maxLength={16} />
-                    <div className="fk-card-row">
-                      <input type="text" placeholder="MM/YY" maxLength={5} />
-                      <input type="password" placeholder="CVV" maxLength={3} />
-                    </div>
-                    <input type="text" placeholder="Name on Card" />
-                  </div>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Right Column - Order Summary */}
