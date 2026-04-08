@@ -1,0 +1,38 @@
+/* ====== iOS Safari & Global Mobile Fixes ====== */
+
+/* 1. Prevent iOS Auto-Zoom on inputs by forcing 16px font-size on mobile */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* 2. Fix Horizontal Overflow issues */
+html, body {
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  overflow-x: hidden;
+  /* Prevent 'pull-to-refresh' bounce effect if unwanted, can be safely disabled */
+  overscroll-behavior-y: none;
+}
+
+/* 3. Normalize iOS Button/Input styling */
+input, textarea, select {
+  -webkit-appearance: none;
+  border-radius: 4px; /* Standardize slightly instead of using iOS roundness */
+}
+
+button {
+  -webkit-tap-highlight-color: transparent; /* Remove grey flash on iOS tap */
+}
+
+/* 4. Support for Dynamic Viewport Height (iOS Bottom Safari Bar Fix) */
+.full-height-vh {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
+}
+
+* {
+  box-sizing: border-box;
+}

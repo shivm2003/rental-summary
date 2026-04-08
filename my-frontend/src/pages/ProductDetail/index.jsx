@@ -6,6 +6,7 @@ import { fetchProducts } from '../../services/products';
 import { getGalleryImages, getMainImage } from '../../services/images';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLocationContext } from '../../contexts/LocationContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { 
@@ -22,7 +23,9 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
   const { user } = useAuth();
+  const { city, district } = useLocationContext();
   
+  const locationLabel = city || district || '';
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,7 +64,8 @@ export default function ProductDetail() {
         const related = await fetchProducts({ 
           cat: data.category || data.cat, 
           limit: 6,
-          exclude: id 
+          exclude: id,
+          ...(locationLabel ? { city: locationLabel } : {})
         });
         setRelatedProducts(related.listings || related.products || []);
         

@@ -59,8 +59,8 @@ function ProductCard({ product }) {
             Min. rent: {product.min_rental_days} days
           </div>
         )}
-        {(product.city || product.location) && (
-          <div className="cp-product-location">📍 {(product.city || product.location).trim()}</div>
+        {product.location && (
+          <div className="cp-product-location">📍 {product.location.trim()}</div>
         )}
         <button className="cp-rent-btn" onClick={handleRentNow}>Rent Now</button>
       </div>
@@ -102,7 +102,7 @@ export default function CategoryPage() {
     const loadData = async () => {
       setLoading(true);
       try {
-        const filters = { cat: slug, sort };
+        const filters = { cat: slug, sort, ...(locationLabel ? { city: locationLabel } : {}) };
         const res = await fetchProducts(filters);
         let items = res.listings || res.products || [];
         

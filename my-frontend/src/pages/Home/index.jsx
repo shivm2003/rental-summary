@@ -87,9 +87,9 @@ function ProductCard({ product }) {
           Min. rent: {product.min_rental_days} days
         </div>
       )}
-      {(product.city || product.location) && (
+      {product.location && (
         <div className="product-location">
-          <span>📍</span> {(product.city || product.location).trim()}
+          <span>📍</span> {product.location.trim()}
         </div>
       )}
       <button
@@ -238,7 +238,7 @@ export default function Home() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (searchQuery) {
-      loadProducts({ search: searchQuery, limit: 50 }, setSearchResults, 'search');
+      loadProducts({ search: searchQuery, limit: 50, ...(locationLabel ? { city: locationLabel } : {}) }, setSearchResults, 'search');
     } else if (category) {
       loadProducts({ cat: category, limit: 20, ...(locationLabel ? { city: locationLabel } : {}) }, setCategoryProducts, 'category');
     } else {

@@ -1,22 +1,22 @@
 /* backend/controllers/productController.js */
 
 require('dotenv').config();
-const pool  = require('../config/database');
+const pool = require('../config/database');
 const multer = require('multer');
-const path   = require('path');
-const sharp  = require('sharp');
+const path = require('path');
+const sharp = require('sharp');
 const { uploadToS3, deleteFromS3 } = require('../utils/s3');
 
 // ============================================
 // Multer Configuration
 // ============================================
 const storage = multer.memoryStorage();
-const upload  = multer({
+const upload = multer({
   storage,
   limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB
   fileFilter: (_req, file, cb) => {
     const allowed = ['.jpg', '.jpeg', '.png', '.webp'];
-    const ext     = path.extname(file.originalname).toLowerCase();
+    const ext = path.extname(file.originalname).toLowerCase();
     if (allowed.includes(ext)) return cb(null, true);
     cb(new Error('Only JPG, JPEG, PNG, WebP files allowed'));
   }
@@ -85,7 +85,7 @@ function toBool(value) {
 // POST /api/listings/list
 // ============================================
 async function createListing(req, res, next) {
-  const client         = await pool.connect();
+  const client = await pool.connect();
   const uploadedS3Urls = [];
 
   try {
@@ -106,13 +106,13 @@ async function createListing(req, res, next) {
       originalPurchasePrice,
 
       // Rental rules
-      minRentalDays     = 1,
+      minRentalDays = 1,
       maxRentalDays,
       advanceBookingDays = 1,
 
       // Delivery & handover
       deliveryHandlerType = 'you',
-      deliveryOption      = 'pickup',
+      deliveryOption = 'pickup',
       deliveryRadius,
 
       // Rental coverage
@@ -142,14 +142,14 @@ async function createListing(req, res, next) {
 
     // ── Required field validation ─────────────────────────────────────────
     const missing = [];
-    if (!itemName?.trim())       missing.push('itemName');
-    if (!category)               missing.push('category');
-    if (!location?.trim())       missing.push('location');
-    if (!condition)              missing.push('condition');
-    if (!rentalPricePerDay)      missing.push('rentalPricePerDay');
-    if (!pincode?.trim())        missing.push('pincode');
-    if (!city?.trim())           missing.push('city');
-    if (!state?.trim())          missing.push('state');
+    if (!itemName?.trim()) missing.push('itemName');
+    if (!category) missing.push('category');
+    if (!location?.trim()) missing.push('location');
+    if (!condition) missing.push('condition');
+    if (!rentalPricePerDay) missing.push('rentalPricePerDay');
+    if (!pincode?.trim()) missing.push('pincode');
+    if (!city?.trim()) missing.push('city');
+    if (!state?.trim()) missing.push('state');
 
     if (missing.length) {
       return res.status(400).json({
@@ -201,9 +201,9 @@ async function createListing(req, res, next) {
     }
 
     // ── Resolve category names for backward-compat column ─────────────────
-    const categoryId    = parseInt(category) || null;
+    const categoryId = parseInt(category) || null;
     const subcategoryId = subcategory ? parseInt(subcategory) : null;
-    const categoryName  = await getCategoryNameById(categoryId);
+    const categoryName = await getCategoryNameById(categoryId);
 
     await client.query('BEGIN');
 
@@ -329,18 +329,18 @@ async function createListing(req, res, next) {
       uploadedS3Urls.push(s3Url);
 
       const base64Preview = await generateBase64Thumbnail(file.buffer);
-      const s3Key         = s3Url.split('.amazonaws.com/')[1] || s3Url;
+      const s3Key = s3Url.split('.amazonaws.com/')[1] || s3Url;
 
       const metadata = {
-        size:         file.size,
-        mime:         file.mimetype,
+        size: file.size,
+        mime: file.mimetype,
         originalName: file.originalname
       };
 
       try {
-        const imgMeta    = await sharp(file.buffer).metadata();
-        metadata.width   = imgMeta.width;
-        metadata.height  = imgMeta.height;
+        const imgMeta = await sharp(file.buffer).metadata();
+        metadata.width = imgMeta.width;
+        metadata.height = imgMeta.height;
       } catch (err) {
         console.error('Image metadata extraction failed:', err);
       }
@@ -353,8 +353,8 @@ async function createListing(req, res, next) {
     await client.query('COMMIT');
 
     res.status(201).json({
-      success:   true,
-      message:   'Your item has been successfully listed!',
+      success: true,
+      message: 'Your item has been successfully listed!',
       listingId: listing.id
     });
 
@@ -373,11 +373,11 @@ async function createListing(req, res, next) {
 // PUT /api/listings/:id
 // ============================================
 async function updateListing(req, res, next) {
-  const client         = await pool.connect();
+  const client = await pool.connect();
   const uploadedS3Urls = [];
 
   try {
-    const { id }              = req.params;
+    const { id } = req.params;
     const { deleteImages = '[]' } = req.body;
 
     // Verify ownership
@@ -420,19 +420,19 @@ async function updateListing(req, res, next) {
       `;
 
       for (let i = 0; i < req.files.length; i++) {
-        const file  = req.files[i];
+        const file = req.files[i];
         const s3Url = await uploadToS3(file.buffer, file.originalname, 'products', file.mimetype);
         uploadedS3Urls.push(s3Url);
 
         const base64Preview = await generateBase64Thumbnail(file.buffer);
-        const s3Key         = s3Url.split('.amazonaws.com/')[1] || s3Url;
-        const metadata      = { size: file.size, mime: file.mimetype, originalName: file.originalname };
+        const s3Key = s3Url.split('.amazonaws.com/')[1] || s3Url;
+        const metadata = { size: file.size, mime: file.mimetype, originalName: file.originalname };
 
         try {
-          const imgMeta   = await sharp(file.buffer).metadata();
-          metadata.width  = imgMeta.width;
+          const imgMeta = await sharp(file.buffer).metadata();
+          metadata.width = imgMeta.width;
           metadata.height = imgMeta.height;
-        } catch {}
+        } catch { }
 
         await client.query(photoQuery, [
           id, s3Key, base64Preview, s3Url, JSON.stringify(metadata), startOrder + i
@@ -442,37 +442,37 @@ async function updateListing(req, res, next) {
 
     // ── Build dynamic UPDATE query ────────────────────────────────────────
     const updateFields = [];
-    const values       = [];
-    let   paramCount   = 1;
+    const values = [];
+    let paramCount = 1;
 
     // Simple string / number fields — camelCase → snake_case mapping
     const simpleFields = {
-      itemName:             'item_name',
-      description:          'description',
-      location:             'location',
-      condition:            'condition',
-      itemAge:              'item_age',
-      minRentalDays:        'min_rental_days',
-      maxRentalDays:        'max_rental_days',
-      advanceBookingDays:   'advance_booking_days',
-      deliveryHandlerType:  'delivery_handler_type',
-      deliveryOption:       'delivery_option',
-      deliveryRadius:       'delivery_radius_km',
-      pincode:              'pincode',
-      city:                 'city',
-      state:                'state',
-      country:              'country',
-      securityDeposit:      'security_deposit',
-      rentalPricePerDay:    'rental_price_per_day',
-      priceUnit:            'price_unit',
-      originalPurchasePrice:'original_purchase_price',
-      termsAndConditions:   'terms_and_conditions',
-      discountType:         'discount_type',
-      discountValue:        'discount_value',
-      discountStartDate:    'discount_start_date',
-      discountEndDate:      'discount_end_date',
-      promoCode:            'promo_code',
-      displayTagline:       'display_tagline',
+      itemName: 'item_name',
+      description: 'description',
+      location: 'location',
+      condition: 'condition',
+      itemAge: 'item_age',
+      minRentalDays: 'min_rental_days',
+      maxRentalDays: 'max_rental_days',
+      advanceBookingDays: 'advance_booking_days',
+      deliveryHandlerType: 'delivery_handler_type',
+      deliveryOption: 'delivery_option',
+      deliveryRadius: 'delivery_radius_km',
+      pincode: 'pincode',
+      city: 'city',
+      state: 'state',
+      country: 'country',
+      securityDeposit: 'security_deposit',
+      rentalPricePerDay: 'rental_price_per_day',
+      priceUnit: 'price_unit',
+      originalPurchasePrice: 'original_purchase_price',
+      termsAndConditions: 'terms_and_conditions',
+      discountType: 'discount_type',
+      discountValue: 'discount_value',
+      discountStartDate: 'discount_start_date',
+      discountEndDate: 'discount_end_date',
+      promoCode: 'promo_code',
+      displayTagline: 'display_tagline',
     };
 
     Object.entries(simpleFields).forEach(([jsKey, dbCol]) => {
@@ -484,8 +484,8 @@ async function updateListing(req, res, next) {
 
     // Numeric fields — coerce to number or null
     const numericFields = {
-      purchaseMonth:        'purchase_month',
-      purchaseYear:         'purchase_year',
+      purchaseMonth: 'purchase_month',
+      purchaseYear: 'purchase_year',
     };
 
     Object.entries(numericFields).forEach(([jsKey, dbCol]) => {
@@ -498,7 +498,7 @@ async function updateListing(req, res, next) {
     // Boolean fields
     const booleanFields = {
       idVerificationRequired: 'id_verification_required',
-      insuranceAvailable:     'insurance_available',
+      insuranceAvailable: 'insurance_available',
     };
 
     Object.entries(booleanFields).forEach(([jsKey, dbCol]) => {
@@ -510,10 +510,10 @@ async function updateListing(req, res, next) {
 
     // Category (requires name lookup for legacy column)
     if (req.body.category !== undefined) {
-      const catId   = parseInt(req.body.category) || null;
+      const catId = parseInt(req.body.category) || null;
       const catName = await getCategoryNameById(catId);
-      updateFields.push(`category_id = $${paramCount++}`);  values.push(catId);
-      updateFields.push(`category = $${paramCount++}`);     values.push(catName);
+      updateFields.push(`category_id = $${paramCount++}`); values.push(catId);
+      updateFields.push(`category = $${paramCount++}`); values.push(catName);
     }
 
     if (req.body.subcategory !== undefined) {
@@ -589,9 +589,10 @@ async function deleteListing(req, res, next) {
 async function getAllListings(req, res, next) {
   try {
     const {
-      search  = '',
+      search = '',
       cat,
       subcat,
+      location,
       city,
       state,
       country,
@@ -599,14 +600,14 @@ async function getAllListings(req, res, next) {
       district,
       location_group_id,
       exclude,
-      sort    = 'newest',
-      order   = 'desc',
-      page    = 1,
-      limit   = 12,
+      sort = 'newest',
+      order = 'desc',
+      page = 1,
+      limit = 12,
     } = req.query;
 
     const offset = (page - 1) * limit;
-    const args   = [];
+    const args = [];
 
     let sql = `
       SELECT
@@ -650,14 +651,18 @@ async function getAllListings(req, res, next) {
         args.push(`%${cat}%`);
       }
     }
-    
+
     if (subcat) {
       sql += ` AND l.subcategory_id = $${args.length + 1}`;
       args.push(parseInt(subcat));
     }
     if (city) {
-      sql += ` AND l.city = $${args.length + 1}`;
-      args.push(city);
+      sql += ` AND (l.city ILIKE $${args.length + 1} OR l.location ILIKE $${args.length + 1} OR l.district ILIKE $${args.length + 1})`;
+      args.push(`%${city}%`);
+    }
+    if (location) {
+      sql += ` AND (l.location ILIKE $${args.length + 1} OR l.city ILIKE $${args.length + 1} OR l.district ILIKE $${args.length + 1})`;
+      args.push(`%${location}%`);
     }
     // PREFERRED: Filter by location group ID (exact, covers all aliases)
     if (location_group_id) {
@@ -678,9 +683,9 @@ async function getAllListings(req, res, next) {
     }
     if (district) {
       sql += ` AND (l.district ILIKE $${args.length + 1} OR l.city ILIKE $${args.length + 1})`,
-      args.push(`%${district}%`);
+        args.push(`%${district}%`);
     }
-    
+
     // FIXED: Handle exclude parameter
     if (exclude) {
       sql += ` AND l.id != $${args.length + 1}`;
@@ -688,9 +693,9 @@ async function getAllListings(req, res, next) {
     }
 
     const sortCol = {
-      price:  'l.rental_price_per_day',
+      price: 'l.rental_price_per_day',
       newest: 'l.created_at',
-      name:   'l.item_name',
+      name: 'l.item_name',
     }[sort] || 'l.created_at';
 
     sql += `
@@ -722,23 +727,24 @@ async function getAllListings(req, res, next) {
         countArgs.push(`%${cat}%`);
       }
     }
-    if (subcat)  { countSql += ` AND l.subcategory_id = $${countArgs.length+1}`;    countArgs.push(parseInt(subcat)); }
-    if (city)    { countSql += ` AND l.city = $${countArgs.length+1}`; countArgs.push(city); }
-    if (state)   { countSql += ` AND l.state  ILIKE $${countArgs.length+1}`;        countArgs.push(`%${state}%`); }
-    if (country) { countSql += ` AND l.country ILIKE $${countArgs.length+1}`;       countArgs.push(`%${country}%`); }
-    if (pincode) { countSql += ` AND l.pincode = $${countArgs.length+1}`;           countArgs.push(pincode); }
-    if (district) { countSql += ` AND (l.district ILIKE $${countArgs.length+1} OR l.city ILIKE $${countArgs.length+1})`; countArgs.push(`%${district}%`); }
-    if (location_group_id) { countSql += ` AND l.location_group_id = $${countArgs.length+1}`; countArgs.push(parseInt(location_group_id)); }
-    if (exclude) { countSql += ` AND l.id != $${countArgs.length+1}`;               countArgs.push(parseInt(exclude)); }
+    if (subcat) { countSql += ` AND l.subcategory_id = $${countArgs.length + 1}`; countArgs.push(parseInt(subcat)); }
+    if (city) { countSql += ` AND (l.city ILIKE $${countArgs.length + 1} OR l.location ILIKE $${countArgs.length + 1} OR l.district ILIKE $${countArgs.length + 1})`; countArgs.push(`%${city}%`); }
+    if (location) { countSql += ` AND (l.location ILIKE $${countArgs.length + 1} OR l.city ILIKE $${countArgs.length + 1} OR l.district ILIKE $${countArgs.length + 1})`; countArgs.push(`%${location}%`); }
+    if (state) { countSql += ` AND l.state  ILIKE $${countArgs.length + 1}`; countArgs.push(`%${state}%`); }
+    if (country) { countSql += ` AND l.country ILIKE $${countArgs.length + 1}`; countArgs.push(`%${country}%`); }
+    if (pincode) { countSql += ` AND l.pincode = $${countArgs.length + 1}`; countArgs.push(pincode); }
+    if (district) { countSql += ` AND (l.district ILIKE $${countArgs.length + 1} OR l.city ILIKE $${countArgs.length + 1})`; countArgs.push(`%${district}%`); }
+    if (location_group_id) { countSql += ` AND l.location_group_id = $${countArgs.length + 1}`; countArgs.push(parseInt(location_group_id)); }
+    if (exclude) { countSql += ` AND l.id != $${countArgs.length + 1}`; countArgs.push(parseInt(exclude)); }
 
     const { rows: [{ total }] } = await pool.query(countSql, countArgs);
 
     res.json({
-      success:  true,
+      success: true,
       listings: rows,
-      total:    parseInt(total),
-      page:     parseInt(page),
-      pages:    Math.ceil(parseInt(total) / limit),
+      total: parseInt(total),
+      page: parseInt(page),
+      pages: Math.ceil(parseInt(total) / limit),
     });
   } catch (error) {
     console.error('getAllListings error:', error);
@@ -932,4 +938,4 @@ module.exports = {
   addReview,
   getReviews
 };
-
+

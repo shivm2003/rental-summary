@@ -338,7 +338,7 @@ export default function ListProduct() {
             </label>
 
             <label>
-              Location *
+              Product Available City *
               <input name="location" value={form.location} onChange={handleInput}
                 placeholder="Pickup or delivery location" className={errors.location ? 'error' : ''} />
               {errors.location && <span className="error-msg">{errors.location}</span>}
@@ -554,6 +554,7 @@ export default function ListProduct() {
                 )}
               </label>
 
+              {/*
               <label className={`handler-card ${form.deliveryHandlerType === 'company' ? 'selected' : ''}`}>
                 <input type="radio" name="deliveryHandlerType" value="company"
                   checked={form.deliveryHandlerType === 'company'} onChange={handleInput} />
@@ -566,6 +567,7 @@ export default function ListProduct() {
                   <span className="handler-check">✓</span>
                 )}
               </label>
+              */}
 
             </div>
 
@@ -609,6 +611,7 @@ export default function ListProduct() {
             )}
 
             {/* ── Step 2b: Company selected → info banner ── */}
+            {/*
             {!isYouHandling && (
               <div className="company-delivery-info fade-in">
                 <div className="company-delivery-icon">🏢</div>
@@ -627,6 +630,7 @@ export default function ListProduct() {
                 </div>
               </div>
             )}
+            */}
           </section>
 
           {/* ═══════════════════════════════════════════════════════════
