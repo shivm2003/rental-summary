@@ -4,11 +4,13 @@ import HeroBanner from './HeroBanner';
 import CategoryGrid from './CategoryGrid';
 import Footer from './Footer';
 import { fetchProducts } from '../../services/products';
+import { fetchHomepageCategories } from '../../services/categories';
 import { useCart } from '../../contexts/CartContext';
 import { useLocationContext } from '../../contexts/LocationContext';
 import { toast } from 'react-hot-toast';
 import { MapPin } from 'lucide-react';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 import './index.css';
 
 // Get the best S3 image URL — never use base64 as primary src
@@ -249,6 +251,16 @@ export default function Home() {
     }
   }, [category, searchQuery, loadProducts, locationLabel]);
 
+  const [seoCategories, setSeoCategories] = useState([]);
+
+  useEffect(() => {
+    fetchHomepageCategories().then(data => {
+      if (data?.categories?.length) {
+        setSeoCategories(data.categories.map(c => c.name));
+      }
+    }).catch(e => console.error('Failed to load DB SEO categories:', e));
+  }, []);
+
   const formatCat = (cat) =>
     cat ? cat.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ') : '';
 
@@ -278,8 +290,21 @@ export default function Home() {
     );
   };
 
+  // Format Dynamic SEO
+  const defaultCats = ['electronics', 'furniture', 'vehicles', 'cameras', 'electric equipment', 'machines'];
+  const catsToUse = seoCategories.length > 0 ? seoCategories : defaultCats;
+  
+  const seoDesc = `Rent ${catsToUse.join(', ')} and more at affordable prices${locationLabel ? ` in ${locationLabel}` : ' near you'}.`;
+  const seoKeys = `rental near me, rent ${catsToUse.join(', rent ')}, rental services in India${locationLabel ? `, rent in ${locationLabel}` : ''}`;
+
   return (
     <div className="home-page">
+      <Helmet>
+        <title>{locationLabel ? `Rent Products in ${locationLabel} | EverythingRental` : 'Rent Products Online in India | EverythingRental'}</title>
+        <meta name="description" content={seoDesc} />
+        <meta name="keywords" content={seoKeys} />
+      </Helmet>
+
       {!category && !searchQuery && <HeroBanner />}
 
       <div className="content-container">

@@ -6,6 +6,8 @@ import { fetchProducts } from '../../services/products';
 import { useCart } from '../../contexts/CartContext';
 import { toast } from 'react-hot-toast';
 import Footer from '../Home/Footer';
+import { Helmet } from 'react-helmet';
+import { useLocationContext } from '../../contexts/LocationContext';
 import './index.css';
 
 // Reusable Image extractor
@@ -68,6 +70,8 @@ function ProductCard({ product }) {
 
 export default function CategoryPage() {
   const { slug } = useParams();
+  const { district, city } = useLocationContext();
+  const locationLabel = city || district || '';
   
   const [categoryInfo, setCategoryInfo] = useState(null);
   const [products, setProducts] = useState([]);
@@ -118,9 +122,16 @@ export default function CategoryPage() {
 
   const formatCat = (catSlug) => catSlug.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
   const title = categoryInfo?.name || formatCat(slug);
+  const seoTitle = locationLabel ? `Rent ${title} in ${locationLabel} | EverythingRental` : `Rent ${title} Near You | EverythingRental`;
 
   return (
     <div className="category-page">
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="description" content={`Rent ${title} at affordable prices${locationLabel ? ` in ${locationLabel}` : ' near you'}.`} />
+        <meta name="keywords" content={`rent ${title}, rental near me, rent ${title} in India${locationLabel ? `, rent ${title} in ${locationLabel}` : ''}`} />
+      </Helmet>
+
       {/* Hero Banner */}
       <div className="cp-hero" style={categoryInfo?.image_url ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url(${categoryInfo.image_url})` } : {}}>
         <div className="cp-hero-content">
