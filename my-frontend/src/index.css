@@ -11,9 +11,6 @@
 html, body {
   -webkit-overflow-scrolling: touch;
   width: 100%;
-  overflow-x: hidden;
-  /* Prevent 'pull-to-refresh' bounce effect if unwanted, can be safely disabled */
-  overscroll-behavior-y: none;
 }
 
 /* 3. Normalize iOS Button/Input styling */
