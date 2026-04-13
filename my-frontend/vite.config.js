@@ -11,7 +11,7 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.png'],
       manifest: {
         name: 'Everything Rental',
-        short_name: 'ERental',
+        short_name: 'ETRental',
         description: 'Rent electronics, furniture, vehicles and more at affordable prices near you.',
         theme_color: '#1193d4',
         background_color: '#ffffff',
@@ -23,12 +23,24 @@ export default defineConfig({
           {
             src: 'icon.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any'
           },
           {
             src: 'icon.png',
             sizes: '512x512',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: 'icon.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: 'icon.png',
+            purpose: 'any maskable'
           },
           {
             src: 'icon.png',
