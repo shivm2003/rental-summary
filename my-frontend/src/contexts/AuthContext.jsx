@@ -6,7 +6,7 @@ const AuthContext = createContext(null);
 
 // Configure axios defaults
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000'
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001'
 });
 
 export const AuthProvider = ({ children }) => {

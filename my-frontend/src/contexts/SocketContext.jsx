@@ -38,8 +38,10 @@ export const SocketProvider = ({ children }) => {
       // Fetch initial notifications
       const fetchNotifications = async () => {
         try {
+          const token = localStorage.getItem('token');
+          console.log('🔔 Fetching notifications with token:', token ? `${token.substring(0, 10)}...` : 'MISSING');
           const { data } = await axios.get(`${API_URL}/api/notifications`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            headers: { Authorization: `Bearer ${token}` }
           });
           setNotifications(data);
           setUnreadCount(data.filter(n => !n.is_read).length);

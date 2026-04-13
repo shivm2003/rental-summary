@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 module.exports = function (req, res, next) {
   const header = req.headers.authorization;
   if (!header) {
+    console.warn('⚠️ No Authorization header provided for:', req.originalUrl);
     return res.status(401).json({ message: 'No token provided' });
   }
 
@@ -22,7 +23,7 @@ module.exports = function (req, res, next) {
     
     next();
   } catch (err) {
-    console.error('❌ Token verification failed:', err.message);
-    return res.status(401).json({ message: 'Invalid token' });
+    console.error('❌ Token verification failed for', req.originalUrl, ':', err.message);
+    return res.status(401).json({ message: `Invalid token: ${err.message}` });
   }
 };
