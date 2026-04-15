@@ -21,7 +21,31 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Static content for bots before JS execution -->
+    <div style="display:none;">
+      <h1>EverythingRental - Rent Electronics, Furniture, Vehicles and more</h1>
+      <p>Affordable rental services near you in India. Rent bikes, laptops, cameras, furniture and home appliances.</p>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; color: #666;">
+      <div style="text-align: center;">
+        <h2>EverythingRental</h2>
+        <p>Loading your rental experience...</p>
+      </div>
+    </div>
+  </div>
+  <noscript>
+    <div style="padding: 20px; text-align: center;">
+      <h1>EverythingRental</h1>
+      <p>It looks like JavaScript is disabled in your browser. Our site requires JavaScript to function properly.</p>
+      <p>Rent electronics, furniture, vehicles and more at affordable prices near you.</p>
+      <div style="margin-top: 20px;">
+        <a href="/category/electronics">Rent Electronics</a> | 
+        <a href="/category/home-furniture">Rent Furniture</a> | 
+        <a href="/category/fashion">Rent Fashion</a>
+      </div>
+    </div>
+  </noscript>
   <script type="module" src="/src/main.jsx"></script>
 </body>
 

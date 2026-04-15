@@ -1,6 +1,7 @@
 // src/App.jsx
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { SocketProvider } from './contexts/SocketContext';
@@ -211,6 +212,10 @@ function App() {
               background: '#f5f5f5',
               fontFamily: 'system-ui, sans-serif'
             }}>
+              <Helmet>
+                <title>Page Not Found | EverythingRental</title>
+                <meta name="robots" content="noindex" />
+              </Helmet>
               <h1 style={{ fontSize: '6rem', margin: '0', color: '#e0e0e0' }}>404</h1>
               <h2 style={{ color: '#666', marginBottom: '2rem' }}>Page Not Found</h2>
               <a href="/" style={{
