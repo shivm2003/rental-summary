@@ -81,10 +81,12 @@ export const LocationProvider = ({ children }) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ district: d, city: c, state: s }));
   }, []);
 
-  const requestLocation = useCallback(() => {
+  const requestLocation = useCallback((silent = false) => {
     if (!navigator.geolocation) {
-      setLocationDenied(true);
-      setShowPicker(true);
+      if (!silent) {
+        setLocationDenied(true);
+        setShowPicker(true);
+      }
       return;
     }
     setLoading(true);
@@ -105,20 +107,26 @@ export const LocationProvider = ({ children }) => {
             const extractedCity  = addr.city || addr.town || addr.village || '';
             const extractedState = addr.state || '';
             persist(extractedDistrict, extractedCity, extractedState);
-            toast.success(`Location set to ${extractedCity || extractedDistrict}`, { duration: 2000 });
+            if (!silent) {
+              toast.success(`Location set to ${extractedCity || extractedDistrict}`, { duration: 2000 });
+            }
           }
         } catch (err) {
           console.warn('Nominatim reverse geocode failed:', err);
-          setLocationDenied(true);
-          setShowPicker(true);
+          if (!silent) {
+            setLocationDenied(true);
+            setShowPicker(true);
+          }
         } finally {
           setLoading(false);
         }
       },
       () => {
         setLoading(false);
-        setLocationDenied(true);
-        setShowPicker(true);
+        if (!silent) {
+          setLocationDenied(true);
+          setShowPicker(true);
+        }
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
@@ -137,10 +145,10 @@ export const LocationProvider = ({ children }) => {
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 
-  // On mount: if no city saved, ask for GPS
+  // On mount: if no city saved, ask for GPS SILENTLY
   useEffect(() => {
     if (!readSavedLocation()) {
-      requestLocation();
+      requestLocation(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
