@@ -1,4 +1,5 @@
 const pool = require('../config/database');
+const { sendAdminNotification } = require('../utils/notifications');
 
 exports.createQuery = async (req, res) => {
   try {
@@ -15,7 +16,18 @@ exports.createQuery = async (req, res) => {
       [orderId, userId, productId, subject, message]
     );
 
-    res.status(201).json({ success: true, query: rows[0], message: 'Query submitted successfully. We will get back to you.' });
+    const query = rows[0];
+
+    // Send Admin Notification
+    await sendAdminNotification(
+      'NEW_QUERY',
+      'New Customer Query',
+      `Subject: ${subject || 'No Subject'}\nMessage: ${message.substring(0, 100)}...`,
+      query.id,
+      req.app.get('io')
+    );
+
+    res.status(201).json({ success: true, query, message: 'Query submitted successfully. We will get back to you.' });
   } catch (err) {
     console.error('Create query error:', err);
     res.status(500).json({ success: false, message: 'Server error' });

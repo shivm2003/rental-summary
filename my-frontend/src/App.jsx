@@ -34,6 +34,7 @@ import ListProduct from './pages/ListProduct/index.jsx';
 import LenderLayout from './pages/LenderDashboard/LenderLayout.jsx';
 import DashboardOverview from './pages/LenderDashboard/DashboardOverview.jsx';
 import AssetInventory from './pages/LenderDashboard/AssetInventory.jsx';
+import EditProduct    from './pages/LenderDashboard/EditProduct.jsx';
 import RentalOrders from './pages/LenderDashboard/RentalOrders.jsx';
 import Maintenance from './pages/LenderDashboard/Maintenance.jsx';
 import Earnings from './pages/LenderDashboard/Earnings.jsx';
@@ -167,28 +168,30 @@ function App() {
             <Route path="/profile" element={<Profile />} />
 
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/list-item" element={<Lender />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
-
-            {/* Protected Lender Routes */}
-            <Route path="/lender" element={<LenderRoute />}>
-              <Route index element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard" element={<DashboardOverview />} />
-              <Route path="products" element={<AssetInventory />} />
-              <Route path="products/add" element={<ListProduct />} />
-              <Route path="orders" element={<RentalOrders />} />
-              <Route path="maintenance" element={<Maintenance />} />
-              <Route path="earnings" element={<Earnings />} />
-              <Route path="analytics" element={<Analytics />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="coupons" element={<LenderCoupons />} />
-            </Route>
-
-            <Route element={<LenderRoute />}>
-              <Route path="/list-product" element={<Navigate to="/lender/products/add" replace />} />
-            </Route>
           </Route>
+
+          {/* Protected Lender Routes (Dedicated Layout) */}
+          <Route path="/lender" element={<LenderRoute />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
+            <Route path="dashboard" element={<DashboardOverview />} />
+            <Route path="products" element={<AssetInventory />} />
+            <Route path="products/add" element={<ListProduct />} />
+            <Route path="products/edit/:id" element={<EditProduct />} />
+            <Route path="orders" element={<RentalOrders />} />
+            <Route path="maintenance" element={<Maintenance />} />
+            <Route path="earnings" element={<Earnings />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="coupons" element={<LenderCoupons />} />
+          </Route>
+
+          <Route element={<LenderRoute />}>
+            <Route path="/list-product" element={<Navigate to="/lender/products/add" replace />} />
+          </Route>
+
+          <Route path="/list-item" element={<UserLayout><Lender /></UserLayout>} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute />}>

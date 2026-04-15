@@ -16,7 +16,9 @@ const {
   getLocationGroups,
   uploadMiddleware,
   addReview,
-  getReviews
+  getReviews,
+  toggleListingStatus,
+  restoreListing
 } = require('../controllers/productController');
 
 // ============================================
@@ -122,5 +124,11 @@ router.put('/:id', auth, uploadMiddleware, updateListing);
 
 // Delete listing
 router.delete('/:id', auth, deleteListing);
+
+// Toggle visibility
+router.patch('/:id/toggle-status', auth, toggleListingStatus);
+
+// Restore listing
+router.patch('/:id/restore', auth, restoreListing);
 
 module.exports = router;

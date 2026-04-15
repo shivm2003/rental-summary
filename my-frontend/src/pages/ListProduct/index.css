@@ -170,7 +170,8 @@ input.error, select.error, textarea.error {
 
 .price-unit-select {
   width: auto;
-  min-width: 130px;
+  min-width: 120px;
+  max-width: 150px;
   flex-shrink: 0;
 }
 

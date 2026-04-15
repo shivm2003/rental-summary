@@ -4,6 +4,7 @@ const path    = require('path');
 const fs      = require('fs');
 const pool    = require('../config/database');
 const dashboardController = require('../controllers/lenderDashboardController');
+const { sendAdminNotification } = require('../utils/notifications');
 const router  = express.Router();
 
 /* ---------- ensure folder ---------- */
@@ -107,12 +108,22 @@ router.post('/register',
 
       const cols = Object.keys(payload).join(',');
       const idxs = Object.keys(payload).map((_, i) => `$${i + 1}`).join(',');
-      await client.query(
-        `INSERT INTO lender_applications (${cols}) VALUES (${idxs})`,
+      const { rows: newApp } = await client.query(
+        `INSERT INTO lender_applications (${cols}) VALUES (${idxs}) RETURNING id`,
         Object.values(payload)
       );
 
       await client.query('COMMIT');
+
+      // Send Admin Notification
+      await sendAdminNotification(
+        'PENDING_LENDER',
+        'New Lender Application', 
+        `New ${payload.lender_type} lender registration from ${body.ref_name || body.ref1_name || 'User'}.`,
+        newApp[0].id,
+        req.app.get('io')
+      );
+
       res.json({ success: true, message: 'Lender registration successful' });
     } catch (e) {
       await client.query('ROLLBACK');

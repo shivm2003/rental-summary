@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const sharp = require('sharp');
 const { uploadToS3, deleteFromS3 } = require('../utils/s3');
+const { sendAdminNotification } = require('../utils/notifications');
 
 // ============================================
 // Multer Configuration
@@ -352,6 +353,17 @@ async function createListing(req, res, next) {
 
     await client.query('COMMIT');
 
+    // Send Admin Notification if pending approval
+    if (listing.status === 'pending') {
+      await sendAdminNotification(
+        'PENDING_LISTING',
+        'New Listing Approval Required',
+        `New listing "${itemName}" from lender ID ${lenderId} requires approval.`,
+        listing.id,
+        req.app.get('io')
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: 'Your item has been successfully listed!',
@@ -546,39 +558,49 @@ async function updateListing(req, res, next) {
 
 // ============================================
 // Controller: deleteListing
-// DELETE /api/listings/:id
+// DELETE /api/listings/:id (Now Soft Delete)
 // ============================================
 async function deleteListing(req, res, next) {
-  const client = await pool.connect();
   try {
     const { id } = req.params;
 
-    const { rows: photos } = await client.query(
-      'SELECT full_url FROM listing_photos WHERE listing_id = $1', [id]
-    );
-
-    await client.query('BEGIN');
-    await client.query('DELETE FROM listing_photos WHERE listing_id = $1', [id]);
-
-    const { rows: deleted } = await client.query(
-      'DELETE FROM listings WHERE id = $1 AND lender_id = $2 RETURNING id',
+    const { rows: deleted } = await pool.query(
+      "UPDATE listings SET status = 'deleted' WHERE id = $1 AND lender_id = $2 RETURNING id",
       [id, req.user.uid]
     );
 
     if (!deleted.length) {
-      await client.query('ROLLBACK');
       return res.status(404).json({ success: false, message: 'Listing not found or unauthorized' });
     }
 
-    await client.query('COMMIT');
-    await cleanupS3Files(photos.map(p => p.full_url));
-
-    res.json({ success: true, message: 'Listing deleted successfully' });
+    res.json({ success: true, message: 'Listing moved to Deleted Products. You can restore it later.' });
   } catch (error) {
-    await client.query('ROLLBACK');
+    console.error('deleteListing error:', error);
     next(error);
-  } finally {
-    client.release();
+  }
+}
+
+// ============================================
+// Controller: restoreListing
+// PATCH /api/products/:id/restore
+// ============================================
+async function restoreListing(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const { rows: restored } = await pool.query(
+      "UPDATE listings SET status = 'active' WHERE id = $1 AND lender_id = $2 AND status = 'deleted' RETURNING id",
+      [id, req.user.uid]
+    );
+
+    if (!restored.length) {
+      return res.status(404).json({ success: false, message: 'Deleted listing not found or unauthorized' });
+    }
+
+    res.json({ success: true, message: 'Listing restored successfully' });
+  } catch (error) {
+    console.error('restoreListing error:', error);
+    next(error);
   }
 }
 
@@ -923,6 +945,44 @@ async function getReviews(req, res, next) {
 }
 
 // ============================================
+// Controller: toggleListingStatus
+// PATCH /api/products/:id/toggle-status
+// ============================================
+async function toggleListingStatus(req, res, next) {
+  try {
+    const { id } = req.params;
+    const userId = req.user.uid;
+
+    // Fetch current status and verify ownership
+    const { rows } = await pool.query(
+      'SELECT status FROM listings WHERE id = $1 AND lender_id = $2',
+      [id, userId]
+    );
+
+    if (!rows.length) {
+      return res.status(404).json({ success: false, message: 'Listing not found or unauthorized' });
+    }
+
+    const currentStatus = rows[0].status;
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+
+    await pool.query(
+      'UPDATE listings SET status = $1, updated_at = NOW() WHERE id = $2',
+      [newStatus, id]
+    );
+
+    res.json({ 
+      success: true, 
+      message: `Listing is now ${newStatus}`,
+      newStatus: newStatus === 'active' ? 'Available' : 'Inactive'
+    });
+  } catch (error) {
+    console.error('toggleListingStatus error:', error);
+    next(error);
+  }
+}
+
+// ============================================
 // Exports
 // ============================================
 module.exports = {
@@ -936,6 +996,8 @@ module.exports = {
   getLocationGroups,
   uploadMiddleware: upload.any(),
   addReview,
-  getReviews
+  getReviews,
+  toggleListingStatus,
+  restoreListing
 };
 

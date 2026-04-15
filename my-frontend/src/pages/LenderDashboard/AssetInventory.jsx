@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { 
   Plus, Filter, Package, RefreshCw, Banknote, Wrench, 
   Edit2, EyeOff, CheckCircle, ChevronLeft, ChevronRight,
-  Upload, Sparkles, Loader2
+  Upload, Sparkles, Loader2, Trash2, RotateCcw
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import './AssetInventory.scss';
@@ -13,6 +14,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function AssetInventory() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const [activeTab, setActiveTab] = useState('All Assets');
   const [assets, setAssets] = useState([]);
@@ -39,12 +41,66 @@ export default function AssetInventory() {
     }
   };
 
-  const tabs = ['All Assets', 'Available', 'Rented', 'Maintenance'];
+  const handleEdit = (id) => {
+    navigate(`/lender/products/edit/${id}`);
+  };
+
+  const handleToggleStatus = async (id) => {
+    try {
+      const res = await axios.patch(`${API_URL}/api/products/${id}/toggle-status`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.success) {
+        toast.success(res.data.message);
+        fetchProducts(); // Refresh list
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to update status');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this listing? It will be moved to "Deleted Products".')) return;
+    try {
+      const res = await axios.delete(`${API_URL}/api/products/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.success) {
+        toast.success('Listing moved to Deleted Products');
+        fetchProducts();
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to delete listing');
+    }
+  };
+
+  const handleRestore = async (id) => {
+    try {
+      const res = await axios.patch(`${API_URL}/api/products/${id}/restore`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.data.success) {
+        toast.success('Listing restored successfully');
+        fetchProducts();
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to restore listing');
+    }
+  };
+
+  const tabs = ['All Assets', 'Available', 'Rented', 'Maintenance', 'Deleted Products'];
 
   // Filter computation
   const filteredAssets = assets.filter(a => {
+    if (activeTab === 'Deleted Products') return a.status === 'deleted';
+    // For other tabs, hide deleted items
+    if (a.status === 'deleted') return false;
+    
     if (activeTab === 'All Assets') return true;
-    if (activeTab === 'Available') return a.status === 'Available';
+    if (activeTab === 'Available') return a.status === 'Available' || a.status === 'active';
     if (activeTab === 'Rented') return a.status === 'Rented';
     if (activeTab === 'Maintenance') return a.status === 'Maintenance';
     return true;
@@ -59,7 +115,9 @@ export default function AssetInventory() {
         </div>
         <div className="header-actions">
           <button className="btn-secondary"><Filter size={16}/> Filter</button>
-          <button className="btn-primary"><Plus size={16}/> Add New Asset</button>
+          <button className="btn-primary" onClick={() => navigate('/lender/products/add')}>
+            <Plus size={16}/> Add New Asset
+          </button>
         </div>
       </div>
 
@@ -156,11 +214,32 @@ export default function AssetInventory() {
                   </td>
                   <td>
                     <div className="actions">
-                      <button className="icon-btn"><Edit2 size={16}/></button>
-                      {asset.status === 'Inactive' ? 
-                        <button className="icon-btn text-blue"><CheckCircle size={16}/></button> :
-                        <button className="icon-btn"><EyeOff size={16}/></button>
-                      }
+                      {asset.status === 'deleted' ? (
+                        <button className="icon-btn text-blue" onClick={() => handleRestore(asset.id)} title="Revoke / Restore">
+                          <RotateCcw size={16}/>
+                          <span style={{marginLeft: '4px', fontSize: '12px'}}>Revoke</span>
+                        </button>
+                      ) : (
+                        <>
+                          <button className="icon-btn" onClick={() => handleEdit(asset.id)} title="Edit">
+                            <Edit2 size={16}/>
+                          </button>
+                          
+                          {asset.status === 'Inactive' ? (
+                            <button className="icon-btn text-blue" onClick={() => handleToggleStatus(asset.id)} title="Make Available">
+                              <CheckCircle size={16}/>
+                            </button>
+                          ) : (
+                            <button className="icon-btn" onClick={() => handleToggleStatus(asset.id)} title="Hide/Deactivate">
+                              <EyeOff size={16}/>
+                            </button>
+                          )}
+
+                          <button className="icon-btn text-red" onClick={() => handleDelete(asset.id)} title="Delete">
+                            <Trash2 size={16}/>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

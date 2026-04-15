@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, PlusCircle, ShoppingBag, 
-  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut, MessageSquare, Ticket
+  Wrench, DollarSign, BarChart3, Bell, Settings, HelpCircle, LogOut, MessageSquare, Ticket, Menu, X
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useSocket } from '../../contexts/SocketContext';
@@ -47,7 +47,7 @@ export default function LenderLayout() {
       <div className="mobile-header">
         <Link to="/" className="logo">EveryThingRental</Link>
         <button className="menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          <LayoutDashboard size={24} />
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 

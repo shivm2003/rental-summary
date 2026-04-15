@@ -24,13 +24,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background: var(--lender-card-bg);
+    height: 60px;
+    background: #fff;
     border-bottom: 1px solid var(--lender-border);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 50;
+    z-index: 150;
 
     .logo {
       font-weight: 700;
@@ -304,7 +305,7 @@
     }
 
     .main-content {
-      padding-top: 60px; /* Offset for mobile header */
+      padding-top: 60px; /* Match mobile header height */
 
       .top-navbar {
         padding: 0 1rem;
