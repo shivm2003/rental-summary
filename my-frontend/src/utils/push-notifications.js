@@ -1,7 +1,7 @@
 /* my-frontend/src/utils/push-notifications.js */
 import axios from 'axios';
 
-const VAPID_PUBLIC_KEY = 'BCr0j2xQPVQGKZ6XVtQaWR7hsKJbxQvSTL613M76znvOjhUxL9Es6vsJ1jA0HAB2Uu2yvYSV_I3E_pjtXHtOHgY';
+const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
 /**
  * Converts a base64 string to a Uint8Array (required for push manager)
