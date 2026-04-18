@@ -96,7 +96,13 @@ exports.createOrder = async (req, res) => {
 
   } catch (error) {
     await client.query('ROLLBACK');
-    console.error('Order creation error:', error);
+    console.error('Order creation error:', {
+      error: error.message,
+      stack: error.stack,
+      borrowerId,
+      itemsCount: items?.length,
+      firstItem: items?.[0] ? { id: items[0].id, name: items[0].item_name || items[0].name } : 'N/A'
+    });
     res.status(500).json({ success: false, message: error.message || 'Failed to create order' });
   } finally {
     client.release();
