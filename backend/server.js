@@ -169,6 +169,7 @@ const routes = [
   { path: './routes/notifications', mount: '/api/notifications', middleware: auth },
   { path: './routes/orders', mount: '/api/orders' },
   { path: './routes/queries', mount: '/api/queries', middleware: auth },
+  { path: './routes/pushRoutes', mount: '/api/push' },
 ];
 
 let loadedRoutes = 0;

@@ -146,11 +146,20 @@ exports.register = async (req, res, next) => {
 
     await client.query('COMMIT');
 
+    // Generate token for direct login
+    const token = createToken(uid, firstName || username, initialRole);
+
     res.status(201).json({ 
-      user_id: uid, 
-      username, 
-      email,
-      role: initialRole,
+      token,
+      user: {
+        id: uid,
+        username,
+        email,
+        firstName: firstName || username,
+        lastName: lastName,
+        role: initialRole,
+        lender: isLender
+      },
       message: desiredRole === 'lender' ? 'Registration successful. Lender pending approval.' : 'Registration successful'
     });
   } catch (e) {

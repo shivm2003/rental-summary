@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -7,6 +7,7 @@ import { CartProvider } from './contexts/CartContext';
 import { SocketProvider } from './contexts/SocketContext';
 import { LocationProvider } from './contexts/LocationContext';
 import { Toaster } from 'react-hot-toast';
+import { subscribeToPushNotifications } from './utils/push-notifications';
 
 /* ---------- Public Pages ---------- */
 import Home from './pages/Home/index.jsx';
@@ -59,6 +60,11 @@ import Profile from './pages/Profile/index.jsx';
 
 /* ---------- Layout for Users/Lenders (With Header) ---------- */
 const UserLayout = () => {
+  useEffect(() => {
+    // Prompt for push notifications on mount
+    subscribeToPushNotifications();
+  }, []);
+
   return (
     <>
       <Header />
@@ -170,6 +176,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/list-item" element={<Lender />} />
           </Route>
 
           {/* Protected Lender Routes (Dedicated Layout) */}
@@ -190,8 +197,6 @@ function App() {
           <Route element={<LenderRoute />}>
             <Route path="/list-product" element={<Navigate to="/lender/products/add" replace />} />
           </Route>
-
-          <Route path="/list-item" element={<UserLayout><Lender /></UserLayout>} />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute />}>

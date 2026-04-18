@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const adminOnly = require('../middleware/admin');
 const pool = require('../config/database');
-const { getDashboardStats, getPendingListings, approveListing, rejectListing, getPendingLenders, approveLender, rejectLender, getCityProducts } = require('../controllers/adminController');
+const { getDashboardStats, getPendingListings, approveListing, rejectListing, getPendingLenders, approveLender, rejectLender, getCityProducts, sendGlobalPushNotification } = require('../controllers/adminController');
 const { getAllQueries, updateQueryStatus } = require('../controllers/queryController');
 
 // GET /api/admin/dashboard-stats
@@ -26,6 +26,9 @@ router.get('/city-products', adminOnly, getCityProducts);
 // Query management
 router.get('/queries', adminOnly, getAllQueries);
 router.patch('/queries/:id/status', adminOnly, updateQueryStatus);
+
+// Push Notifications
+router.post('/push-notification', adminOnly, sendGlobalPushNotification);
 
 // Get all users (for user management)
 router.get('/users', adminOnly, async (req, res, next) => {

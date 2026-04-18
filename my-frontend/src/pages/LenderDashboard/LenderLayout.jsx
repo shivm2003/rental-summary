@@ -120,11 +120,11 @@ export default function LenderLayout() {
             </Link>
             <div className="user-profile">
               <div className="details">
-                <span className="name">{user?.first_name} {user?.last_name || user?.username}</span>
+                <span className="name">{user?.firstName} {user?.lastName || user?.username}</span>
                 <span className="role">Premium Lender</span>
               </div>
               <div className="avatar">
-                {user?.first_name?.charAt(0) || 'U'}
+                {user?.firstName?.charAt(0) || 'U'}
               </div>
             </div>
           </div>

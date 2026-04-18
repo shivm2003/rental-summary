@@ -1,6 +1,7 @@
 /* backend/controllers/adminController.js */
 
 const pool = require('../config/database');
+const pushController = require('./pushController');
 
 // Get dashboard statistics
 exports.getPendingListings = async (req, res, next) => {
@@ -273,6 +274,30 @@ exports.getCityProducts = async (req, res, next) => {
     res.json({ success: true, products: rows, cities: cities.map(c => c.city), categories: categories.map(c => c.category) });
   } catch (error) {
     console.error('getCityProducts error:', error);
+    next(error);
+  }
+};
+
+exports.sendGlobalPushNotification = async (req, res, next) => {
+  const { title, message, url } = req.body;
+  if (!title || !message) {
+    return res.status(400).json({ success: false, message: 'Title and message are required' });
+  }
+
+  try {
+    const payload = {
+      title,
+      body: message,
+      icon: '/icon.png',
+      data: {
+        url: url || '/'
+      }
+    };
+
+    await pushController.sendToAll(payload);
+    res.json({ success: true, message: 'Push notification sent to all subscribers' });
+  } catch (error) {
+    console.error('sendGlobalPushNotification error:', error);
     next(error);
   }
 };

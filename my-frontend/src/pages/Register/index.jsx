@@ -54,14 +54,18 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await register({
+      const res = await register({
         firstName: form.firstName,
         lastName : form.lastName,
         email    : form.email,
         phone    : form.phone,
         password : form.password,
       });
-      setOtpStep(true);
+      // OTP Step bypassed: Log in immediately
+      const userData = res.user || res;
+      login(userData, res.token || userData.token);
+      navigate('/');
+      // setOtpStep(true);
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
@@ -157,6 +161,7 @@ export default function Register() {
             </p>
           </>
         ) : (
+          /* OTP Verification Form Commented Out
           <form onSubmit={handleOtpSubmit} style={{ textAlign: 'center' }}>
             <h2>Verify Your Email</h2>
             <p style={{ marginBottom: '1.5rem', color: '#666' }}>
@@ -188,6 +193,11 @@ export default function Register() {
               Back
             </button>
           </form>
+          */
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Redirecting...</h2>
+            <p>Your account has been created successfully.</p>
+          </div>
         )}
       </div>
     </div>

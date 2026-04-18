@@ -7,6 +7,8 @@ import {
 } from 'lucide-react';
 import { fetchAdminCategories } from '../../services/categories';
 import { fetchAllBanners } from '../../services/hero';
+import { sendGlobalPush } from '../../services/admin';
+import { toast } from 'react-hot-toast';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -18,6 +20,29 @@ export default function AdminDashboard() {
   // New stats
   const [stats, setStats] = useState({ users: {}, lenders: {}, products: {}, cityStats: [], revenue: {} });
   const [cityFilter, setCityFilter] = useState('');
+
+  // Push notification state
+  const [pushData, setPushData] = useState({ title: '', message: '', url: '' });
+  const [sendingPush, setSendingPush] = useState(false);
+
+  const handleSendPush = async (e) => {
+    e.preventDefault();
+    if (!pushData.title || !pushData.message) {
+      toast.error('Title and Message are required');
+      return;
+    }
+
+    setSendingPush(true);
+    try {
+      await sendGlobalPush(pushData);
+      toast.success('Push notification sent successfully!');
+      setPushData({ title: '', message: '', url: '' });
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to send push notification');
+    } finally {
+      setSendingPush(false);
+    }
+  };
 
   useEffect(() => { loadDashboardData(); }, []);
 
@@ -247,6 +272,67 @@ export default function AdminDashboard() {
             ))
           )}
         </div>
+      </div>
+
+      {/* ===== Push Notification Section ===== */}
+      <div className="section-label" style={{ marginTop: '32px' }}>Communication Center</div>
+      <div className="card" style={{ maxWidth: '800px', marginBottom: '40px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '16px', fontWeight: 600, color: '#0f172a', marginBottom: 20 }}>
+          <Bell size={18} color="#ef4444" /> Push Notification Messenger
+        </div>
+        <form onSubmit={handleSendPush} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>Notification Title</label>
+            <input 
+              type="text"
+              placeholder="e.g. Weekend Offer! 20% OFF"
+              value={pushData.title}
+              onChange={e => setPushData({ ...pushData, title: e.target.value })}
+              style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '14px' }}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>Target URL (Optional)</label>
+            <input 
+              type="text"
+              placeholder="e.g. /offers"
+              value={pushData.url}
+              onChange={e => setPushData({ ...pushData, url: e.target.value })}
+              style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '14px' }}
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: 'span 2' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>Message Body</label>
+            <textarea 
+              placeholder="Type your message to all users..."
+              value={pushData.message}
+              onChange={e => setPushData({ ...pushData, message: e.target.value })}
+              rows={3}
+              style={{ padding: '10px 14px', borderRadius: '8px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '14px', resize: 'vertical' }}
+            />
+          </div>
+          <div style={{ gridColumn: 'span 2', display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
+            <button 
+              type="submit" 
+              disabled={sendingPush}
+              style={{
+                background: sendingPush ? '#94a3b8' : '#ef4444',
+                color: '#fff',
+                padding: '10px 24px',
+                borderRadius: '8px',
+                border: 'none',
+                fontWeight: 600,
+                cursor: sendingPush ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              {sendingPush ? 'Sending...' : <><Bell size={16} /> Send Push Notification</>}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

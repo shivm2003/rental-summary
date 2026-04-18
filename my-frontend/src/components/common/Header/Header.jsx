@@ -100,7 +100,6 @@ export default function Header() {
 
           {/* ---------- Desktop Nav ---------- */}
           <nav className="desktop-nav">
-            <Link to="/categories">Categories</Link>
             {user?.lender && (
               <Link to="/lender/products">My Rentals</Link>
             )}
@@ -136,7 +135,6 @@ export default function Header() {
                   )}
                 </Link>
                 <span className="user-name">Hi, {user.firstName || user.username}</span>
-                <button className="btn-logout" onClick={logout}>Logout</button>
                 {/* Show "List a Product" for verified lenders */}
                 {user.lender ? (
                   <Link to="/list-product" className="btn-lender">
@@ -345,10 +343,6 @@ export default function Header() {
           </Link>
 
           <nav className="mobile-nav">
-            <Link to="/categories" onClick={() => setOpen(false)}>
-              <LayoutGrid size={20} />
-              Categories
-            </Link>
             {user?.lender && (
               <Link to="/lender/products" onClick={() => setOpen(false)}>
                 <Package size={20} />
