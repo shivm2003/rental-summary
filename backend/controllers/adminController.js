@@ -294,8 +294,26 @@ exports.sendGlobalPushNotification = async (req, res, next) => {
       }
     };
 
+    // 1. Send the external push notification via web-push
     await pushController.sendToAll(payload);
-    res.json({ success: true, message: 'Push notification sent to all subscribers' });
+
+    // 2. Save in-app notification for all active users in database
+    const insertQuery = `
+      INSERT INTO notifications (user_id, type, title, message)
+      SELECT user_id, 'BROADCAST', $1, $2 FROM users WHERE account_status = 'active'
+      RETURNING *
+    `;
+    const { rows: newNotifications } = await pool.query(insertQuery, [title, message]);
+
+    // 3. Emit socket event for real-time reflection if user is online
+    const io = req.app.get('io');
+    if (io) {
+      newNotifications.forEach(notif => {
+        io.to(`user_${notif.user_id}`).emit('new_notification', notif);
+      });
+    }
+
+    res.json({ success: true, message: 'Broadcast sent successfully (Push + In-App)' });
   } catch (error) {
     console.error('sendGlobalPushNotification error:', error);
     next(error);
