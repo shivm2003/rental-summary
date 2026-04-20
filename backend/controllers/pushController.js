@@ -2,12 +2,23 @@
 const webpush = require('web-push');
 const pool = require('../config/database');
 
-// Configure web-push with VAPID keys from .env
-webpush.setVapidDetails(
-  'mailto:shivam@everythingrental.in',
-  process.env.VAPID_PUBLIC_KEY,
-  process.env.VAPID_PRIVATE_KEY
-);
+// Configure web-push with VAPID keys from .env if available
+let isPushConfigured = false;
+if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
+  try {
+    webpush.setVapidDetails(
+      'mailto:shivam@everythingrental.in',
+      process.env.VAPID_PUBLIC_KEY,
+      process.env.VAPID_PRIVATE_KEY
+    );
+    isPushConfigured = true;
+    console.log('✅ Push notifications configured successfully');
+  } catch (err) {
+    console.error('❌ Failed to set VAPID details:', err.message);
+  }
+} else {
+  console.warn('⚠️ Push notifications NOT configured: VAPID keys missing in environment');
+}
 
 /**
  * Save or update a push subscription for a user
@@ -52,6 +63,11 @@ exports.subscribe = async (req, res, next) => {
  * Send a push notification to a specific user (all their devices)
  */
 exports.sendToUser = async (userId, payload) => {
+  if (!isPushConfigured) {
+    console.warn('Skipping sendToUser: Push NOT configured');
+    return [];
+  }
+
   try {
     const { rows: subscriptions } = await pool.query(
       'SELECT subscription_data FROM push_subscriptions WHERE user_id = $1',
@@ -80,6 +96,11 @@ exports.sendToUser = async (userId, payload) => {
  * Send a push notification to ALL subscribers
  */
 exports.sendToAll = async (payload) => {
+  if (!isPushConfigured) {
+    console.warn('Skipping sendToAll: Push NOT configured');
+    return [];
+  }
+
   try {
     const { rows: subscriptions } = await pool.query('SELECT subscription_data FROM push_subscriptions');
     

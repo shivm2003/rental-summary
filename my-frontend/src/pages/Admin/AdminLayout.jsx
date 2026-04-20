@@ -15,7 +15,7 @@ export default function AdminLayout() {
     try {
       if (!notif.is_read) {
         const token = localStorage.getItem('token');
-        await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/notifications/${notif.id}/read`, {}, {
+        await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/notifications/${notif.id}/read`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUnreadCount(prev => Math.max(0, prev - 1));
@@ -37,7 +37,7 @@ export default function AdminLayout() {
   const markAllAsRead = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/notifications/read-all`, {}, {
+      await axios.put(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/notifications/read-all`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUnreadCount(0);
