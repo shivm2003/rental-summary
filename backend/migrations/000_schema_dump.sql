@@ -309,7 +309,7 @@ CREATE TABLE public.listings (
     id_verification_required boolean DEFAULT false,
     insurance_available boolean DEFAULT false,
     CONSTRAINT listings_discount_type_check CHECK (((discount_type)::text = ANY ((ARRAY['percentage'::character varying, 'fixed'::character varying])::text[]))),
-    CONSTRAINT listings_status_check CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'active'::character varying, 'inactive'::character varying, 'rejected'::character varying])::text[])))
+    CONSTRAINT listings_status_check CHECK (((status)::text = ANY ((ARRAY['pending'::character varying, 'active'::character varying, 'inactive'::character varying, 'rejected'::character varying, 'deleted'::character varying])::text[])))
 );
 
 

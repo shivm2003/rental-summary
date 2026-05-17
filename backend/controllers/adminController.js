@@ -2,6 +2,7 @@
 
 const pool = require('../config/database');
 const pushController = require('./pushController');
+const csv = require('csv-parser');
 
 // Get dashboard statistics
 exports.getPendingListings = async (req, res, next) => {
@@ -317,5 +318,99 @@ exports.sendGlobalPushNotification = async (req, res, next) => {
   } catch (error) {
     console.error('sendGlobalPushNotification error:', error);
     next(error);
+  }
+};
+
+exports.bulkUploadProducts = async (req, res, next) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: 'No file uploaded. Please upload a CSV file.' });
+  }
+
+  const results = [];
+  const errors = [];
+  let rowIndex = 2; // header is 1, data starts at 2
+
+  try {
+    const readable = require('stream').Readable.from(req.file.buffer);
+    
+    readable
+      .pipe(csv())
+      .on('data', (data) => {
+        results.push({ row: rowIndex++, data });
+      })
+      .on('end', async () => {
+        const client = await pool.connect();
+        try {
+          await client.query('BEGIN');
+          let successCount = 0;
+
+          for (const item of results) {
+            const { row, data } = item;
+            
+            // Required fields
+            if (!data.item_name || !data.category || !data.location || !data.rental_price_per_day || !data.pincode || !data.city || !data.state) {
+              errors.push(`Row ${row}: Missing required fields. Check item_name, category, location, rental_price_per_day, pincode, city, state.`);
+              continue;
+            }
+
+            // Defaults
+            const lenderId = data.lender_id || req.user.uid;
+            const price = parseFloat(data.rental_price_per_day);
+            if (isNaN(price)) {
+              errors.push(`Row ${row}: Invalid rental_price_per_day`);
+              continue;
+            }
+
+            // Resolve Category ID if possible
+            let categoryId = null;
+            const { rows: catRows } = await client.query('SELECT id FROM categories WHERE name ILIKE $1 LIMIT 1', [data.category.trim()]);
+            if (catRows.length > 0) categoryId = catRows[0].id;
+
+            // Insert Listing
+            const listingQuery = `
+              INSERT INTO listings (
+                lender_id, item_name, category, category_id, description, location, 
+                pincode, city, state, rental_price_per_day, price_unit, status
+              ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'active')
+              RETURNING id
+            `;
+            const { rows: listingRows } = await client.query(listingQuery, [
+              lenderId, data.item_name.trim(), data.category.trim(), categoryId, 
+              data.description ? data.description.trim() : null, data.location.trim(), data.pincode.trim(), 
+              data.city.trim(), data.state.trim(), price, data.price_unit ? data.price_unit.trim() : 'day'
+            ]);
+
+            const listingId = listingRows[0].id;
+
+            // Handle image URL if provided
+            if (data.image_url && data.image_url.trim()) {
+              const photoQuery = `
+                INSERT INTO listing_photos (listing_id, storage_type, photo_path, full_url, display_order)
+                VALUES ($1, 'url', $2, $3, 0)
+              `;
+              await client.query(photoQuery, [listingId, data.image_url.trim(), data.image_url.trim()]);
+            }
+            
+            successCount++;
+          }
+
+          await client.query('COMMIT');
+          res.json({
+            success: true,
+            message: `Bulk upload complete. Successfully added ${successCount} items.`,
+            errors: errors.length > 0 ? errors : undefined
+          });
+
+        } catch (dbErr) {
+          await client.query('ROLLBACK');
+          console.error('Bulk upload DB error:', dbErr);
+          res.status(500).json({ success: false, message: 'Database error during bulk upload' });
+        } finally {
+          client.release();
+        }
+      });
+  } catch (err) {
+    console.error('Bulk upload parse error:', err);
+    res.status(500).json({ success: false, message: 'File parsing error' });
   }
 };

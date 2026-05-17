@@ -4,11 +4,16 @@ const express = require('express');
 const router = express.Router();
 const adminOnly = require('../middleware/admin');
 const pool = require('../config/database');
-const { getDashboardStats, getPendingListings, approveListing, rejectListing, getPendingLenders, approveLender, rejectLender, getCityProducts, sendGlobalPushNotification } = require('../controllers/adminController');
+const { getDashboardStats, getPendingListings, approveListing, rejectListing, getPendingLenders, approveLender, rejectLender, getCityProducts, sendGlobalPushNotification, bulkUploadProducts } = require('../controllers/adminController');
 const { getAllQueries, updateQueryStatus } = require('../controllers/queryController');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 // GET /api/admin/dashboard-stats
 router.get('/dashboard-stats', adminOnly, getDashboardStats);
+
+// Bulk upload route
+router.post('/bulk-upload', adminOnly, upload.single('file'), bulkUploadProducts);
 
 // Product listings moderation
 router.get('/listings/pending', adminOnly, getPendingListings);

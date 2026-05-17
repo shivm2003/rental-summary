@@ -181,7 +181,7 @@ exports.me = async (req, res, next) => {
        WHERE u.user_id = $1`,
       [req.user.uid]
     );
-    console.log('🔍 Me query result:', rows);
+
     if (!rows.length) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -334,7 +334,9 @@ exports.logout = (_req, res) => {
 /* ---------- login with role detection ---------- */
 exports.login = async (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
+    console.log('Validation Errors:', errors.array());
     return res.status(400).json({ message: errors.array()[0].msg, errors: errors.array() });
   }
 

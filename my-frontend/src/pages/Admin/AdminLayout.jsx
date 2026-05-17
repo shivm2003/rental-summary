@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutGrid, FolderOpen, Image as ImageIcon, LogOut, Zap, MessageSquare, MapPin, Bell, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { LayoutGrid, FolderOpen, Image as ImageIcon, LogOut, Zap, MessageSquare, MapPin, Bell, CheckCircle, Clock, AlertCircle, UploadCloud, BellRing } from 'lucide-react';
 import { useSocket } from '../../contexts/SocketContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -54,6 +54,8 @@ export default function AdminLayout() {
     { path: '/admin/hero', icon: ImageIcon, label: 'Hero Banners' },
     { path: '/admin/queries', icon: MessageSquare, label: 'Customer Queries' },
     { path: '/admin/city-products', icon: MapPin, label: 'Products by City' },
+    { path: '/admin/notifications', icon: BellRing, label: 'Push Notifications' },
+    { path: '/admin/bulk-upload', icon: UploadCloud, label: 'Bulk Upload' }
   ];
 
   return (

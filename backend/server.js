@@ -19,10 +19,13 @@ const io = new Server(server, {
     origin: [
       "http://localhost:5173",
       "http://localhost:5174",
+      "http://192.168.1.202:8081",
+      "http://192.168.1.202:5173",
       "https://rental-summary.vercel.app",
       "https://everythingrental.in",
       "https://www.everythingrental.in"
     ],
+
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
   }
@@ -87,11 +90,14 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
+    "http://192.168.1.202:8081",
+    "http://192.168.1.202:5173",
     "https://rental-summary.vercel.app",
     "https://rental-summary-ocm4-2003shivam1990-3296s-projects.vercel.app",
     "https://everythingrental.in",
     "https://www.everythingrental.in"
   ],
+
   credentials: true
 }));
 

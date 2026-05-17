@@ -65,7 +65,7 @@ exports.createOrder = async (req, res) => {
           $1, $2, $3, $4,
           $5, $6, $7,
           $8, $9, $10,
-          $11, 0, 'ORDERED', $12,
+          $11, 0, 'PENDING', $12,
           $13, $14
         ) RETURNING id, order_id
       `;
